@@ -13,14 +13,16 @@
         <!-- Styles -->
 </head>
 <body>
+
+<div class="row">
 @include('header')
     <div class="row mt-5">
    
     
-    <div class="col-md-2"></div> 
-    <div class="col-md-8">
+    <div class="col-md-2 "></div> 
+    <div class="col-md-8 mt-5">
 
-<section class="vh-100">
+<section class="vh-100 mt-5">
 @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -29,7 +31,7 @@
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
    
-      <div class="col-md-9 col-lg-6 col-xl-5">
+      <div class="col-md-9 col-lg-6 col-xl-5 mt-5">
         <img src={{ asset('img/logo2n.png') }}
           class="img-fluid" alt="Sample image">
       </div>
@@ -91,5 +93,6 @@
     <script type="text/javascript" src="./The Easiest Way to Add Input Masks to Your Forms_files/jquery.mask.min.js.télécharger"></script>
     <script src="./The Easiest Way to Add Input Masks to Your Forms_files/script.js.télécharger"></script>
 
+</div>
 
 </body></html>

@@ -84,9 +84,11 @@ $usera=$request->validate([
 if(Auth::attempt($usera)){
 
 $request->session()->regenerate();
-
-return redirect()->intended(route('acceuill'));
-
+$user = Auth::user(); // Récupérer l'utilisateur authentifié
+$userstat = $user->statut;
+if($userstat=="user"){ 
+return redirect()->route('ListeP');
+}
 
 }
 else{ 

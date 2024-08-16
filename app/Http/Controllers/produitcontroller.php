@@ -156,7 +156,11 @@ public function modproduit(Request $request){
 
     public function ListeP(){
         $produits = Produit::with(['Caracteristique', 'Categorie', 'Images'])->get();
-        return view('guestcontain', compact('produits'));
+        $categories = Categorie::orderBy('created_at', 'desc') 
+                               ->limit(10)
+                               ->get();
+
+        return view('guestcontain', compact('produits','categories'));
     }
 
     public function searchprodupd($id){
@@ -186,8 +190,58 @@ if (isset($produits[$id])){
 
 
 
+    public function update(Request $request)
+    {
+        $productId = $request->input('product_id');
+        $quantity = $request->input('quantity');
+        $total=0;
+        // Met à jour la quantité dans la session
+        $cart = session()->get('cart', []);
+        if (isset($cart[$productId])) {
+            $cart[$productId]['qttestock'] = $quantity;
+           $total=$quantity*$cart[$productId]['prix'];
+        }
+        session()->put('cart', $cart);
+        
+        // Calcule le total
+        
+        return response()->json(['totalPrice' => $total]);
+    }
+    public function suprcart(Request $request)
+    {
+        session()->forget('cart');
+        return redirect()->back()->with('success', 'Successfully deleted');
+    }
 
-    
+    public function detailprod($id)
+    {
+ $produits = Produit::with(['Caracteristique', 'Categorie', 'Images'])->findOrFail($id);
+ $products = Produit::where('categorie_id', $produits->categorie->id)
+ ->with('Categorie', 'Images')
+ ->get();
+
+  $categories23 = Categorie::orderBy('created_at', 'desc') 
+ ->limit(10)
+ ->get(); 
+
+ 
+ return view('produit.detailproduit', compact('produits','products','categories23'));
+    }
+  
+
+    public function produitcate($id)
+    {
+ $produits = Produit::where('categorie_id', $id)
+ ->with('Categorie', 'Images')
+ ->get();
+
+  $categories = Categorie::orderBy('created_at', 'desc') 
+ ->limit(10)
+ ->get(); 
+
+ 
+ return view('guestcontain',compact('produits','categories'));
+    }
   
 
 
@@ -227,9 +281,58 @@ return redirect()->back()->with('success','ajout au panier reussi');
         // Redirection avec un message de succès
     }
 
+
+
+    public function addtocart2(Request $request){
+        $request->validate([
+            'id' => 'required',
+            'quantite' => 'required',
+
+        ]);
+        $id=$request->id;
+        $qttep=$request->quantite;
+        
+        try {
+            $produit = Produit::with(['Caracteristique', 'Categorie', 'Images'])->findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->back()->with('error', 'Produit non trouvé.');
+        }
+    
+        // Récupération du panier depuis la session
+        $cart = session()->get('cart', []);
+    
+        // Vérification si le produit est déjà dans le panier
+        if (isset($cart[$id])) {
+            // Incrémentation de la quantité
+            $cart[$id]['qttestock']=$cart[$id]['qttestock']+$qttep;
+        } else {
+            // Ajout du produit au panier avec une quantité initiale de 1
+           $prods=$produit->images->first();
+            $cart[$id] = [
+                "libelle" => $produit->libelle,
+                "prix" => $produit->prix,
+                "qttestock" => $qttep,
+                "images" => $prods->nom
+
+            ];
+        }
+    
+        // Mise à jour du panier dans la session
+        session()->put('cart', $cart);
+       // \Log::info('Panier après ajout :', session()->get('cart'));
+
+return redirect()->back()->with('success','ajout au panier reussi');
+        // Redirection avec un message de succès
+    }
+
+
+
 public function cartaff(){
     $produits=session()->get('cart', []);
-    return view('cart', compact('produits'));
+    $categories23 = Categorie::orderBy('created_at', 'desc') 
+ ->limit(10)
+ ->get(); 
+    return view('cart', compact('produits','categories23'));
 
 
 }

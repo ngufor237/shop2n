@@ -1,189 +1,278 @@
-
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.bunny.net">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Exemple</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
         <!-- Styles -->
 
-        <style>
-        @media (min-width: 992px) {
-            .nav-center {
-                display: flex;
-                justify-content: center;
-            }
+    <style>
+        .header {
+            background-color: #2914FA; /* Couleur principale */
+            color: white;
+            padding: 10px 0;
         }
-        .bg-orange {
-            background-color: rgb(176, 117, 68)
+        .header .search-bar {
+            max-width: 800px;
+            width: 100%;
         }
-        .bg-blue {
-            background-color: #4b0ed9
+        .header .search-bar input {
+            border-radius: 50px 0 0 50px;
+            border: none; 
+            padding: 10px;
         }
-        .bg-indigo {
-            background-color: #8672f7
+        .header .search-bar button {
+            border-radius: 0 50px 50px 0;
+            border: none;
         }
-        .carousel-item img {
-                object-fit: contain;
-                width: 100%;
-                height: 100%;
-            }
-            .navbar-collapse .navbar-nav .nav-item {
-                margin-right: 2rem !important; /* Espace entre les éléments de la navbar */
-            }
-
-            .navbar-collapse .navbar-nav .nav-link {
-                color: white !important; /* Couleur blanche pour les liens de la navbar */
-            }
-            
-            .carousel-image {
-                height: 500px; /* Définissez la hauteur souhaitée */
-                object-fit: cover; /* Permet de conserver les proportions de l'image tout en remplissant l'espace */
-            }
-
-    </style>
-
-<!-- Topbar Start -->
-<div class="container-fluid bg-primary">
-     
-    
-    <div class="row align-items-center py-3 px-xl-5">
-        <div class="col-lg-3 col-6 d-none d-lg-block">
-            <a href="" class="text-decoration-none">
-                <h2 class="m-0 font-weight-semi-bold text-white"><span class="text-white font-weight-bold border px-3 mr-1">E</span> 2ncorporate</h2>
-            </a>
-        </div>
-        <div class="col-lg-6 col-6 text-left">
-            <form action="">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Recherche..." aria-label="recherche..." aria-describedby="basic-addon1">
-                    <span class="input-group-text bg-transparent text-" id="basic-addon1"><i class="fa fa-search"></i></span>
-                </div>
-            </form>
-        </div>
-        <div class="col-lg-1 col-2 text-right">
-            <a href="/cardshopping" class="btn border position-relative">
-                <i class="fas fa-shopping-cart text-"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {{count(session()->get('cart', []))}}
-                </span>
-            </a>
-        </div>{{-- 
-        <div class="col-lg-1">
-                
-        </div> --}}
-        @guest
-        <div class="col-lg-1 col-1 text-right  border-end">
-                <a  class=" text-decoration-none text-white d-inline" href="{{route('login')}}"><i class="fa fa-user"></i><span class="d-none d-lg-block">Se connecter</span> </a>
-        </div>
-        <div class="col-lg-1 col-2 text-right">
-            <a  class=" text-decoration-none text-white d-inline" href="{{route('signin')}}"><i class="fa fa-user"></i><span class="d-none d-lg-block">S'inscrire</span></a>
-        </div>
-        @endguest
-
-        @Auth
-        <div class="col-lg-1 col-1 text-right  border-end">
-                <a  class=" text-decoration-none text-white d-inline" href=""><i class="fa fa-user"></i><span class="d-none d-lg-block">{{\Illuminate\Support\Facades\Auth::user()->name}}</span> </a>
-        </div> <div class="col-lg-1 col-1 text-right  border-end">
-            <form action="{{route('logout')}}" method="post">
-                @method("delete")
-                @csrf 
-                <a  class=" text-decoration-none text-white d-inline" href="#"><i class="fa fa-user"></i><span class="d-none d-lg-block">  <button type="submit" style="all: unset;">logout</button> </span> </a>
-            </form>
-        </div>
-        @endAuth
-    </div>
-    <div class="row">
-        <div class="col-lg-3">
-            <button class="btn  rounded-5 m-0 border-white text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fa fa-bars"> </i> Toutes nos catégories de produits</button>
-            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-                <div class="offcanvas-header bg-danger text-white ">
-                    <h5 class="offcanvas-title text-center" id="offcanvasWithBothOptionsLabel">Nos Catégories</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <nav class="nav justify-content-center text-white ">
-                        <a href="" class="nav-item  text-secondary">CÂBLE ET CONDUCTEUR</a>
-                        <a href="" class="nav-item  text-secondary">LUMINAIRE</a>
-                        <a href="" class="nav-item  text-secondary">OUTILLAGE</a>
-                        <a href="" class="nav-item  text-secondary">AUTOMATISME - GESTION DE L'ENERGIE</a>
-                        <a href="" class="nav-item  text-secondary">ASCENSEUR-MONTE-CHARGE</a>
-                        <a href="" class="nav-item  text-secondary">CARRELAGE</a>
-                        <a href="" class="nav-item  text-secondary">APPAREILS ELECTROMENAGERS</a>
-                        <a href="" class="nav-item  text-secondary">VIDEO SURVEILLANCE</a>
-                        <a href="" class="nav-item  text-secondary">MATERIELS INFORMATIQUES</a>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-9">
-                <nav class="navbar sticky-top navbar-expand-lg text-white ">
-                    <a href="" class="text-decoration-none d-lg-none text-white ">
-                        <h2 class="ms-0 display-5 font-weight-semi-bold"><span class="text-white font-weight-bold border px-3 mr-1">E</span> 2NCORPORATE</h2>
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavDropdown" >
-                        <div class="navbar-nav  py-0"  >
-                            <a href="/" class="nav-item nav-link active fs-5 font-monospace rounded-5 " style="background-color: #d4af37;"><i class="fa fa-home"></i> Accueil </a>
-                            <a href="shop.html" class="nav-item nav-link fs-5 font-monospace rounded-5 " style="background-color: #d4af37;"><i class="fa fa-shopping-cart"></i> Shop</a>
-                            <a href="" class="nav-item nav-link fs-5 font-monospace rounded-5 " style="background-color: #d4af37;"><i class="fa fa-key"></i> Admin</a>
-                            <div class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle fs-5 font-monospace rounded-5 " style="background-color: #d4af37;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-shipping-fast"></i> Catégories
-                                </a>
-                                <div class="dropdown-menu rounded-2 m-0">
-                                    <a href="" class="dropdown-item  text-secondary">CÂBLE ET CONDUCTEUR</a>
-                                    <a href="" class="dropdown-item  text-secondary">LUMINAIRE</a>
-                                    <a href="" class="dropdown-item  text-secondary">OUTILLAGE</a>
-                                    <a href="" class="dropdown-item  text-secondary">AUTOMATISME - GESTION DE L'ENERGIE</a>
-                                    <a href="" class="dropdown-item  text-secondary">ASCENSEUR-MONTE-CHARGE</a>
-                                    <a href="" class="dropdown-item  text-secondary">CARRELAGE</a>
-                                    <a href="" class="dropdown-item  text-secondary">APPAREILS ELECTROMENAGERS</a>
-                                    <a href="" class="dropdown-item  text-secondary">VIDEO SURVEILLANCE</a>
-                                    <a href="" class="dropdown-item  text-secondary">MATERIELS INFORMATIQUES</a>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="nav-item nav-link fs-5 font-monospace rounded-5 " style="background-color: #d4af37;"><i class="fa fa-phone-alt"></i> Contact</a>
-                        </div>
-                    </div>
-                </nav>
-        </div>
+        .header .navbar-brand {
+            font-weight: bold;
+        }
        
+        .header .icon-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+            border: none;
+            background: transparent;
+            padding: 10px;
+        }
+        .header .icon-link i {
+            font-size: 1.5rem; /* Taille de l'icône */
+            margin-bottom: 5px;
+        }
+        .header .right-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .header .secondary-menu {
+            background-color: #4133FF; /* Couleur secondaire */
+            color: white;
+            padding: 10px 0;
+        }
+        .header .secondary-menu input[type="button"] {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 50px;
+        }
+        .header .secondary-menu input[type="button"].active {
+            background-color: #FF6473; /* Couleur de fond lorsqu'on clique */
+            color: white;
+        }
+        .header .secondary-menu input[type="button"]:focus {
+            outline: none;
+        }
         
-    </div>
-</div>
-<!-- Topbar End -->
-<div class="row bg-danger">
-    <div class="col-lg-12 " style="background-color: #d4af37;">
-        {{-- <div class="marquee border-0 text-black fs-4"><p>je vous remercie pour votre confiance</p></div> --}}
-        <nav class="nav justify-content-center  navbar-light">
-            <a href="" class="nav-item  nav-link text-white">CÂBLE ET CONDUCTEUR</a>
-            <a href="" class="nav-item  nav-link text-white">LUMINAIRE</a>
-            <a href="" class="nav-item  nav-link text-white">OUTILLAGE</a>
-            <a href="" class="nav-item  nav-link text-white">AUTOMATISME - GESTION DE L'ENERGIE</a>
-            <a href="" class="nav-item  nav-link text-white">ASCENSEUR-MONTE-CHARGE</a>
-            <a href="" class="nav-item  nav-link text-white">CARRELAGE</a>
-            <a href="" class="nav-item  nav-link text-white">APPAREILS ELECTROMENAGERS</a>
-            <a href="" class="nav-item  nav-link text-white">VIDEO SURVEILLANCE</a>
-        </nav>
-    </div>
-    {{-- <div class="col-lg-1 text-center ">
-        <div id="carouselExampleSlidesOnly1" class="carousel slide p-0 m-0" data-bs-ride="carousel">
-            <div class="carousel-inner p-0 m-0">
-                <div class="carousel-item active">
-                    <span class="fs-3 text-white">High Quality</span>
+        /* Styles pour la barre latérale */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            background-color: #fff;
+            color: #000;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 1.25em;
+            color: #000;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #d9d9e1;
+        }
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: #2914FA;
+        }
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #4133FF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+        }
+        .openbtn.active {
+            background-color: #FF6473;
+        }
+
+        .text-decoration-none {
+            text-decoration: none;
+        }
+        
+        .custom-h1 {
+            font-size: 2rem; /* Taille du texte */
+            color: #fff; /* Couleur du texte */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Section -->
+<header class="header " style="position: fixed; Z-index: 1000;">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            {{-- <a class="navbar-brand" href="#"> --}}
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0 custom-h1"><span class="text-white font-weight-bold border px-3 mr-1">E</span> 2ncorporate</h1>
+                </a>         
+            <form class="d-flex search-bar mx-auto">
+                &ensp;&ensp;<input class="form-control" type="search" placeholder="Qu'est-ce qui vous ferait plaisir ?" aria-label="Search">
+                <button class="btn btn-danger" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+            @guest
+            <div class="right-menu">
+                <a href="{{route('login')}}" class="icon-link">
+                    <i class="bi bi-person"></i>
+                    log-in
+                </a>
+                <div class="col-lg-1 col-2 text-right">
+                    <a href="/cardshopping" class="btn border position-relative">
+                        <i class="fas fa-shopping-cart" style="color:white"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{count(session()->get('cart', []))}}
+                        </span>
+                    </a>
                 </div>
-                <div class="carousel-item">
-                    <span class="fs-3 text-white">good Quality</span>
-                </div>
-                <div class="carousel-item">
-                    <span class="fs-3 text-white">wonderful Quality</span>
-                </div>
+
+                <a href="{{route('signin')}}" class="icon-link ms-4">
+                    <i class="bi bi-person"></i>
+                    sign-in
+                </a>
+              
+            
             </div>
+            @endguest
+
+           
+
+            @Auth
+            <div class="right-menu">
+                <a href="" class="icon-link">
+                    <i class="bi bi-person"></i>
+                    {{\Illuminate\Support\Facades\Auth::user()->name}}                </a>
+
+               
+
+                <div class="col-lg-1 col-2 text-right">
+                    <a href="/cardshopping" class="btn border position-relative">
+                        <i class="fas fa-shopping-cart" style="color:white"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{count(session()->get('cart', []))}}
+                        </span>
+                    </a>
+                </div>
+
+                
+              
+            
+                <div class="col-lg-1 col-1 text-right ms-5 ">
+                    <form action="{{route('logout')}}" method="post">
+                        @method("delete")
+                        @csrf 
+                        <a  class=" text-decoration-none text-white d-inline" href="#"><i class="fa fa-user"></i><span class="d-none d-lg-block">  <button type="submit" style="all: unset;">logout</button> </span> </a>
+                    </form>
+                </div>
+
+            </div>
+            @endAuth
         </div>
-    </div> --}}
-    
+        <div class="d-flex justify-content-center mt-3 secondary-menu">
+            <nav class="nav">
+                <button class="openbtn" id="rayonsButton" onclick="toggleSidebar()"><i class="bi bi-list"></i> Tous nos rayons</button>
+                <a href="/maincontain"><input type="button" value="acceuill" class="btn" onclick="activateMenuItem(this)"></a>
+
+                @if (@isset($categories))
+                    
+               
+                @foreach($categories as $cat)
+                <a href="/produitcate/{{$cat->id}}"><input type="button" value="{{$cat->nomCat}}" class="btn" onclick="activateMenuItem(this)"></a>
+                @endforeach
+                @endif
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+
+<!-- Sidebar -->
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="#"><i class="bi bi-camera-video"></i>&ensp;Promo</a>
+    <a href="#"><i class="bi bi-camera-video"></i>&ensp;Câble et conducteur</a>
+    <a href="#"><i class="bi bi-lightbulb"></i> &ensp;Luminaire</a>
+    <a href="#"><i class="bi bi-tools"></i>&ensp;Outillage</a>
+    <a href="#"><i class="bi bi-camera-video"></i>&ensp;Automatisme-Gestion de l'energie</a>
+    <a href="#"><i class="bi bi-camera-video"></i>&ensp;Ascenseur-Monte-Charge</a>
+    <a href="#"><i class="bi bi-camera-video"></i>&ensp;Vidéo surveillance</a>
+    <a href="#"><i class="bi bi-camera-video"></i>&ensp;Carrelage</a>
+    <a href="#"><i class="bi bi-camera-video"></i>&ensp;Appareil électroménager</a>
+    <a href="#"><i class="bi bi-laptop"></i>&ensp;Matériels informatique</a>
+    <a href="#"><i class="bi bi-phone"></i>&ensp;Téléphonie</a>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function activateMenuItem(element) {
+        // Désactiver tous les autres éléments de menu
+        let items = document.querySelectorAll('.secondary-menu input[type="button"], .right-menu .icon-link, .secondary-menu .openbtn');
+        items.forEach(item => item.classList.remove('active'));
+        
+        // Activer l'élément cliqué
+        element.classList.add('active');
+        
+        // Fermer la barre latérale si elle est ouverte
+        closeNav();
+    }
+    
+    function toggleSidebar() {
+        const sidebar = document.getElementById("mySidebar");
+        const button = document.getElementById("rayonsButton");
+
+        // Désactiver tous les autres boutons du menu
+        let items = document.querySelectorAll('.secondary-menu input[type="button"], .right-menu .icon-link, .secondary-menu .openbtn');
+        items.forEach(item => item.classList.remove('active'));
+
+        if (sidebar.style.width === "300px") {
+            sidebar.style.width = "0";
+            button.classList.remove('active');
+        } else {
+            sidebar.style.width = "300px";
+            button.classList.add('active');
+        }
+    }
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("rayonsButton").classList.remove('active');
+    }
+</script>
+
+</body>
+</html>

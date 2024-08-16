@@ -1,142 +1,218 @@
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  
-    
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-  
-
-   
-
-
-<!-- <select id="example" name="example[]" multiple="multiple" style="width: 100%">
-    <option value="1">Option 1</option>
-    <option value="2">Option 2</option>
-    <option value="3">Option 3</option>
-</select>
-
-<script>
-
-$(document).ready(function() {
-    $('#example').select2({
-        placeholder: 'Select an option',
-        allowClear: true
-    });
-});
-
-
-</script> -->
-
-
-
-
-
-
-
-
-<!-- <select id="example" name="example[]" multiple="multiple" style="width: 100%">
-    
-</select>
-
-
-<script>
-
-$(document).ready(function() {
-    $('#example').select2({
-        placeholder: 'Select an option',
-        allowClear: true,
-        ajax: {
-            url: '/options',
-            dataType: 'json',
-            processResults: function (data) {
-                return {
-                    results: data.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.name // ou toute autre propriété
-                        };
-                    })
-                };
-            }
-        }
-    });
-});
-
-
-</script> -->
-    <div class="row">
-            <div class="col-md-3">
-
-            </div>
-    
-            <div class="container mt-5 col-md-6">
-
-    <form >
-            @csrf
-
-
-            <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label for="libelle" class="form-label">libelle</label>
-                            <input type="text" class="form-control" id="libelle" name="libelle" placeholder="Entrer le libelle du produit">
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="prix" class="form-label">prix</label>
-                            <input type="number" class="form-control" id="prix" name="prix" placeholder="Entrer le prix du produit">
-                        </div>
-                        </div>
-                        <div>
-                            <label  for="caracteristique" class="form-label">caracteristique</label>
-
-            <select id="caracteristique" class="form-select" name="caracteristique[]" multiple="multiple" style="width: 100%">
-                @foreach($options as $option)
-                    <option value="{{ $option->id }}">{{ $option->name }}</option>
-                @endforeach
-            </select>
-            </div>
-            <div class="row" class="mt-3">
-                        <div class="mb-3 col-md-6">
-                            <label for="categorie" class="form-label">categorie</label>
-                            <select class="form-select" name="categorie" id="categorie"></select>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="qtte" class="form-label">qtte en stock</label>
-                            <input type="number" class="form-control" id="qtte" name="qtte" placeholder="Entrer la quantite en stock">
-                        </div>
-                        </div>
-
-                        <div class="form-outline" data-mdb-input-init>
-                        <label class="form-label" for="description">description</label>
-    <textarea class="form-control" id="description" name="description" rows="4"></textarea>
-    </div>
-    <div class="mb-3 ">
-                            <label for="image" class="form-label">image</label>
-                            <input type="file" class="form-control" id="image" name="image" placeholder="veuillez entrer les images du produits ">
-                        </div>
-                        <div class="row">
-                            <div class="col-md-5"></div>
-                            <div class="col-md-7">
-                                <button type="submit" class="btn btn-lg rounded-pill me-3" style="background-color: rgb(12, 165, 91)">Submit</button>
-                                <button type="submit" class="btn btn-danger btn-lg rounded-pill ms-3" style="color: rgb(10, 9, 9)">Reset</button>
+{{-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Carousel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div id="cardCarousel" class="carousel slide">
+            <div class="carousel-inner">
+                @forelse ($produits as $index => $card)
+                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                        <div class="card" style="width: 18rem;">
+                            <img src="{{ $card->image_url }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $card->libelle }}</h5>
+                                <p class="card-text">{{ $card->text }}</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
-                            
                         </div>
-        </form>
+                    </div>
+                @empty
+                    <p>No cards available.</p>
+                @endforelse
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#cardCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#cardCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-
-        <div class="col-md-3">
-
     </div>
-     <script>
-        $(document).ready(function() {
-            $('#caracteristique').select2({
-                placeholder: 'Select options',
-                allowClear: true
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> --}}
+
+{{-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Carousel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .carousel-item {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+        .carousel-item .card {
+            flex: 0 0 auto;
+            width: 18rem;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div id="cardCarousel" class="carousel slide">
+            <div class="carousel-inner">
+                @forelse ($produits->chunk(4) as $chunk)
+                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                        <div class="d-flex">
+                            @foreach ($chunk as $card)
+                                <div class="card" style="width: 18rem;">
+                                    <img src="{{ $card->image_url }}" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $card->libelle }}</h5>
+                                        <p class="card-text">{{ $card->text }}</p>
+                                        <a href="#" class="btn btn-primary">Go somewhere{{$loop->first}}</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @empty
+                    <p>No cards available.</p>
+                @endforelse
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#cardCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#cardCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> --}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Carousel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .carousel-inner {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow: hidden;
+        }
+        .carousel-item {
+            display: flex;
+            flex: 0 0 auto;
+            width: 100%; /* Full width of the carousel */
+        }
+        .carousel-item .d-flex {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+        .carousel-item .card {
+            flex: 0 0 18rem; /* Fixed width of cards */
+            margin-right: 15px; /* Spacing between cards */
+        }
+        .carousel-control-prev, .carousel-control-next {
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @forelse ($produits->chunk(4) as $chunk)
+                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                        <div class="d-flex">
+                            @foreach ($chunk as $card)
+                                <div class="card" style="width: 18rem;">
+                                    <img src="{{ $card->image_url }}" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $card->title }}</h5>
+                                        <p class="card-text">{{ $card->text }}</p>
+                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @empty
+                    <p>No cards available.</p>
+                @endforelse
+            </div>
+            <button class="carousel-control-prev" type="button" id="prevButton">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" id="nextButton">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const carousel = document.querySelector('#cardCarousel');
+            const carouselInner = carousel.querySelector('.carousel-inner');
+            const items = Array.from(carouselInner.querySelectorAll('.carousel-item'));
+            const numItems = items.length;
+            const itemsPerSlide = 1; // Number of items per slide in the carousel view
+            const itemsVisible = 4; // Number of items visible at once
+
+            // Function to calculate and set the correct width for carousel items
+            function setCarouselWidth() {
+                const itemWidth = items[0].offsetWidth;
+                const totalWidth = itemWidth * numItems;
+                carouselInner.style.width = `${totalWidth}px`;
+            }
+
+            // Set the initial width of carousel
+            setCarouselWidth();
+
+            let currentIndex = 0;
+
+            function updateCarousel() {
+                const offset = -currentIndex * (items[0].offsetWidth / itemsPerSlide);
+                carouselInner.style.transform = `translateX(${offset}px)`;
+                carouselInner.style.transition = 'transform 0.5s ease-in-out';
+            }
+
+            document.querySelector('#nextButton').addEventListener('click', function () {
+                if (currentIndex < numItems - itemsVisible) {
+                    currentIndex++;
+                    updateCarousel();
+                }
             });
+
+            document.querySelector('#prevButton').addEventListener('click', function () {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                setCarouselWidth();
+                updateCarousel();
+            });
+
+            // Initialize carousel position
+            updateCarousel();
         });
     </script>
+</body>
+</html>

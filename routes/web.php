@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\CaracteristiqueController;
+use App\Models\Produit;
 
 use App\Http\Controllers\usercontroller;
 use App\Http\Controllers\produitcontroller;
@@ -90,19 +91,27 @@ Route::get('/maincontain', [produitcontroller::class, 'ListeP'])->name('ListeP')
 Route::get('/searchprodupd/{id}', [produitcontroller::class, 'searchprodupd'])->name('searchprodupd');
 Route::post('/modproduit',[ProduitController::class, 'modproduit'])->name('modproduit');
 Route::get('/addtocard/{id}', [produitcontroller::class, 'addtocard'])->name('addtocard');
+Route::get('/produitcate/{id}', [produitcontroller::class, 'produitcate'])->name('produitcate');
+
+Route::post('/addtocart2', [produitcontroller::class, 'addtocart2'])->name('addtocart2');
+
 Route::get('/suprimerprodcard/{id}', [produitcontroller::class, 'suprprodcard'])->name('suprprodcard');
 
-Route::get('/listep', [produitcontroller::class, 'Listep2'])->name('listep2');
 
+Route::get('/listep', [produitcontroller::class, 'Listep2'])->name('listep2');
+Route::post('/update-cart', [produitcontroller::class, 'update']);
+Route::get('/suprcart', [produitcontroller::class, 'suprcart'])->name('suprcart');
+Route::get('/detailprod/{id}', [produitcontroller::class, 'detailprod'])->name('detailprod');
 
 
 
 
 Route::post('/listuser', [produitcontroller::class, 'listuser'])->name('listuser');
 Route::get('/test', function () {
-    $options = User::all(); // Utilisez une requête appropriée pour vos besoins
+    $produits = Produit::with(['Caracteristique', 'Categorie', 'Images'])->get();
 
         // Passer les options à la vue
-        return view('test', ['options' => $options]);
+        return view('test', ['produits' => $produits]);
 })->name('test');
+
 Route::post('/options', [usercontroller::class, 'getoptions'])->name('options');

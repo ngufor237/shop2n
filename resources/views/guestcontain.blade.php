@@ -6,38 +6,138 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
         <!-- Styles -->
     <title>Document</title>
 </head>
 <body>
-@include('header')
+    <div class="row">
+@include('header', ['categories' => $categories])
 
 @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
 @endif 
+<div class="row mt-5 pt-5 ms-5">
+<div class="col-lg-4 col-md-4 mt-5 pt-5">
+    <div id="carouselExampleSlidesOnly" class="carousel slide bg-white mt-5 pt-5" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" >
+                <img src={{ asset('photos/first.png') }} style="height: 4px;" class="w-50 h-50" style="width: 50px; height: 50px;"  alt="...">
+                
+            </div>
+            @foreach($produits as $produit)
+            @foreach($produit->images as $img)
+
+            <div class="carousel-item" >
+                <img src={{ asset('photos/'.$img->nom) }} class="w-50 h-50" style="width: 50px; height: 50px;" alt="...">
+               
+            </div>
+            @endforeach
+             @endforeach
+            
+        </div>
+      </div>
+</div>
+<div class="col-lg-4 col-md-4 mt-5 pt-5">
+    <div id="carouselExampleSlidesOnly" class="carousel slide bg-white mt-5 pt-5" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" >
+                <img src={{ asset('photos/first.png') }} style="height: 4px;" class="w-50 h-50" style="width: 50px; height: 50px;"  alt="...">
+                
+            </div>
+            @foreach($produits as $produit)
+            @foreach($produit->images as $img)
+
+            <div class="carousel-item" >
+                <img src={{ asset('photos/'.$img->nom) }} class="w-50 h-50" style="width: 50px; height: 50px;" alt="...">
+               
+            </div>
+            @endforeach
+             @endforeach
+            
+        </div>
+      </div>
+</div>
+<div class="col-lg-4 col-md-4 mt-5 pt-5">
+    <div id="carouselExampleSlidesOnly" class="carousel slide bg-white mt-5 pt-5" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" >
+                <img src={{ asset('photos/first.png') }} style="height: 4px;" class="w-50 h-50" style="width: 50px; height: 50px;"  alt="...">
+                
+            </div>
+            @foreach($produits as $produit)
+            @foreach($produit->images as $img)
+
+            <div class="carousel-item" >
+                <img src={{ asset('photos/'.$img->nom) }} class="w-50 h-50" style="width: 50px; height: 50px;" alt="...">
+               
+            </div>
+            @endforeach
+             @endforeach
+            
+        </div>
+      </div>
+</div>
+</div>
+
+
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5 pb-3">
+        <div class="card text-bg-primary mb-3 ms-5" style="max-width: 18rem;">
+            <div class="card-header">Product Quality</div>
+            <div class="card-body">
+
+              <p class="card-text">Produit-Qualité <i class="fas fa-shopping-bag ms-5"></i></p>
+            </div>
+          </div>
+          <div class="card text-bg-primary mb-3 ms-5" style="max-width: 18rem;">
+            <div class="card-header">Fast Delivery</div>
+            <div class="card-body">
+              <p class="card-text">Livraison Rapide <i class="fas fa-truck ms-5"></i> </p>
+            </div>
+          </div>
+          <div class="card text-bg-primary mb-3 ms-5" style="max-width: 18rem;">
+            <div class="card-header">Flawless Service</div>
+            <div class="card-body">
+              <p class="card-text">Service Impecable  <i class="fas fa-bolt ms-5"></i></p>
+            </div>
+          </div>
+          <div class="card text-bg-primary mb-3 ms-5" style="max-width: 18rem;">
+            <div class="card-header">Open 6 days a week</div>
+            <div class="card-body">
+              <p class="card-text">Ouvert 6 jours sur 7 <i class="fas fa-phone-alt ms-5"></i></p>
+            </div>
+          </div>
+          
+    </div>
+</div>
+
+
            <!-- Navbar Start -->
-           <div class="container-fluid mb-2 mt-3">
-            <div class="row border-bottom  px-xl-5">
-                <div class="col-lg-3 d-none d-lg-block fade-in">
+           {{-- <div class="container-fluid mb-2 mt-3">
+            <div class="row border-bottom  px-xl-5"> --}}
+                {{-- <div class="col-lg-3 d-none d-lg-block fade-in">
                     {{-- <button class="btn rounded-0 shadow-none d-flex align-items-center justify-content-between  text-white w-100" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-vertical" aria-expanded="false" aria-controls="collapseWidthExample" style="height: 65px; margin-top: -1px; padding: 0 30px;">
                         {{-- <h6 class="m-0">Categories</h6> --}}
                         {{-- <i class="fa fa-angle-down text-dark"></i>
                     </button> --}}
-                    <nav class="collapse show navbar navbar-vertical navbar-light align-items-start border bg-white rounded-4" id="navbar-vertical">
+                    {{-- <nav class="collapse show navbar navbar-vertical navbar-light align-items-start border bg-white rounded-4" id="navbar-vertical">
                         <div class="navbar-nav w-100 overflow-hidden ps-2" >
-                            {{--   <div class="nav-item dropdown">
-                                <a href="#" class="nav-link" data-toggle="dropdown">Dresses <i class="fa fa-angle-down float-right mt-1"></i></a>
+                            {{--   <div class="nav-item dropdown"> --}}
+                                {{-- <a href="#" class="nav-link" data-toggle="dropdown">Dresses <i class="fa fa-angle-down float-right mt-1"></i></a>
                                 <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
                                     <a href="" class="dropdown-item">Men's Dresses</a>
                                     <a href="" class="dropdown-item">Women's Dresses</a>
                                     <a href="" class="dropdown-item">Baby's Dresses</a>
                                 </div>
                             </div> --}}
-                            <a href="" class="nav-item  nav-link">CÂBLE ET CONDUCTEUR</a>
+                            {{-- <a href="" class="nav-item  nav-link">CÂBLE ET CONDUCTEUR</a>
                             <a href="" class="nav-item  nav-link">LUMINAIRE</a>
                             <a href="" class="nav-item  nav-link">OUTILLAGE</a>
                             <a href="" class="nav-item  nav-link">AUTOMATISME - GESTION DE L'ENERGIE</a>
@@ -47,35 +147,10 @@
                             <a href="" class="nav-item  nav-link">VIDEO SURVEILLANCE</a>
                             <a href="" class="nav-item  nav-link">MATERIELS INFORMATIQUES</a>
                         </div>
-                    </nav>
-                </div>
-                <div class="col-lg-6">
-                    <div id="carouselExampleSlidesOnly" class="carousel slide bg-white" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active" style="height: 410px;">
-                                <img src={{ asset('img/w.jfif') }} class="w-100" alt="...">
-                                <div class="carousel-caption d-none d-m rounded-5">
-                                <h5>First slide label</h5>
-                                <p>Some representative placeholder content for the first slide.</p>
-                                </div>
-                            </div>
-                            @foreach($produits as $produit)
-                            @foreach($produit->images as $img)
-
-                            <div class="carousel-item" style="height: 410px;">
-                                <img src={{ asset('photos/'.$img->nom) }} class="w-100" alt="...">
-                                <div class="carousel-caption d-none d-m">
-                                <h5>Second slide label</h5>
-                                <p>Some representative placeholder content for the second slide.</p>
-                                </div>
-                            </div>
-                            @endforeach
-                             @endforeach
-                            
-                        </div>
-                      </div>
-                </div>
-                <div class="col-lg-3 d-none d-lg-block">
+                    </nav> --}} 
+                {{-- </div> --}} 
+               
+                {{-- <div class="col-lg-3 d-none d-lg-block">
                     <div class="container-fluid" style="height: 300px;">
                         <div class="row d-none d-lg-block" >
                             <img class="img-fluid" src={{ asset('img/c.jfif') }} alt="">
@@ -88,13 +163,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </div> --}}
+            {{-- </div>
+        </div> --}}
         <!-- Navbar End -->
 
         <!-- Featured Start -->
-        <div class="container-fluid pt-5">
+        {{-- <div class="container-fluid pt-5">
             <div class="row px-xl-5 pb-3">
                 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                     <div class="d-flex align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px;">
@@ -121,7 +196,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Featured End -->
 
         {{-- Multi-carousel --}}
@@ -306,7 +381,7 @@
         
         <!-- slide Start -->
         
-        <div class="container-fluid pt-5">
+        {{-- <div class="container-fluid pt-5">
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="true">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
@@ -356,7 +431,7 @@
                 <span class="visually-hidden">Next</span>
                 </button>
             </div>
-        </div>
+        </div> --}}
           <!-- slide End -->
 
 
@@ -368,13 +443,40 @@
 
 
 
+         
 
 
 
 
 
-
-
+          <div class="container-fluid pt-5">
+            <div class="row px-xl-5 pb-3">
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="d-flex align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px;">
+                        <h1 class="fa fa-check text-white m-0 mr-3"></h1>
+                        <h5 class="font-weight-semi-bold m-0 text-white">Produits de qualité</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="d-flex align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px;">
+                        <h1 class="fa fa-shipping-fast text-white m-0 mr-2"></h1>
+                        <h5 class="font-weight-semi-bold m-0 text-white">Livraison rapide</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="d-flex align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px;">
+                        <h1 class="fas fa-exchange-alt text-white m-0 mr-3"></h1>
+                        <h5 class="font-weight-semi-bold m-0 text-white">Service impécable</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="d-flex align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px;">
+                        <h1 class="fas fas-phone-volume text-white m-0 mr-3"></h1>
+                        <h5 class="font-weight-semi-bold m-0 text-white">Ouvert 6 jours / 7</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -397,6 +499,7 @@
                            
 
                             <img class="img-fluid w-75" src={{ asset('photos/'.$img->nom) }} alt="" >
+                            @break
                             @endforeach
 
                         </div>
@@ -407,7 +510,7 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                            <a href="/detailprod/{{$produit->id}}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
                             <a href="addtocard/{{$produit->id}}" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                         </div>
                     </div>
@@ -415,6 +518,12 @@
                 @endforeach
 
             </div>
-        </div>
+        </div> 
+
+        @include('footer1')
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -13,19 +13,20 @@
         <!-- Styles -->
 </head>
 <body>
+  <div class="row">
 @include('header')
     <div class="row mt-5"> <div class="col-md-2"></div> 
-    <div class="col-md-8">
-<section class="vh-100">
+    <div class="col-md-8 mt-5">
+<section class="vh-100 mt-5">
 @if(session('fail'))
     <div class="alert alert-danger">
         {{ session('fail') }}
     </div>
 @endif  
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+  <div class="container-fluid h-custom mt-5">
+    <div class="row d-flex justify-content-center align-items-center h-100 mt-5">
    
-      <div class="col-md-9 col-lg-6 col-xl-5">
+      <div class="col-md-9 col-lg-6 col-xl-5 mt-5">
         <img src={{ asset('img/logo2n.png') }}
           class="img-fluid" alt="Sample image">
       </div>
@@ -83,6 +84,6 @@
     <script type="text/javascript" src="./The Easiest Way to Add Input Masks to Your Forms_files/jquery-3.2.1.min.js.télécharger"></script>
     <script type="text/javascript" src="./The Easiest Way to Add Input Masks to Your Forms_files/jquery.mask.min.js.télécharger"></script>
     <script src="./The Easiest Way to Add Input Masks to Your Forms_files/script.js.télécharger"></script>
-
+  </div>
 
 </body></html>
