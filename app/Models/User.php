@@ -24,6 +24,9 @@ class User extends Authenticatable
         'statut',
 
     ];
+    public function auteur(){
+        return $this->hasMany(Auteur::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -44,4 +47,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    
 }

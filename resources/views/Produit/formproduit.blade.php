@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categorie</title>
+    <title>Produit</title>
     <!-- Fonts -->
    
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -25,7 +25,7 @@
     </style>
 </head>
 <body>
-@include('header')
+    @include("admin")
 
 
 <div class="row">
@@ -49,54 +49,77 @@
             @csrf
 
 
-            <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label for="libelle" class="form-label">libelle</label>
-                            <input type="text" class="form-control" id="libelle" name="libelle" placeholder="Entrer le libelle du produit">
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="prix" class="form-label">prix</label>
-                            <input type="number" class="form-control" id="prix" name="prix" placeholder="Entrer le prix du produit">
-                        </div>
-                        </div>
+            
                         <div>
-                            <label  for="caracteristique" class="form-label">caracteristique</label>
+                            <label for="libelle" class="form-label">Libellé </label>
+                            <input type="text" class="form-control" id="libelle" name="libelle" placeholder="Entrer le libelle du produit" required>
+                        </div>
+                        {{-- <div class="mb-3 col-md-6">
+                            <label for="prix" class="form-label">Prix</label>
+                            <input type="number" class="form-control" id="prix" name="prix" placeholder="Entrer le prix du produit" required>
+                        </div> --}}
+                        <br>
+                        <div>
+                            <label  for="caracteristique" class="form-label">Caractéristiques </label>
 
-            <select id="caracteristique" class="form-select" name="caracteristique[]" multiple="multiple" style="width: 100%">
-                @foreach($caracteristique as $option)
-                    <option value="{{ $option->id }}">{{ $option->nomCaract }}</option>
-                @endforeach
-            </select>
-            </div>
-            <div class="row" class="mt-3">
-                        <div class="mb-3 col-md-6">
-                            <label for="categorie" class="form-label">categorie</label>
-                            <select class="form-select" name="categorie" id="categorie">
-
-                @foreach($categorie as $optionas)
-                    <option value="{{ $optionas->id }}">{{ $optionas->nomCat }}</option>
-                @endforeach
+                            <select id="caracteristique" class="form-select" name="caracteristique[]" multiple="multiple" style="width: 100%" required>
+                                @foreach($caracteristique as $option)
+                                    <option value="{{ $option->id }}">{{ $option->nomCaract }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="qtte" class="form-label">qtte en stock</label>
-                            <input type="number" class="form-control" id="qtte" name="qtte" placeholder="Entrer la quantite en stock">
-                        </div>
-                        </div>
+                        <br>
+                        
+
+                            
+                            <div >
+                                <label for="souscategorie" class="form-label">Sous Catégorie</label>
+                                <select class="form-select" name="souscategorie" id="souscategorie" required>
+
+                                    <option value="" disabled selected></option>
+                                    @foreach($categorie as $optionas)
+                                        <option value="{{ $optionas->id }}">{{ $optionas->nomCat }}</option>
+                                    @endforeach
+                                </select>
+                            </div> <br>
+                            <div class="row">
+                                <div class="mb-3 col-md-3">
+                                    <label for="" class="form-label" name="excellant">Qtte en Excellant etat</label>
+                                    <input type="number" class="form-control" id="qtte" name="excellantqtte" required placeholder="Entrer la quantite en stock">
+                                    <input type="number" class="form-control" id="qtte" name="excellantprix" required placeholder="Entrer le prix">
+                                </div>&nbsp;
+                                <div class="mb-3 col-md-3">
+                                    <label for="qtte" class="form-label" name="bon">Qtte en Bon etat</label>
+                                    <input type="number" class="form-control" id="qtte" name="bonqtte" required placeholder="Entrer la quantite en stock">
+                                    <input type="number" class="form-control" id="qtte" name="bonprix" required placeholder="Entrer le prix">
+                                </div>&nbsp;
+                                <div class="mb-3 col-md-3">
+                                    <label for="qtte" class="form-label" name="mauvaise">Qtte en Mauvaise etat</label>
+                                    <input type="number" class="form-control" id="qtte" name="mauvaiseqtte" required placeholder="Entrer la quantite en stock">
+                                    <input type="number" class="form-control" id="qtte" name="mauvaiseprix" required placeholder="Entrer le prix">
+                                </div>
+                                &nbsp;
+                                <div class="mb-3 col-md-3">
+                                    <label for="qtte" class="form-label">Total :</label><div id="output"></div>
+                                    
+                                </div>
+                            </div>
 
                         <div class="form-outline" data-mdb-input-init>
-                        <label class="form-label" for="description">description</label>
-    <textarea class="form-control" id="description" name="description" rows="4"></textarea>
-    </div>
-    <div class="mb-3 ">
-                            <label for="image" class="form-label">image</label>
-                            <input type="file" class="form-control" id="image" name="image[]" multiple  placeholder="veuillez entrer les images du produits ">
+                            <label class="form-label" for="description">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                        </div> <br>
+
+                        <div class="mb-3 ">
+                            <label for="image" class="form-label">Images</label>
+                            <input type="file" class="form-control" id="image" name="image[]" multiple  placeholder="Veuillez choisir les images du produit ">
                         </div>
+
                         <div class="row">
                             <div class="col-md-5"></div>
                             <div class="col-md-7">
-                                <button type="submit" class="btn btn-lg rounded-pill me-3" style="background-color: rgb(12, 165, 91)">Submit</button>
-                                <button type="submit" class="btn btn-danger btn-lg rounded-pill ms-3" style="color: rgb(10, 9, 9)">Reset</button>
+                                <button type="submit" class="btn btn-lg rounded-pill me-3" style="background-color: rgb(12, 165, 91)">Ajouter</button>
+                                <button type="submit" class="btn btn-danger btn-lg rounded-pill ms-3" style="color: rgb(10, 9, 9)">Annuler</button>
                             </div>
                             
                         </div>
@@ -109,9 +132,32 @@
      <script>
         $(document).ready(function() {
             $('#caracteristique').select2({
-                placeholder: 'Select options',
+                placeholder: 'Rechercher une ou plusieurs caractéristiques',
                 allowClear: true
             });
+        });
+    </script>
+
+<script>
+    $(document).ready(function() {
+        $('#souscategorie').select2({
+            placeholder: 'Rechercher une sous catégorie',
+            allowClear: true
+        });
+    });
+</script>
+<script>
+        const inputField1 = document.getElementsByClassName('excellantqtte');
+        const inputField2 = document.getElementsByClassName('bonqtte');
+        const inputField3 = document.getElementsByClassName('mauvaiseqtte');
+        const outputDiv = document.getElementById('output');
+
+        document.getElementsByClassName('excellantqtte').addEventListener('input', function() {
+            // Get the value of the input
+            const inputValue = this.value;
+            
+            // Display the input value in the output div
+            document.getElementById('output').textContent = inputValue;
         });
     </script>
 

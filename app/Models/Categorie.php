@@ -11,7 +11,16 @@ class Categorie extends Model
 
     protected $fillable = ['nomCat'];
 
-    public function produits(){
+    
+
+    public function souscategorie(){
+        return $this->hasMany(SousCategorie::class);
+    }
+    public function produit(){
         return $this->hasMany(Produit::class);
     }
+
+    // public function subcateg(){
+    //     return $this->belongsTo(Subcateg::class);
+    // }
 }

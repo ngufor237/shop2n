@@ -16,24 +16,34 @@
 
 <body>
 
-<div class="d-flex" >
+    @include("admin")
+    </div><div class="row ms-5 ps-5">
+        <div class="col ms-5 ps-5">
+            <button class="btn btn-primary btn-lg rounded-pill d-inline-block ms-5"  type="button">
+                <a href="/formproduct" style="text-decoration: none; color:inherit;">Ajouter Produit</a>
+            </button>
+        </div>
+    </div>
 
-   
-    <div class="col-sm-9" id="julio">
-        <div class="card " style=" border-style: none;">
-            <div class="card-body" >
-                <h1 class="display-4" align="center"><g>PRODUIT</g></h1>
+    
+<div class="d-flex ms-5 ps-5" >
+
+    
+    <div class="col-sm-9 ms-5 ps-5" id="julio">
+        <div class="card ms-5 ps-5" style=" border-style: none;">
+            <div class="card-body ms-5 ps-5" >
+
+                
             <table id="table2" class="table table-striped table-bordered">
         <thead>
             <tr>
-            <th>code</th>
-                <th>Libelle</th>
-                <th>prix</th>
-                <th>categorie</th>
-                <th>quantite</th>
-                <th>nbre d'images</th>
-                <th>caracteristique</th>
-                <th>act</th>
+                <th>Reference du produit</th>
+                <th>Libellé</th>
+                <th>Catégorie</th>
+                <th>Nbre d'images</th>
+                <th>Caractéristiques</th>
+                <th>Prix par Qualite</th>
+                <th>Actions</th>
 
 
 
@@ -49,15 +59,15 @@
         <tr style=' border:black solid 2px; width:1000px;'>
         <td style='font-size: 15px;'>P00{{$produit->id}}</td>
         <td style='font-size: 15px;'>{{$produit->libelle}}</td>
-        <td style='font-size: 15px;'>{{$produit->prix}}fcfa</td>
-        <td style='font-size: 15px;'>{{$produit->categorie->nomCat}}</td>
-        <td style='font-size: 15px;'>{{$produit->qttestock}}</td>
+       <td style='font-size: 15px;'>{{$produit->categorie->nomCat}}</td>
         <td style='font-size: 15px;'>{{$produit->images->count();}}</td>
-        <td style='font-size: 15px;'>        @foreach($produit->caracteristique as $caract)        {{$caract->nomCaract}},         @endforeach  </td>
+        <td style='font-size: 15px;'>@foreach($produit->caracteristique as $caract)   {{$caract->nomCaract}}, @endforeach </td>
+        <td> Excellant etat :{{$produit->prix}}FCFA <br>
+        Bonne etat :{{$produit->prixbonetat}}FCFA <br>
+        Correcte etat :{{$produit->prixetatcorrect}}FCFA </td>
         <td>
-                                <a href="/ModifierCategorie/{{$produit->id}}" ><i class="fas fa-edit me-5"></i></a> 
-                                <a href="/searchprodupd/{{$produit->id}}"><i class="fas fa-trash"></i></a>
-                            </td>
+            <a href="/searchprodupd/{{$produit->id}}" ><i class="fas fa-edit me-5"></i></a> 
+        </td>
                 
         @endforeach
 

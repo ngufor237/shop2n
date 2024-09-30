@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('nomCat');
+            // $table->integer('subcateg_id');
+
             $table->timestamps();
         });
     }

@@ -14,9 +14,13 @@
 
     <style>
         .header {
-            background-color: #2914FA; /* Couleur principale */
+            background-color: #14363b; /* Couleur principale */
             color: white;
             padding: 10px 0;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         .header .search-bar {
             max-width: 800px;
@@ -55,7 +59,7 @@
             gap: 20px;
         }
         .header .secondary-menu {
-            background-color: #4133FF; /* Couleur secondaire */
+            background-color: #546364; /* Couleur secondaire */
             color: white;
             padding: 10px 0;
         }
@@ -68,7 +72,7 @@
             border-radius: 50px;
         }
         .header .secondary-menu input[type="button"].active {
-            background-color: #FF6473; /* Couleur de fond lorsqu'on clique */
+            background-color: #28a745; /* Couleur de fond lorsqu'on clique */
             color: white;
         }
         .header .secondary-menu input[type="button"]:focus {
@@ -107,18 +111,18 @@
             right: 25px;
             font-size: 36px;
             margin-left: 50px;
-            color: #2914FA;
+            color: #14363b;
         }
         .openbtn {
             font-size: 20px;
             cursor: pointer;
-            background-color: #4133FF;
+            background-color: #546364;
             color: white;
             padding: 10px 15px;
             border: none;
         }
         .openbtn.active {
-            background-color: #FF6473;
+            background-color: #28a745;
         }
 
         .text-decoration-none {
@@ -134,36 +138,50 @@
 <body>
 
 <!-- Header Section -->
-<header class="header " style="position: fixed; Z-index: 1000;">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center">
+<header class="header " >
+    <div class="container-fluid  d-none d-md-block py-3">
+        <div class="justify-content-between align-items-center ">
             {{-- <a class="navbar-brand" href="#"> --}}
+                <div class="row ">
+                <div class="col-12 col-md-2 mb-3">
+
                 <a href="" class="text-decoration-none">
-                    <h1 class="m-0 custom-h1"><span class="text-white font-weight-bold border px-3 mr-1">E</span> 2ncorporate</h1>
-                </a>         
+                    <h1 class="m-0 custom-h1"><span class="text-white font-weight-bold border px-3 mr-1">2N SHOP</span></h1>
+                </a>   
+                </div>
+
+                <div class="col-12 col-md-7  mb-3">
+
             <form class="d-flex search-bar mx-auto">
                 &ensp;&ensp;<input class="form-control" type="search" placeholder="Qu'est-ce qui vous ferait plaisir ?" aria-label="Search">
-                <button class="btn btn-danger" type="submit"><i class="bi bi-search"></i></button>
+                <button class="btn btn-success" type="submit"><i class="bi bi-search "></i></button>
             </form>
+        </div>
+
+<div class="col-12 col-md-3  ">
+            <div class="col-12 col-md-3  ">
             @guest
+    
             <div class="right-menu">
-                <a href="{{route('login')}}" class="icon-link">
+                <a href="{{route('login')}}" class="icon-link" style="all: none; text-decoration: none;">
                     <i class="bi bi-person"></i>
-                    log-in
+                    Connecter
                 </a>
+                
+
+                <a href="{{route('signin')}}" class="icon-link ms-4" style="text-decoration: none;" >
+                    <i class="bi bi-person"></i>
+                    S'inscrire
+                </a>
+
                 <div class="col-lg-1 col-2 text-right">
-                    <a href="/cardshopping" class="btn border position-relative">
-                        <i class="fas fa-shopping-cart" style="color:white"></i>
+                    <a href="/cardshopping" class="btn  position-relative" style="text-decoration: none; " >
+                        <i class="fas fa-shopping-cart" style="color:white ; font-size: 1.5rem;"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {{count(session()->get('cart', []))}}
                         </span>
                     </a>
                 </div>
-
-                <a href="{{route('signin')}}" class="icon-link ms-4">
-                    <i class="bi bi-person"></i>
-                    sign-in
-                </a>
               
             
             </div>
@@ -172,72 +190,193 @@
            
 
             @Auth
-            <div class="right-menu">
-                <a href="" class="icon-link">
-                    <i class="bi bi-person"></i>
-                    {{\Illuminate\Support\Facades\Auth::user()->name}}                </a>
+            <div class="right-menu d-flex ">
+                <a href="
+                    @if (Auth::user()->statut == 'admin')
+                            {{ route('admin') }} 
+                        @elseif (Auth::user()->statut == 'secretaire')
+                            {{ route('secretaire') }} 
+                       
+                    @endif
+                " 
+                class="icon-link" style="text-decoration: none;" >
+                    <i class="fa fa-user" style="color:white; font-size: 1.5rem;"></i>
+                    {{\Illuminate\Support\Facades\Auth::user()->name}}  
 
-               
+                </a>
 
-                <div class="col-lg-1 col-2 text-right">
-                    <a href="/cardshopping" class="btn border position-relative">
-                        <i class="fas fa-shopping-cart" style="color:white"></i>
+                <div class="col-lg-1 col-1 text-right">
+                    <a href="/cardshopping" class="btn position-relative" style="text-decoration: none;" >
+                        <i class="fas fa-shopping-cart" style="color:white; font-size: 1.5rem;"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {{count(session()->get('cart', []))}}
                         </span>
                     </a>
                 </div>
 
-                
-              
-            
-                <div class="col-lg-1 col-1 text-right ms-5 ">
+                <div class="col-lg-1 col-1 text-right  ms-5">
                     <form action="{{route('logout')}}" method="post">
                         @method("delete")
                         @csrf 
-                        <a  class=" text-decoration-none text-white d-inline" href="#"><i class="fa fa-user"></i><span class="d-none d-lg-block">  <button type="submit" style="all: unset;">logout</button> </span> </a>
+                        <a   href="{{route('logout')}}" style="text-decoration: none;" > <i class="fas fa-sign-out-alt" style="color:white; font-size: 1.5rem;"></i><span class=" d-lg-block">  <button type="submit" style="all: unset;"> <i style="color:white"> Logout</i></button> </span> </a>
                     </form>
-                </div>
+                </div> 
 
             </div>
             @endAuth
         </div>
+    </div>
+        </div>
+    </div>
         <div class="d-flex justify-content-center mt-3 secondary-menu">
             <nav class="nav">
                 <button class="openbtn" id="rayonsButton" onclick="toggleSidebar()"><i class="bi bi-list"></i> Tous nos rayons</button>
-                <a href="/maincontain"><input type="button" value="acceuill" class="btn" onclick="activateMenuItem(this)"></a>
+                <button class="openbtn"><a href="/maincontain"><input type="button" value="Accueil" class="btn" onclick="activateMenuItem(this)"></a></button>
 
-                @if (@isset($categories))
+                @if (@isset($souscategories))
                     
                
-                @foreach($categories as $cat)
-                <a href="/produitcate/{{$cat->id}}"><input type="button" value="{{$cat->nomCat}}" class="btn" onclick="activateMenuItem(this)"></a>
+                @foreach($souscategories as $souscat)
+                <button class="openbtn"><a href="/produitcate/{{$souscat->id}}"><input type="button" value="{{$souscat->nomsubCat}}" class="btn" onclick="activateMenuItem(this)" style="size: 30px;"></a></button>
                 @endforeach
                 @endif
             </nav>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="container d-block d-md-none">
+        <div class="d-flex justify-content-between align-items-center " >
+            {{-- <a class="navbar-brand" href="#"> --}}
+                <div class="row">
+                <div class="col-2 col-md-3 mt-3 ">
+
+                <a href=""  style="text-decoration: none;">
+                    <h1 class="m-0 custom-h1"><span class="text-white font-weight-bold border px-1 mr-1">2N</span></h1>
+                </a>   
+                </div>
+
+               
+
+            
+            <div class="col-9 col-md-3 ">
+            @guest
+            
+            <div class="right-menu">
+                <a href="{{route('login')}}" class="icon-link" style="text-decoration: none;">
+                    <i class="bi bi-person"></i>
+                    Connecter
+                </a>
+                
+
+                <a href="{{route('signin')}}" class="icon-link " style="text-decoration: none;">
+                    <i class="bi bi-person"></i>
+                    S'inscrire
+                </a>
+
+                <div class="col-lg-1 col-2 text-right">
+                    <a href="/cardshopping" class="btn  position-relative" style="text-decoration: none;">
+                        <i class="fas fa-shopping-cart" style="color:white ; font-size: 1.8rem;"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{count(session()->get('cart', []))}}
+                        </span>
+                    </a>
+                </div>
+              
+            
+            </div>
+            @endguest
+
+           
+
+            @Auth
+            <div class="right-menu ">
+
+               
+             <div></div>
+                <a href="" class="icon-link">
+                    <i class="fa fa-user"></i>
+                    {{\Illuminate\Support\Facades\Auth::user()->name}}                </a>
+
+               
+
+                    <div></div>
+                    <a href="/cardshopping" class="btn  position-relative" style="text-decoration: none;">
+                        <i class="fas fa-shopping-cart" style="color:white; font-size: 2rem;"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{count(session()->get('cart', []))}}
+                        </span>
+                    </a>
+                
+                
+                <div></div> <div></div>
+                    <form action="{{route('logout')}}" method="post">
+                        @method("delete")
+                        @csrf 
+                        <a   href="#" style="text-decoration: none;"> <i class="fas fa-sign-out-alt" style="color:white; font-size: 1.7rem;"></i><span class=" d-lg-block">  <button type="submit" style="all: unset;"> <i style="color:white"> LogOut</i></button> </span> </a>
+                    </form>
+                
+            
+             
+
+            </div>
+            @endAuth
+        </div>
+        <div class="col-12 col-md-6  mb-1">
+
+            <form class="d-flex search-bar mx-auto">
+                &ensp;&ensp;<input class="form-control" type="search" placeholder="Qu'est-ce qui vous ferait plaisir ?" aria-label="Search">
+                <button class="btn btn-danger" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+        </div>
+    </div>
+        </div>
+        <div class="d-flex justify-content-center mt-3 secondary-menu">
+            <nav class="nav">
+                <button class="openbtn" id="rayonsButton" onclick="toggleSidebar()"><i class="bi bi-list"></i> Tous nos rayons</button>
+                <a href="/maincontain"><input type="button" value="Accueil" class="btn" onclick="activateMenuItem(this)"></a>
+
+                {{-- @if (@isset($categories))
+                    
+               
+                @foreach($categories as $cat)
+                <a href="/produitcate/{{$cat->id}}"><input type="button" value="{{$cat->nomCat}}" class="btn" onclick="activateMenuItem(this)"></a>
+                @endforeach
+                @endif --}}
+            </nav>
+        </div>    </div>
 </header>
 
 
 
 <!-- Sidebar -->
 <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="#" style="background-color: #14363b;color:white" class="w-100 ">&ensp;Nos Categories</a>
+   <a href="javascript:void(0)" class="closebtn  "  onclick="closeNav()">×</a>
     <a href="#"><i class="bi bi-camera-video"></i>&ensp;Promo</a>
     <a href="#"><i class="bi bi-camera-video"></i>&ensp;Câble et conducteur</a>
     <a href="#"><i class="bi bi-lightbulb"></i> &ensp;Luminaire</a>
-    <a href="#"><i class="bi bi-tools"></i>&ensp;Outillage</a>
+    {{-- <a href="#"><i class="bi bi-tools"></i>&ensp;Outillage</a>
     <a href="#"><i class="bi bi-camera-video"></i>&ensp;Automatisme-Gestion de l'energie</a>
     <a href="#"><i class="bi bi-camera-video"></i>&ensp;Ascenseur-Monte-Charge</a>
     <a href="#"><i class="bi bi-camera-video"></i>&ensp;Vidéo surveillance</a>
-    <a href="#"><i class="bi bi-camera-video"></i>&ensp;Carrelage</a>
+    <a href="#"><i class="bi bi-camera-video"></i>&ensp;Carrelage</a> --}}
     <a href="#"><i class="bi bi-camera-video"></i>&ensp;Appareil électroménager</a>
     <a href="#"><i class="bi bi-laptop"></i>&ensp;Matériels informatique</a>
     <a href="#"><i class="bi bi-phone"></i>&ensp;Téléphonie</a>
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function activateMenuItem(element) {
         // Désactiver tous les autres éléments de menu
@@ -273,6 +412,14 @@
         document.getElementById("rayonsButton").classList.remove('active');
     }
 </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
 
 </body>
 </html>

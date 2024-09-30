@@ -14,16 +14,26 @@ return new class extends Migration
         Schema::create('produits', function (Blueprint $table) {
             $table->id();
             $table->longtext('libelle');
+            // $table->integer('categorie_id');
+            $table->foreignId('categorie_id')->constrained('categories')->cascadeOnDelete(); // Ensure this matches your table name
             
-            $table->foreignId('categorie_id')->constrained('categories')->cascadeOnDelete();
             $table->longText('description');
 
-            $table->decimal('prix',10,2);
-            $table->integer('qttestock');
+            $table->decimal('prix',20,2)->default(0);
+            $table->integer('qttestock')->default(0);
+            
+
+            $table->decimal('prixbonetat',20,2)->default(0);
+            $table->integer('qttestockbonetat')->default(0);
+
+            $table->decimal('prixetatcorrect',20,2)->default(0);
+            $table->integer('qttestocketatcorrect')->default(0);
+
+
 
             $table->boolean('is_active')->default(true);
             $table->boolean('in_stock')->default(true);
-            $table->boolean('on_sale')->default(false);
+            $table->boolean('on_sale')->default(true);
             $table->boolean('is_featured')->default(false);
 
             $table->timestamps();

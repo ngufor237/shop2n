@@ -16,8 +16,15 @@ class usercontroller extends Controller
         return view('forminscription');
     }
 
+    public function FormUser(){
+        return view('Utilisateurs.utilisateur');
+    }
+
+
     public function logout(){
         Auth::logout();
+        session()->forget('userInfo');
+        session()->forget('cart');
         return redirect()->route('login');
     }
 
@@ -85,15 +92,26 @@ if(Auth::attempt($usera)){
 
 $request->session()->regenerate();
 $user = Auth::user(); // Récupérer l'utilisateur authentifié
+$credentials = User::where('email','' .$request->email.'')->get();
+
+$request->session()->put('userInfo', $credentials);
+
+// $myArray = $request->session()->get('userInfo', []);
+// dd($credentials);
 $userstat = $user->statut;
 if($userstat=="user"){ 
 return redirect()->route('ListeP');
 }
-
+elseif($userstat=="secretaire"){ 
+    return redirect()->route('secretaire');
+    }
+    elseif($userstat=="admin"){ 
+        return redirect()->route('admin');
+        }
 }
 else{ 
 
-    return redirect()->route('login')->with('fail', ' Incorrect credentials please try again ');
+    return redirect()->route('login')->with('fail', ' Identifiants incorrects, veuillez réessayer ');
 
 }
 
@@ -114,6 +132,49 @@ else{
 {
     $options = User::all(['id', 'name']); // ou toute autre colonne nécessaire
     return response()->json($options);
+}
+
+public function createutilisateur(Request $request){
+
+    $request->validate([
+        'email' => 'required',
+        'password' => 'required',
+        'name' => 'required',
+        'droit' =>'required',
+
+    ]);
+    $perso=new user();
+    $perso->name=$request->name;
+    $perso->email=$request->email;
+    $perso->password=$request->password;
+    $perso->statut=$request->droit;
+
+
+    $perso->save();
+
+    // $this->validator($request->all())->validate();
+
+    // $user = $this->create($request->all());
+
+    // // Connecter l'utilisateur ou rediriger
+    // auth()->login($user);
+
+    return redirect()->route('Utilisateur')->with('success', ' Successfully Sign in');
+}
+
+public function Liste(){
+    $users = User::all();
+    return view('Utilisateurs.ListeUtilisateur', compact('users'));
+}
+
+public function Supprimeruser($id){
+    // $request->validate([
+    //     'categorie' => 'required',
+    // ]);
+    $userid = User::find($id);
+    $userid->delete();
+    return redirect('ListUtilisateur')->with('status','Uttilisateur Supprimée avec succès');
+    
 }
 }
 

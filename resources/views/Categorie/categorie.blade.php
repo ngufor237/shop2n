@@ -20,6 +20,7 @@
     </style>
 </head>
 <body>
+    @include("admin")
     <div class="row">
         <div class="col-md-4">
 
@@ -27,7 +28,7 @@
    
         <div class="container mt-5 col-md-4">
             <div class="card p-4">
-                <h2 class="text-center mb-4">Nouvelle Categorie</h2>
+                <h2 class="text-center mb-4">Nouvelle Catégorie</h2>
                 <hr>
 
                 <form action="{{ route('AddCategorie') }}" method="POST">
@@ -42,15 +43,17 @@
         {{ session('sucesscat') }}
     </div>
                  @endif  
+                    
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nom Categorie</label>
-                        <input type="text" class="form-control" id="name" name="categorie" placeholder="Entrer le nom de la categorie">
+                        <label for="name" class="form-label">Catégorie</label>
+                        <input type="text" class="form-control" id="name" name="categorie" placeholder="Entrer le nom de la categorie" required> 
                     </div>
+                    
                     <div class="row">
                         <div class="col-md-5"></div>
                         <div class="col-md-7">
-                            <button type="submit" class="btn btn-lg rounded-pill me-1" style="background-color: rgb(12, 165, 91)">Submit</button>
-                            <button type="submit" class="btn btn-danger btn-lg rounded-pill ms-1" style="color: rgb(10, 9, 9)">Reset</button>
+                            <button type="submit" class="btn btn-lg rounded-pill me-1" style="background-color: rgb(12, 165, 91)">Ajouter</button>
+                            <button type="submit" class="btn btn-danger btn-lg rounded-pill ms-1" style="color: rgb(10, 9, 9)">Annuler</button>
                         </div>
                         
                     </div>

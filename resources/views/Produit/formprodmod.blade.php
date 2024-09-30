@@ -25,7 +25,7 @@
     </style>
 </head>
 <body>
-@include('header')
+    @include("admin")
 
 
 <div class="row">
@@ -51,47 +51,47 @@
 
             <div class="row">
                         <div class="mb-3 col-md-6">
-                            <label for="libelle" class="form-label">libelle</label>
+                            <label for="libelle" class="form-label">Libellé  </label>
                             <input type="text" class="form-control" id="libelle" value="{{$produits->libelle}}" name="libelle" placeholder="Entrer le libelle du produit">
                             <input value="{{$produits->id}}" type="text" class="form-control" id="id" hidden name="id">
 
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="prix" class="form-label">prix</label>
+                            <label for="prix" class="form-label">Prix</label>
                             <input type="number" class="form-control" value="{{$produits->prix}}" id="prix" name="prix" placeholder="Entrer le prix du produit">
                         </div>
                         </div>
                         <div>
-                            <label  for="caracteristique" class="form-label">caracteristique</label>
+                            <label  for="caracteristique" class="form-label">Caractéristiques</label>
 
             <select id="caracteristique" class="form-select" name="caracteristique[]" multiple="multiple" style="width: 100%">
                 @foreach($options as $option)
-                    <option value="{{ $option->id }}">{{ $option->nomCaract }}</option>
+                    <option value="{{ $option->id }}" >{{ $option->nomCaract }}</option>
                 @endforeach
             </select>
             </div>
             <div class="row" class="mt-3">
                         <div class="mb-3 col-md-6">
-                            <label for="categorie" class="form-label">categorie</label>
-                            <select class="form-select" name="categorie" id="categorie">
+                            <label for="souscategorie" class="form-label">Sous Catégorie</label>
+                            <select class="form-select" name="souscategorie" id="souscategorie">
 
-                @foreach($categories as $optionas)
-                    <option value="{{ $optionas->id }}">{{ $optionas->nomCat }}</option>
-                @endforeach
+                                @foreach($souscategories as $optionas)
+                                    <option value="{{ $optionas->id }}" {{ $optionas->id == $produits->souscategorie_id ? 'selected' : '' }}>{{ $optionas->nomsubCat }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="qtte" class="form-label">qtte en stock</label>
+                            <label for="qtte" class="form-label">Qtte en stock</label>
                             <input type="number" class="form-control" id="qtte" name="qtte" value="{{$produits->qttestock}}" placeholder="Entrer la quantite en stock">
                         </div>
                         </div>
 
                         <div class="form-outline" data-mdb-input-init>
-                        <label class="form-label" for="description">description</label>
+                        <label class="form-label" for="description">Description</label>
     <textarea class="form-control" id="description" name="description" rows="4">{{ old('description',$produits->description)  }}</textarea>
     </div>
     <div class="mb-3 ">
-                            <label for="image" class="form-label">image</label>
+                            <label for="image" class="form-label">Images</label>
                             <input type="file" class="form-control" id="image" name="image[]" multiple  placeholder="veuillez entrer les images du produits ">
                         </div>
                         <div class="row">

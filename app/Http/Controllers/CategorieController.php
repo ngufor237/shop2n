@@ -3,28 +3,65 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorie;
+use App\Models\Subcateg;
+
 use Illuminate\Http\Request;
 
 class CategorieController extends Controller
 {
     public function FormCategorie(){
-        return view('Categorie.categorie');
+        $categories = Subcateg::all();
+        return view('Categorie.categorie', compact('categories'));
     }
-    
+
     public function AddCategorie(Request $request){
         $request->validate([
             'categorie' => 'required',
         ]);
-        $cat=new Categorie();
-        $cat->nomCat=$request->categorie;
-        $res=$cat->save();
+        $car=new Categorie();
+        $car->nomCat=$request->categorie;
+        $res=$car->save();
         if($res){
-            return redirect()->route('Categorie')->with('sucesscat', ' Category Added Succesfully ');
+            return redirect('/Categorie')->with('sucesscat', ' Catégorie Ajoutée avec Succès');
         }
         else{
-            return redirect()->route('Categorie')->with('fail', ' Category Not Added Succesfully ');
+            return redirect('/Categorie')->with('failcat', ' Categorie n a pas été ajoutée');
         }
     }
+    
+    // public function AddCategorie(Request $request){
+       
+    //     $request->validate([
+    //         'categorie' => 'required',
+    //     ]);
+
+    //     if (strpos($request->categorie1, "---") !== false) {
+    //         $parties = explode("---", $request->categorie1);
+    //         // Assurez-vous d'avoir exactement trois parties
+    //         if (count($parties) === 2) {
+    //             list($part1, $maxId) = $parties;  
+    //          } }
+    //          else {
+    //         $scat=new Subcateg();
+    //         $scat->nomsubcat=$request->categorie1;
+    //         $sres=$scat->save();
+    //         if($sres){
+    //             $maxId = Subcateg::max('id');
+    //         }
+    //     }
+
+    //     $cat=new Categorie();
+    //     $cat->nomCat=$request->categorie;
+    //     // $cat->subcateg_id=(int) $maxId;
+
+    //     $res=$cat->save();
+    //     if($res){
+    //         return redirect('/Categorie')->with('sucesscat', ' Catégorie Ajoutée avec Succès');
+    //     }
+    //     else{
+    //         return redirect('/Categorie')->with('failcat', ' Categorie n a pas été ajoutée');
+    //     }
+    // }
 
     public function Liste(){
         $categories = Categorie::all();
@@ -32,10 +69,12 @@ class CategorieController extends Controller
     }
 
     public function Supprimer($id){
-       
+        // $request->validate([
+        //     'categorie' => 'required',
+        // ]);
         $categories = Categorie::find($id);
         $categories->delete();
-        return redirect('/ListCategorie')->with('status','Categorie Supprimee avec succes');
+        return redirect('/ListeCategorie')->with('status','Catégorie Supprimée avec succès');
         
     }
 
@@ -52,7 +91,7 @@ class CategorieController extends Controller
         $categories = Categorie::find($request->id);
         $categories->nomCat = $request->categorie;
         $categories->Update();
-        return redirect('/ListCategorie')->with('statue','Categorie Modifiee avec succes');
+        return redirect('/ListeCategorie')->with('statue','Catégorie Modifiée avec succès');
 
     }
 
