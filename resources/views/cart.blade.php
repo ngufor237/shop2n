@@ -20,6 +20,25 @@
         .product-row td {
           padding: 10px 0;
         }
+        .quantity-input {
+            display: inline-flex;
+            align-items: center;
+        }
+        .quantity-input button {
+            width: 30px;
+            height: 30px;
+            background-color: #ddd;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .quantity-input input {
+            width: 40px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 18px;
+        }
     </style>
 </head>
 
@@ -46,6 +65,18 @@ $totalle=0;
 $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
 @endphp
 @endforeach
+
+
+
+<h2>Product</h2>
+    <p>Price per item: <span id="pricePerItem">100</span> FCFA</p>
+    <p>Total price: <span id="totalPrice">100</span> FCFA</p>
+
+    <div class="quantity-input">
+        <button id="decreaseBtn">-</button>
+        <input type="text" id="quantity" value="1" readonly>
+        <button id="increaseBtn">+</button>
+    </div>
         <div class="card mt-5  ms-5 " style=" border-style: none;">
             <div class="card-body" >
                 <div class=" text-end me-5  mb-4"  style="color:green "> <h2>TOTAL:   {{ $totalle }} FCFA</h2> 
@@ -81,7 +112,15 @@ $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
          @php
             $quantity=$totalle /$produit['prix'];
          @endphp
-        <td style='font-size: 15px;'> <input type="number"  data-product-id="{{$id}}" min="1" class="quantity" value={{$quantity}} style="width: 80px;"> </td>
+        <td style='font-size: 15px;'class="quantity-input"> 
+        @php
+        $c=$id[0];
+        @endphp
+        <a href="/minusfromcard/{{$c}}" ><button id="decreaseBtn">-</button></a>
+          <input type="text"  id="quantity-$id"  readonly data-product-id="{{$id}}" min="1" class="quantity" value={{$quantity}} style="width: 80px;">
+        <a href="/addtocard/{{$c}}" ><button id="decreaseBtn">+</button></a>
+
+        </td>
         
         @php
          $total= ($produit['qttestock'] * $produit['prix']);
@@ -90,7 +129,7 @@ $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
 
         <td style='font-size: 15px;'><a href="/suprimerprodcard/{{$id}}"><i class="fas fa-trash"></i></a>
         @php
-        $c=rtrim($id, "__excellentetat");;
+        $c=$id[0];
         @endphp
         <a href="/addtocard/{{$c}}" ><button>+ {{$c}}</button></a>
         </td>
@@ -123,11 +162,12 @@ $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
 </div>
 </div>
 
+
 <div  class="product-row"  data-id="history">
-<div class="col-sm-9 ms-5 ps-5" id="julio">
+<div class="col-sm-9 ms-5 ps-5  d-flex ms-5 ps-9" id="julio">
         <div class="card ms-5 ps-5" style=" border-style: none;">
             <div class="card-body ms-5 ps-5" >
-                <table class="table table-striped table-bordered">
+                <table id="table2" class="table table-striped table-bordered">
                     <thead>
                       <tr>
                         <th>Transactio Id</th>
@@ -459,6 +499,24 @@ $(document).on('input', '.quantity', function() {
 
 
 </script>
+<script>
+       function updateQuantity(productId, delta) {
+        console.log('dscfdc');
+            const quantityInput = document.getElementById('quantity-$id');
+            let currentQuantity = parseInt(quantityInput.value);
+
+            // Ensure quantity doesn't go below 1
+            if (currentQuantity + delta < 1) return;
+
+            currentQuantity += delta;
+            quantityInput.value = currentQuantity;
+
+            // Update the total price for this product
+            const product = products.find(p => p.id === productId);
+            const newTotal = product.price * currentQuantity;
+            document.getElementById('total-price{{$id}}').textContent = newTotal;
+       }
+    </script>
     <div class="mt-5 pt-5 ">@include('footer1')</div>
 </body>
  

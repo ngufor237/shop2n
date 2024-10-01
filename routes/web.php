@@ -139,6 +139,7 @@ Route::get('/maincontain', [produitcontroller::class, 'ListeP'])->name('ListeP')
 Route::get('/', [produitcontroller::class, 'ListeP'])->name('ListeP');
 
 Route::get('/addtocard/{id}', [produitcontroller::class, 'addtocard'])->name('addtocard');
+Route::get('/minusfromcard/{id}', [produitcontroller::class, 'minusfromcard'])->name('addtocard');
 Route::get('/produitcate/{id}', [produitcontroller::class, 'produitcate'])->name('produitcate');
 
 Route::post('/addtocart2', [produitcontroller::class, 'addtocart2'])->name('addtocart2');

@@ -237,7 +237,7 @@
                     
                
                 @foreach($souscategories as $souscat)
-                <button class="openbtn"><a href="/produitcate/{{$souscat->id}}"><input type="button" value="{{$souscat->nomsubCat}}" class="btn" onclick="activateMenuItem(this)" style="size: 30px;"></a></button>
+                <button class="openbtn"><a href="/produitcate/{{$souscat->id}}"><input type="button" value="{{$souscat->nomCat}}" class="btn" onclick="activateMenuItem(this)" style="size: 30px;"></a></button>
                 @endforeach
                 @endif
             </nav>

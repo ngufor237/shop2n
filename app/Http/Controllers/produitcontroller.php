@@ -14,6 +14,8 @@ use App\Models\Publicite;
 use App\Models\SousCategorie;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class produitcontroller extends Controller
 {
@@ -211,7 +213,7 @@ class produitcontroller extends Controller
 
     public function ListeP(){
         $produits = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->get();
-        $souscategories = SousCategorie::orderBy('created_at', 'desc') 
+        $souscategories = Categorie::orderBy('created_at', 'desc') 
                                ->limit(5)
                                ->get();
     $publicites = Publicite::all();
@@ -287,7 +289,7 @@ if (isset($produits[$id])){
 
     public function produitcate($id)
     {
- $produits = Produit::where('souscategorie_id', $id)
+ $produits = Produit::where('categorie_id', $id)
  ->with('SousCategorie', 'Images')
  ->get();
   $publicites=publicite::all();
@@ -304,6 +306,10 @@ if (isset($produits[$id])){
 
 
     public function addtocard($id){
+    $cart = session()->get('cart', []);
+
+    // dd($cart);
+
         try {
             $produit = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->findOrFail($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
@@ -319,7 +325,12 @@ if (session()->has('userInfo') && !empty(session()->get('userInfo'))) {
     if (isset($cart[$id.'__excellentetat'])) {
         // Increment the quantity
         $cart[$id.'__excellentetat']['qttestock']++;
-    } else {
+    } elseif(isset($cart[$id.'__correct'])){
+        $cart[$id.'__correct']['qttestoc k']++;
+    } elseif(isset($cart[$id.'__bon'])){
+        $cart[$id.'__correct']['qttestock']++;
+    }
+    else {
         // Add the product to the cart with an initial quantity of 1
         $prods = $produit->images->first();
         $cart[$id.'__excellentetat'] = [
@@ -354,6 +365,108 @@ if (session()->has('userInfo') && !empty(session()->get('userInfo'))) {
        // \Log::info('Panier après ajout :', session()->get('cart'));
 
 return redirect()->back()->with('success','Ajout au panier reussi');
+        // Redirection avec un message de succès
+    }
+
+    public function minusfromcard($id){
+    $cart = session()->get('cart', []);
+    // dd($cart);
+
+        try {
+            $produit = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->back()->with('error', 'Produit non trouvé.');
+        }
+    
+      // Check if the session has the 'cart' key and if it contains any values
+    if (session()->has('userInfo') && !empty(session()->get('userInfo')) && $cart[$id.'__excellentetat']['qttestock']!=1) {
+    // Retrieve the cart from the session
+    $cart = session()->get('cart', []);
+
+    // Check if the product is already in the cart
+    if (isset($cart[$id.'__excellentetat'])) {
+        // Increment the quantity
+        $cart[$id.'__excellentetat']['qttestock']--;
+    }else {
+        // Add the product to the cart with an initial quantity of 1
+        $prods = $produit->images->first();
+        $cart[$id.'__excellentetat'] = [
+            "libelle" => $produit->libelle,
+            "prix" => $produit->prix,
+            "qttestock" => 1,
+            "etat" => "Excellent",
+            "images" => $prods->nom
+        ];
+    }
+
+    // Update the session with the new cart
+    session()->put('cart', $cart);
+} elseif (session()->has('userInfo') && !empty(session()->get('userInfo')) && $cart[$id.'__correct']['qttestock']!=1) {
+    // Retrieve the cart from the session
+    $cart = session()->get('cart', []);
+
+    // Check if the product is already in the cart
+    if (isset($cart[$id.'__correct'])) {
+        // Increment the quantity
+        $cart[$id.'__correct']['qttestock']--;
+    }else {
+        // Add the product to the cart with an initial quantity of 1
+        $prods = $produit->images->first();
+        $cart[$id.'__correct'] = [
+            "libelle" => $produit->libelle,
+            "prix" => $produit->prix,
+            "qttestock" => 1,
+            "etat" => "correct",
+            "images" => $prods->nom
+        ];
+    }
+
+    // Update the session with the new cart
+    session()->put('cart', $cart);
+} elseif (session()->has('userInfo') && !empty(session()->get('userInfo')) && $cart[$id.'__bon']['qttestock']!=1) {
+    // Retrieve the cart from the session
+    $cart = session()->get('cart', []);
+
+    // Check if the product is already in the cart
+    if (isset($cart[$id.'__bon'])) {
+        // Increment the quantity
+        $cart[$id.'__bon']['qttestock']--;
+    }else {
+        // Add the product to the cart with an initial quantity of 1
+        $prods = $produit->images->first();
+        $cart[$id.'__bon'] = [
+            "libelle" => $produit->libelle,
+            "prix" => $produit->prix,
+            "qttestock" => 1,
+            "etat" => "bon",
+            "images" => $prods->nom
+        ];
+    }
+
+    // Update the session with the new cart
+    session()->put('cart', $cart);
+} 
+else {
+    // If the session 'cart' key does not exist or is empty, initialize the cart array
+    $cart = [];
+    // Add the product to the cart with an initial quantity of 1
+    $prods = $produit->images->first();
+    $cart[$id.'__excellentetat'] = [
+        "libelle" => $produit->libelle,
+        "prix" => $produit->prix,
+        "qttestock" => 1,
+        "etat" => "Excellent",
+        "images" => $prods->nom
+    ];
+
+}
+
+    
+        // Mise à jour du panier dans la session
+        session()->put('cart', $cart);
+       // \Log::info('Panier après ajout :', session()->get('cart'));
+
+return redirect()->back()->with('failed','Un produit a ete retire du panier');
         // Redirection avec un message de succès
     }
 
@@ -431,7 +544,8 @@ public function cartaff(){
     $souscategories23 = SousCategorie::orderBy('created_at', 'desc')
     ->limit(10)
     ->get(); 
-    $auteur= Auteur::where('user_id', 'LIKE',''.$id.'') // Search for the specific name
+    $auteur= Auteur::where('user_id', 'LIKE',''.$id.'')
+    ->orderBy('created_at', 'desc')  // Search for the specific name
     ->get();
     // dd($auteur);
 
@@ -470,6 +584,8 @@ public function cartaff(){
     public function ajoutcommandenv(Request $request){
 
         $cart = session()->get('cart', []);
+        $user = session()->get('userInfo', []);
+
         $auteur=new Auteur();
         if (is_array($cart) && empty($cart)) {
             return redirect()->back()->with('fail','veuillez choisir vos produits');
@@ -504,8 +620,22 @@ public function cartaff(){
             $order->qtte = $productData['qttestock'];
 
             $order->save();
+
          }
+         if(is_array($cart) && !empty($cart)){
+             // Load a view for the PDF
+        $pdf = PDF::loadView('recu',compact('cart','user'));
+
+        $pdf->setPaper('A4', 'landscape');
         session()->forget('cart');
+
+        session()->forget('cart');
+        return $pdf->download('bilan_facture.pdf');
+
+
+        // Download the generated PDF
+         }
+
         return redirect()->back()->with('success','commande passe avec succes');
         }
 

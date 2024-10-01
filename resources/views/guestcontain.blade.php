@@ -91,7 +91,7 @@
 
                 @foreach($souscategories as $souscateg)
                
-                <a href="/produitcate/{{$souscateg->id}}" id="ess1" >{{$souscateg->nomsubCat}}</a>
+                <a href="/produitcate/{{$souscateg->id}}" id="ess1" >{{$souscateg->nomCat}}</a>
                
             @endforeach
 
