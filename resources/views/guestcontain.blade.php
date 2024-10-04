@@ -63,7 +63,23 @@
                 .custom-font {
             font-family: 'Roboto', sans-serif; /* Appliquer la police uniquement à cet élément */
         }
-
+        .brand-grid .brand-item {
+            border: 1px solid #faf8f8;
+            background-color: #dbe2ea; /* Fond légèrement gris */
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px; /* Coins arrondis */
+            transition: transform 0.2s;
+        }
+    
+        .brand-grid .brand-item:hover {
+            transform: scale(1.05); /* Effet de zoom au survol */
+        }
+    
+        .brand-grid img {
+            max-width: 100px;
+            max-height: 50px;
+        }
         </style>
 
 
@@ -441,7 +457,6 @@
                     <div class="card product-item border-0 mb-4 shadow-sm"  style="height: 20rem;">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent p-0 text-center h-100">
                             @foreach($produit->images as $img)
-                           
 
                             <img class="img-fluid h-100 " src={{ asset('photos/'.$img->nom) }} alt="" >
                             @break
@@ -456,7 +471,7 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
                             <a href="/detailprod/{{$produit->id}}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="addtocard/{{$produit->id}}" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                            <a   data-id="{{$produit->id}}" class="btn btn-sm text-dark p-0 add-to-cart-btn"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                         </div>
                     </div>
                 </div>
@@ -464,27 +479,6 @@
 
             </div>
         </div> 
-
-
-        <style>
-            .brand-grid .brand-item {
-                border: 1px solid #faf8f8;
-                background-color: #dbe2ea; /* Fond légèrement gris */
-                padding: 20px;
-                margin: 10px;
-                border-radius: 5px; /* Coins arrondis */
-                transition: transform 0.2s;
-            }
-        
-            .brand-grid .brand-item:hover {
-                transform: scale(1.05); /* Effet de zoom au survol */
-            }
-        
-            .brand-grid img {
-                max-width: 100px;
-                max-height: 50px;
-            }
-        </style>
         
         
         <div class=" my-5">
@@ -622,12 +616,79 @@
                 interval: true // Désactive le défilement automatique
             });
         </script>
-         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-         <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.add-to-cart-btn').click(function(e) {
+            console.log('ffff');
+            e.preventDefault(); // Prevent the page from refreshing
+            
+            var productId = $(this).data('id'); // Get product ID from the data attribute
+            
+            $.ajax({
+                url: '/addtocard/' + productId,
+                type: 'GET', // Use 'POST' if you're submitting form data
+                success: function(response) {
+                    const titleElement = document.getElementById('nouv');
+                    // Update cart info (you can modify this based on your app's structure)
+                    // alert(); // or update cart count, etc.
+                        titleElement.textContent = response.cartQuantity;
+                }, 
+                error: function(xhr) {
+                    console.log('Error:', xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 {{-- <div class="container mt-5">
@@ -675,7 +736,7 @@
                                         </div>
                                         <div class="card-footer d-flex justify-content-between bg-light border">
                                             <a href="/detailprod/{{$product->id}}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                            <a href="/addtocard/{{$product->id}}" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                            <a  href="#" data-id="{{$product->id}}" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                                         </div>
                                     </div>
                                 </div>
@@ -711,6 +772,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
 <script>
     // Initialisation du carrousel sans défilement automatique
     var myCarousel = document.querySelector('#carouselExampleControls');

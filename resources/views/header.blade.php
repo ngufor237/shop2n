@@ -146,7 +146,7 @@
                 <div class="col-12 col-md-2 mb-3">
 
                 <a href="" class="text-decoration-none">
-                    <h1 class="m-0 custom-h1"><span class="text-white font-weight-bold border px-3 mr-1">2N SHOP</span></h1>
+                    <h1 class="m-0 custom-h1" ><span  class="text-white font-weight-bold border px-3 mr-1">2N SHOP</span></h1>
                 </a>   
                 </div>
 
@@ -208,7 +208,7 @@
                 <div class="col-lg-1 col-1 text-right">
                     <a href="/cardshopping" class="btn position-relative" style="text-decoration: none;" >
                         <i class="fas fa-shopping-cart" style="color:white; font-size: 1.5rem;"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        <span   id="nouv" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {{count(session()->get('cart', []))}}
                         </span>
                     </a>

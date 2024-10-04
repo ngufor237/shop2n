@@ -156,6 +156,7 @@ Route::get('/suprcart', [produitcontroller::class, 'suprcart'])->name('suprcart'
 
 
 Route::get('/header-data', [produitcontroller::class, 'index']);
+Route::get('/cartupdate', [produitcontroller::class, 'cartupdate']);
 
 
 Route::post('/listuser', [produitcontroller::class, 'listuser'])->name('listuser');

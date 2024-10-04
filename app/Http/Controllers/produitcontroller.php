@@ -325,10 +325,14 @@ if (session()->has('userInfo') && !empty(session()->get('userInfo'))) {
     if (isset($cart[$id.'__excellentetat'])) {
         // Increment the quantity
         $cart[$id.'__excellentetat']['qttestock']++;
+        $Quantity =$cart[$id.'__excellentetat']['qttestock'];
     } elseif(isset($cart[$id.'__correct'])){
         $cart[$id.'__correct']['qttestoc k']++;
+        $Quantity =$cart[$id.'__correct']['qttestock'];
     } elseif(isset($cart[$id.'__bon'])){
         $cart[$id.'__correct']['qttestock']++;
+        $Quantity =$cart[$id.'__bon']['qttestock'];
+
     }
     else {
         // Add the product to the cart with an initial quantity of 1
@@ -362,12 +366,24 @@ if (session()->has('userInfo') && !empty(session()->get('userInfo'))) {
     
         // Mise à jour du panier dans la session
         session()->put('cart', $cart);
+        $totalQuantity = count(session()->get('cart', []));
+        $totalle=0;
+        foreach($cart as $produit){
+           $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
+        }
+        return response()->json([
+            'total'=>$totalle,
+            'cartQuantity' => $totalQuantity,
+            'Quantity' => $Quantity
+        ]);
        // \Log::info('Panier après ajout :', session()->get('cart'));
 
-return redirect()->back()->with('success','Ajout au panier reussi');
+        return redirect()->back()->with('success','Ajout au panier reussi');
         // Redirection avec un message de succès
     }
 
+
+    
     public function minusfromcard($id){
     $cart = session()->get('cart', []);
     // dd($cart);
@@ -401,7 +417,19 @@ return redirect()->back()->with('success','Ajout au panier reussi');
 
     // Update the session with the new cart
     session()->put('cart', $cart);
-} elseif (session()->has('userInfo') && !empty(session()->get('userInfo')) && $cart[$id.'__correct']['qttestock']!=1) {
+    $c = count(session()->get('cart',$cart));
+    $totalle=0;
+    foreach($cart as $produit){
+       $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
+    }
+    $totalQuantity =$cart[$id.'__excellentetat']['qttestock'];
+    return response()->json([
+        
+        'cartQuantity' => $totalQuantity,
+        'total'=>$totalle
+    ]);
+} 
+elseif (session()->has('userInfo') && !empty(session()->get('userInfo')) && $cart[$id.'__correct']['qttestock']!=1) {
     // Retrieve the cart from the session
     $cart = session()->get('cart', []);
 
@@ -423,7 +451,17 @@ return redirect()->back()->with('success','Ajout au panier reussi');
 
     // Update the session with the new cart
     session()->put('cart', $cart);
-} elseif (session()->has('userInfo') && !empty(session()->get('userInfo')) && $cart[$id.'__bon']['qttestock']!=1) {
+    $totalQuantity =$cart[$id.'__correct']['qttestock'];
+    $totalle=0;
+    foreach($cart as $produit){
+       $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
+    }
+    return response()->json([
+        'message' => 'Product added to cart!',
+        'cartQuantity' => $totalQuantity
+    ]);
+} 
+elseif (session()->has('userInfo') && !empty(session()->get('userInfo')) && $cart[$id.'__bon']['qttestock']!=1) {
     // Retrieve the cart from the session
     $cart = session()->get('cart', []);
 
@@ -445,6 +483,15 @@ return redirect()->back()->with('success','Ajout au panier reussi');
 
     // Update the session with the new cart
     session()->put('cart', $cart);
+    $totalQuantity =$cart[$id.'__bon']['qttestock'];
+    $totalle=0;
+    foreach($cart as $produit){
+       $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
+    }
+    return response()->json([
+        'cartQuantity' => $totalQuantity,
+        'total'=>$totalle
+    ]);
 } 
 else {
     // If the session 'cart' key does not exist or is empty, initialize the cart array
@@ -466,7 +513,8 @@ else {
         session()->put('cart', $cart);
        // \Log::info('Panier après ajout :', session()->get('cart'));
 
-return redirect()->back()->with('failed','Un produit a ete retire du panier');
+
+
         // Redirection avec un message de succès
     }
 
@@ -678,6 +726,18 @@ public function cartaff(){
         return response()->json($headerData);
     }
 
+    public function cartupdate():JsonResponse
+    {
+        // Remplace par la logique pour obtenir les données du header
+        $quantity = session()->get('cart', []);
+
+
+        $headerData = [
+            'quantity' => $quantity,
+            // Ajoute d'autres données si nécessaire
+        ];
+        return response()->json($headerData);
+    }
 
     public function ListePublicite(){
 
