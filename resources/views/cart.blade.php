@@ -110,7 +110,7 @@ $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
         $c=$id[0];
         @endphp
         <a  class="decrease" data-id="{{$c}}"  ><button id="decreaseBtn">-</button></a>
-          <p type="text" id="quantity{{$c}}" readonly data-product-id="{{$id}}" min="1" class="quantity" style="width: 80px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$produit['qttestock']}} </p>
+          <input type="text" id="quantity{{$c}}" readonly data-product-id="{{$id}}" min="1" value="{{$produit['qttestock']}}" class="quantity" style="width: 80px;"> 
         <a  class="increase" data-id="{{$c}}"  ><button  >+</button></a>
 
         </td>
@@ -120,7 +120,7 @@ $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
         @endphp
         <td style='font-size: 15px;' id="total-price{{$id}}" class="total">{{$total}}</td>
 
-        <td style='font-size: 15px;'><a href=""data-id="{{$id}}" class="delete"><i class="fas fa-trash"></i></a>
+        <td style='font-size: 15px;'><a href="/suprimerprodcard/{{$id}}" class="delete"><i class="fas fa-trash"></i></a>
         @php
         $c=$id[0];
         @endphp
@@ -497,33 +497,7 @@ $(document).on('input', '.quantity', function() {
 
     <div class="mt-5 pt-5 ">@include('footer1')</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.delete').click(function(e) {
-            console.log('ffff');
-            console.log(typeof jQuery); // This should output "function" if jQuery is loaded correctly
-console.log(typeof $);       // This should also output "function"
 
-            e.preventDefault(); // Prevent the page from refreshing
-            
-            var productId = $(this).data('id'); // Get product ID from the data attribute
-            
-            $.ajax({
-                url: '/suprimerprodcard/' + productId,
-                type: 'GET', // Use 'POST' if you're submitting form data
-                success: function(response) {
-                    const titleElement = document.getElementById('nouv');
-                    // Update cart info (you can modify this based on your app's structure)
-                    // alert(); // or update cart count, etc.
-                        titleElement.textContent = response.cartQuantity;
-                }, 
-                error: function(xhr) {
-                    console.log('Error:', xhr.responseText);
-                }
-            });
-        });
-    });
-</script>
 <script>
     $(document).ready(function() {
         $('.decrease').click(function(e) {
@@ -540,11 +514,11 @@ console.log(typeof $);       // This should also output "function"
                 type: 'GET', // Use 'POST' if you're submitting form data
                 success: function(response) { 
                     var id = 'quantity'+productId;
-                    const titleElement = document.getElementById(id);
+                    document.getElementById(id).value  = response.cartQuantity;;
                     const titleElement1 = document.getElementById('total');
                     // Update cart info (you can modify this based on your app's structure)
                     // alert(); // or update cart count, etc.
-                        titleElement.textContent = response.cartQuantity;
+                        // titleElement.textContent = response.cartQuantity;
                         titleElement1.textContent = response.total;
                 }, 
                 error: function(xhr) {
@@ -559,22 +533,22 @@ console.log(typeof $);       // This should also output "function"
         $('.increase').click(function(e) {
             console.log('ffff');
             console.log(typeof jQuery); // This should output "function" if jQuery is loaded correctly
-console.log(typeof $);       // This should also output "function"
+            console.log(typeof $);       // This should also output "function"
 
             e.preventDefault(); // Prevent the page from refreshing
             
             var productId = $(this).data('id'); // Get product ID from the data attribute
             
             $.ajax({
-                url: '/addtocard/' + productId,
+                url: '/addtocard1/' + productId,
                 type: 'GET', // Use 'POST' if you're submitting form data
                 success: function(response) { 
                     var id = 'quantity'+productId;
-                    const titleElement = document.getElementById(id);
+                    document.getElementById(id).value = response.Quantity;;
                     const titleElement1 = document.getElementById('total');
                     // Update cart info (you can modify this based on your app's structure)
                     // alert(); // or update cart count, etc.
-                        titleElement.textContent = response.Quantity;
+                        // titleElement.textContent = response.Quantity;
                         titleElement1.textContent = response.total;
                         // Display the flash message
                     var flashMessage = $('#flash-message');

@@ -325,7 +325,7 @@
                 function changeContent1() {
                     document.getElementById('etat').innerText = "Reconditionné - Excellent Etat";
                     var divContent = document.getElementById('test').innerHTML;
-                    document.getElementById('etatprod').value="excellent";
+                    document.getElementById('etatprod').value="excellentetat";
 
                     
                     document.getElementById('prix').innerText = divContent;

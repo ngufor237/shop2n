@@ -307,80 +307,116 @@ if (isset($produits[$id])){
 
     public function addtocard($id){
     $cart = session()->get('cart', []);
-
     // dd($cart);
-
         try {
             $produit = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->findOrFail($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect()->back()->with('error', 'Produit non trouvé.');
         }
-    
       // Check if the session has the 'cart' key and if it contains any values
-if (session()->has('userInfo') && !empty(session()->get('userInfo'))) {
-    // Retrieve the cart from the session
-    $cart = session()->get('cart', []);
-
-    // Check if the product is already in the cart
-    if (isset($cart[$id.'__excellentetat'])) {
-        // Increment the quantity
-        $cart[$id.'__excellentetat']['qttestock']++;
-        $Quantity =$cart[$id.'__excellentetat']['qttestock'];
-    } elseif(isset($cart[$id.'__correct'])){
-        $cart[$id.'__correct']['qttestoc k']++;
-        $Quantity =$cart[$id.'__correct']['qttestock'];
-    } elseif(isset($cart[$id.'__bon'])){
-        $cart[$id.'__correct']['qttestock']++;
-        $Quantity =$cart[$id.'__bon']['qttestock'];
-
-    }
-    else {
-        // Add the product to the cart with an initial quantity of 1
-        $prods = $produit->images->first();
-        $cart[$id.'__excellentetat'] = [
-            "libelle" => $produit->libelle,
-            "prix" => $produit->prix,
-            "qttestock" => 1,
-            "etat" => "Excellent",
-            "images" => $prods->nom
-        ];
-    }
-
-    // Update the session with the new cart
-    session()->put('cart', $cart);
-} else {
-    // If the session 'cart' key does not exist or is empty, initialize the cart array
-    $cart = [];
-    // Add the product to the cart with an initial quantity of 1
-    $prods = $produit->images->first();
-    $cart[$id.'__excellentetat'] = [
-        "libelle" => $produit->libelle,
-        "prix" => $produit->prix,
-        "qttestock" => 1,
-        "etat" => "Excellent",
-        "images" => $prods->nom
-    ];
-
-}
-
-    
-        // Mise à jour du panier dans la session
-        session()->put('cart', $cart);
-        $totalQuantity = count(session()->get('cart', []));
-        $totalle=0;
-        foreach($cart as $produit){
-           $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
+if (session()->has('userInfo') ) {
+        // Retrieve the cart from the session
+        $cart = session()->get('cart', []);
+        // Check if the product is already in the cart
+        if (isset($cart[$id.'__excellentetat'])) {
+            // Increment the quantity
+            $cart[$id.'__excellentetat']['qttestock']++;
+            $Quantity =$cart[$id.'__excellentetat']['qttestock'];
+        } elseif(isset($cart[$id.'__correct'])){
+            $cart[$id.'__correct']['qttestock']++;
+            $Quantity =$cart[$id.'__correct']['qttestock'];
+        } elseif(isset($cart[$id.'__bon'])){
+            $cart[$id.'__correct']['qttestock']++;
+            $Quantity =$cart[$id.'__bon']['qttestock'];
         }
-        return response()->json([
-            'total'=>$totalle,
-            'cartQuantity' => $totalQuantity,
-            'Quantity' => $Quantity
-        ]);
-       // \Log::info('Panier après ajout :', session()->get('cart'));
+        else {
+            // Add the product to the cart with an initial quantity of 1
+            $prods = $produit->images->first();
+            $cart[$id.'__excellentetat'] = [
+                "libelle" => $produit->libelle,
+                "prix" => $produit->prix,
+                "qttestock" => 1,
+                "etat" => "Excellent",
+                "images" => $prods->nom
+            ];
+        }
+            // Mise à jour du panier dans la session
+            session()->put('cart', $cart);
+            $totalQuantity = count(session()->get('cart', []));
+            $totalle=0;
+            foreach($cart as $produit){
+            $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
+            }
+            return response()->json([
+                'total'=>$totalle,
+                'cartQuantity' => $totalQuantity,
+                // 'Quantity'=>$Quantity,
 
-        return redirect()->back()->with('success','Ajout au panier reussi');
-        // Redirection avec un message de succès
+            ]);
+        // \Log::info('Panier après ajout :', session()->get('cart'));
+
+            return redirect()->back()->with('success','Ajout au panier reussi');
+            // Redirection avec un message de succès
+        }
     }
+
+
+
+    public function addtocard1($id){
+        $cart = session()->get('cart', []);
+        // dd($cart);
+            try {
+                $produit = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->findOrFail($id);
+            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                return redirect()->back()->with('error', 'Produit non trouvé.');
+            }
+          // Check if the session has the 'cart' key and if it contains any values
+    if (session()->has('userInfo') ) {
+            // Retrieve the cart from the session
+            $cart = session()->get('cart', []);
+            // Check if the product is already in the cart
+            if (isset($cart[$id.'__excellentetat'])) {
+                // Increment the quantity
+                $cart[$id.'__excellentetat']['qttestock']++;
+                $Quantity =$cart[$id.'__excellentetat']['qttestock'];
+            } elseif(isset($cart[$id.'__correct'])){
+                $cart[$id.'__correct']['qttestock']++;
+                $Quantity =$cart[$id.'__correct']['qttestock'];
+            } elseif(isset($cart[$id.'__bon'])){
+                $cart[$id.'__correct']['qttestock']++;
+                $Quantity =$cart[$id.'__bon']['qttestock'];
+            }
+            else {
+                // Add the product to the cart with an initial quantity of 1
+                $prods = $produit->images->first();
+                $cart[$id.'__excellentetat'] = [
+                    "libelle" => $produit->libelle,
+                    "prix" => $produit->prix,
+                    "qttestock" => 1,
+                    "etat" => "Excellent",
+                    "images" => $prods->nom
+                ];
+            }
+                // Mise à jour du panier dans la session
+                session()->put('cart', $cart);
+                $totalQuantity = count(session()->get('cart', []));
+                $totalle=0;
+                foreach($cart as $produit){
+                $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
+                }
+                return response()->json([
+                    'total'=>$totalle,
+                    'cartQuantity' => $totalQuantity,
+                    'Quantity'=>$Quantity,
+    
+                ]);
+            // \Log::info('Panier après ajout :', session()->get('cart'));
+    
+                return redirect()->back()->with('success','Ajout au panier reussi');
+                // Redirection avec un message de succès
+            }
+        }
+
 
 
     
@@ -395,7 +431,7 @@ if (session()->has('userInfo') && !empty(session()->get('userInfo'))) {
         }
     
       // Check if the session has the 'cart' key and if it contains any values
-    if (session()->has('userInfo') && !empty(session()->get('userInfo')) && $cart[$id.'__excellentetat']['qttestock']!=1) {
+    if ($cart[$id.'__excellentetat']['qttestock']!=1) {
     // Retrieve the cart from the session
     $cart = session()->get('cart', []);
 
@@ -429,7 +465,7 @@ if (session()->has('userInfo') && !empty(session()->get('userInfo'))) {
         'total'=>$totalle
     ]);
 } 
-elseif (session()->has('userInfo') && !empty(session()->get('userInfo')) && $cart[$id.'__correct']['qttestock']!=1) {
+elseif ($cart[$id.'__correct']['qttestock']!=1) {
     // Retrieve the cart from the session
     $cart = session()->get('cart', []);
 
@@ -457,11 +493,11 @@ elseif (session()->has('userInfo') && !empty(session()->get('userInfo')) && $car
        $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
     }
     return response()->json([
-        'message' => 'Product added to cart!',
-        'cartQuantity' => $totalQuantity
+        'cartQuantity' => $totalQuantity,
+        'total'=>$totalle
     ]);
 } 
-elseif (session()->has('userInfo') && !empty(session()->get('userInfo')) && $cart[$id.'__bon']['qttestock']!=1) {
+elseif ( $cart[$id.'__bon']['qttestock']!=1) {
     // Retrieve the cart from the session
     $cart = session()->get('cart', []);
 
