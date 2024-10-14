@@ -174,7 +174,7 @@ Route::get('/finaliser', function () {
     $myArray = session()->get('myArray', []);
     $categories23 = Categorie::orderBy('created_at', 'desc') 
     ->limit(10)
-    ->get(); 
+    ->get();
         // Passer les options à la vue
         return view('payement', ['villes' => $villes,'produits' => $produits,'categories23'=>$categories23]);
 })->name('final');

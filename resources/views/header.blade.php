@@ -133,6 +133,42 @@
             font-size: 2rem; /* Taille du texte */
             color: #fff; /* Couleur du texte */
         }
+        /* Sidebar container */
+
+        .menu-item {
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-item:hover {
+            background-color: #1d4b54;
+            cursor: pointer;
+        }
+
+        /* Submenu styling */
+        .submenus {
+            position: relative;
+        }
+
+        .submenu {
+            display: none;
+            position: absolute;
+            left: 250px; /* Align next to the sidebar */
+            top: 0;
+            width: 300px;
+            background-color: #1d4b54;
+            color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .submenu.show {
+            display: block;
+        }
+        
+
     </style>
 </head>
 <body>
@@ -177,7 +213,7 @@
                 <div class="col-lg-1 col-2 text-right">
                     <a href="/cardshopping" class="btn  position-relative" style="text-decoration: none; " >
                         <i class="fas fa-shopping-cart" style="color:white ; font-size: 1.5rem;"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        <span id="nouv"class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {{count(session()->get('cart', []))}}
                         </span>
                     </a>
@@ -287,7 +323,7 @@
                 <div class="col-lg-1 col-2 text-right">
                     <a href="/cardshopping" class="btn  position-relative" style="text-decoration: none;">
                         <i class="fas fa-shopping-cart" style="color:white ; font-size: 1.8rem;"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        <span id= "nouv"class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {{count(session()->get('cart', []))}}
                         </span>
                     </a>
@@ -313,7 +349,7 @@
                     <div></div>
                     <a href="/cardshopping" class="btn  position-relative" style="text-decoration: none;">
                         <i class="fas fa-shopping-cart" style="color:white; font-size: 2rem;"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        <span id="nouv" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {{count(session()->get('cart', []))}}
                         </span>
                     </a>
@@ -362,7 +398,12 @@
 <!-- Sidebar -->
 <div id="mySidebar" class="sidebar">
     <a href="#" style="background-color: #14363b;color:white" class="w-100 ">&ensp;Nos Categories</a>
-   <a href="javascript:void(0)" class="closebtn  "  onclick="closeNav()">×</a>
+    <a href="javascript:void(0)" class="closebtn  " onclick="closeNav()">×</a>
+    @foreach($souscategories1 as $category)
+    <a href="/produitcate/{{$category->id}}" class="menu-item" data-target="submenu{{$category->id}}">
+        <i class="bi bi-camera-video"></i>&ensp;{{$category->nomCat}}
+    </a>
+    @endforeach
     <a href="#"><i class="bi bi-camera-video"></i>&ensp;Promo</a>
     <a href="#"><i class="bi bi-camera-video"></i>&ensp;Câble et conducteur</a>
     <a href="#"><i class="bi bi-lightbulb"></i> &ensp;Luminaire</a>
@@ -374,9 +415,34 @@
     <a href="#"><i class="bi bi-camera-video"></i>&ensp;Appareil électroménager</a>
     <a href="#"><i class="bi bi-laptop"></i>&ensp;Matériels informatique</a>
     <a href="#"><i class="bi bi-phone"></i>&ensp;Téléphonie</a>
-
+    
 </div>
+<!-- <div class="submenus">
+    @foreach($souscategories as $category)
+    <div id="submenu{{$category->id}}" class="submenu">
+        <p>Details about {{$category->nomCat}} category.</p>
+    </div>
+    @endforeach
+</div> -->
+<script>
+    document.querySelectorAll('.menu-item').forEach(item => {
+    item.addEventListener('mouseenter', function() {
+        const target = this.getAttribute('data-target');
+        document.querySelectorAll('.submenu').forEach(submenu => {
+            submenu.classList.remove('show');
+        });
+        document.getElementById(target).classList.add('show');
+    });
 
+    item.addEventListener('mouseleave', function() {
+        const target = this.getAttribute('data-target');
+        setTimeout(() => {
+            document.getElementById(target).classList.remove('show');
+        }, 300); // Optional delay for smoother UX
+    });
+});
+
+</script>
 <script>
     function activateMenuItem(element) {
         // Désactiver tous les autres éléments de menu

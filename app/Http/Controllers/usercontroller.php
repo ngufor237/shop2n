@@ -7,6 +7,18 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Auteur;
+use App\Models\Produit;
+use App\Models\Image;
+use App\Models\Categorie;
+
+use App\Models\Produitcara;
+use App\Models\Caracteristique;
+use App\Models\Commandenv;
+use App\Models\Publicite;
+use App\Models\SousCategorie;
+use Illuminate\Http\JsonResponse;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class usercontroller extends Controller
 {
@@ -29,7 +41,13 @@ class usercontroller extends Controller
     }
 
     public function login(){
-        return view('formconnexion');
+        $produits = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->get();
+        $souscategories = Categorie::orderBy('created_at', 'desc') 
+                               ->limit(5)
+                               ->get();
+    $publicites = Publicite::all();
+    return view('formconnexion',compact('produits','souscategories','publicites'));
+        
     }
 
     public function createuser(Request $request){

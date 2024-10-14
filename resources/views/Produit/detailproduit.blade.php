@@ -14,7 +14,7 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
            
-                @include('header', ['souscategories' => $souscategories23])
+                @include('header', ['souscategories' => $souscategories])
 
 <div class=" pt-2"></div>
 <div class="row ">
@@ -285,7 +285,18 @@
                                                            
                                                         </div>
                                                         <div class="d-flex justify-content-center">
-                                   <h6class="me-2">                                          <span id="prix" class="text-danger fw-bold" style="font-size: 20px;">{{$product->prix}} FCFA</span>                                                            </h6><h6 class="text-muted ml-2"><del>{{$product->prix+$product->prix/2}}</del></h6>
+                                                            <h6 class="me-2">
+                                                            <p>
+                                                                Stock: 
+                                                                @if($produits->qttestock > 0)
+                                                                    <span class="text-success" title="Excellent produit en stock"><i class="fas fa-check-circle"></i></span> <!-- Green tick for stock available -->
+                                                                @else
+                                                                    <span class="text-danger" title="Excellent produit hors stock"><i class="fas fa-times-circle"></i></span> <!-- Red tick for no stock -->
+                                                                @endif
+                                                                
+                                                            </p>
+                                                            <span id="prix" class="text-danger fw-bold" style="font-size: 20px;">{{$product->prix}} FCFA</span>
+                                                            </h6><h6 class="text-muted ml-2"><del>{{$product->prix+$product->prix/2}}</del></h6>
                                                         </div>
                                                     </div>
                                                     <div class="card-footer d-flex justify-content-between bg-light border">

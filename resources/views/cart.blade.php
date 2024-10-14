@@ -44,7 +44,7 @@
 
 <body>
    
-        @include('header', ['souscategories' => $souscategories23])
+        @include('header', ['souscategories' => $souscategories])
 
         <div class="">
         <div id="flash-message" class="alert alert-success d-none" role="alert">
@@ -544,7 +544,7 @@ console.log(typeof $);       // This should also output "function"
                 type: 'GET', // Use 'POST' if you're submitting form data
                 success: function(response) { 
                     var id = 'quantity'+productId;
-                    document.getElementById(id).value = response.Quantity;;
+                    document.getElementById(id).value = response.Quantity;
                     const titleElement1 = document.getElementById('total');
                     // Update cart info (you can modify this based on your app's structure)
                     // alert(); // or update cart count, etc.

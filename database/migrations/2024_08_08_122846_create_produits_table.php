@@ -16,6 +16,7 @@ return new class extends Migration
             $table->longtext('libelle');
             // $table->integer('categorie_id');
             $table->foreignId('categorie_id')->constrained('categories')->cascadeOnDelete(); // Ensure this matches your table name
+            $table->foreignId('souscategorie_id')->constrained('sous_categories')->cascadeOnDelete(); // Ensure this matches your table name
             
             $table->longText('description');
 
