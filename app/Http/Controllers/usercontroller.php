@@ -25,7 +25,12 @@ class usercontroller extends Controller
     //
 
     public function signin(){
-        return view('forminscription');
+        $souscategories1 = Categorie::orderBy('created_at', 'desc') 
+ ->get();
+ $souscategories = Categorie::orderBy('created_at', 'desc') 
+                               ->limit(5)
+                               ->get();
+        return view('forminscription',compact('souscategories1','souscategories'));
     }
 
     public function FormUser(){
@@ -46,7 +51,10 @@ class usercontroller extends Controller
                                ->limit(5)
                                ->get();
     $publicites = Publicite::all();
-    return view('formconnexion',compact('produits','souscategories','publicites'));
+    
+ $souscategories1 = Categorie::orderBy('created_at', 'desc') 
+ ->get();
+    return view('formconnexion',compact('produits','souscategories','publicites','souscategories1'));
         
     }
 

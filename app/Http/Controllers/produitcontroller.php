@@ -149,67 +149,67 @@ class produitcontroller extends Controller
 
 
 
-// public function modproduit(Request $request){
+public function modproduit(Request $request){
 
-//     $prod = Produit::find($request->id);
-//     $prod->libelle = $request->libelle;
-//     $prod->prix=$request->prix;
-//         $prod->souscategorie_id=$request->souscategorie;
-//         $prod->qttestock=$request->qtte;
-//         $prod->description=$request->description;
-//         $prod->Update();
+    $prod = Produit::find($request->id);
+    $prod->libelle = $request->libelle;
+    $prod->prix=$request->prix;
+        $prod->souscategorie_id=$request->souscategorie;
+        $prod->qttestock=$request->qtte;
+        $prod->description=$request->description;
+        $prod->Update();
 
-//         if(is_array($request->image) && count($request->image)>0){
-//             Image::where('produit_id',$request->id)->delete(); 
+        if(is_array($request->image) && count($request->image)>0){
+            Image::where('produit_id',$request->id)->delete(); 
 
-//             $images=$request->file('image');
+            $images=$request->file('image');
 
-// $IT=0;
-//             foreach($images as $ims){
-//                 $IT++;
-//                 $imges=new Image();
+$IT=0;
+            foreach($images as $ims){
+                $IT++;
+                $imges=new Image();
             
-//                 $imagenew=time()+$IT;
-//                 $destination=public_path('photos');
-//                 if(!file_exists($destination)){
-//                    $p= mkdir($destination,0775,true);
-//                 }
-//                 $ims->move($destination,$imagenew);
-//                 $imges->nom=$imagenew;
-//                     $imges->produit_id=$request->id;
-//                     $res4=$imges->save();
-//             }
-//         }
+                $imagenew=time()+$IT;
+                $destination=public_path('photos');
+                if(!file_exists($destination)){
+                   $p= mkdir($destination,0775,true);
+                }
+                $ims->move($destination,$imagenew);
+                $imges->nom=$imagenew;
+                    $imges->produit_id=$request->id;
+                    $res4=$imges->save();
+            }
+        }
 
-//         if($request->filled('caracteristique')){
-//             Produitcara::where('produit_id',$request->id)->delete(); 
-//             $caracts=$request->caracteristique;
+        if($request->filled('caracteristique')){
+            Produitcara::where('produit_id',$request->id)->delete(); 
+            $caracts=$request->caracteristique;
 
-//             foreach($caracts as $caract){
-//                 $caracter=new Produitcara();
-//                 $maxIdc = Caracteristique::max('id');
+            foreach($caracts as $caract){
+                $caracter=new Produitcara();
+                $maxIdc = Caracteristique::max('id');
     
-//                     $caracter->produit_id=$request->id;
-//                     $caracter->caracteristique_id=$caract;
+                    $caracter->produit_id=$request->id;
+                    $caracter->caracteristique_id=$caract;
     
-//                     $res5=$caracter->save();
+                    $res5=$caracter->save();
             
             
-//             }
+            }
 
 
 
-//         }
-
-
-
-
-//         return redirect()->route('listep2')->with('statue','Produit Modifié avec succès');
+        }
 
 
 
 
-// }
+        return redirect()->route('listep2')->with('statue','Produit Modifié avec succès');
+
+
+
+
+}
 
     public function ListeP(){
         $produits = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])
