@@ -515,19 +515,19 @@
                             @else
                                 <span class="text-danger" title="Excellent produit hors stock"><i class="fas fa-times-circle"></i></span> <!-- Red tick for no stock -->
                             @endif
-                            <!-- {{ $produit->qttestock }} -->
+                            {{ $produit->qttestock }}
                             @if($produit->qttestockbonetat > 0)
                                 <span class="text-warning" title="Bonne qualite en stock"><i class="fas fa-check-circle"></i></span> <!-- Green tick for stock available -->
                             @else
                                 <span class="text-danger" title="Bonne qualite hors stock"><i class="fas fa-times-circle"></i></span> <!-- Red tick for no stock -->
                             @endif
-                            <!-- {{ $produit->qttestockbonetat }} -->
+                            {{ $produit->qttestockbonetat }}
                             @if($produit->qttestocketatcorrect > 0)
                                 <span class="text-primary" title="Correct produit en stock"><i class="fas fa-check-circle"></i></span> <!-- Green tick for stock available -->
                             @else
                                 <span class="text-danger" title="Correct produit hors stock"><i class="fas fa-times-circle"></i></span> <!-- Red tick for no stock -->
                             @endif
-                            <!-- {{ $produit->qttestocketatcorrect }} -->
+                            {{ $produit->qttestocketatcorrect }}
                         </p>
                         <div class="d-flex justify-content-center">
                             <h6 class="me-2"><strong>{{$produit->prix}} FCFA</strong></h6>

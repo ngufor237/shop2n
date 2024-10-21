@@ -154,8 +154,12 @@ public function modproduit(Request $request){
     $prod = Produit::find($request->id);
     $prod->libelle = $request->libelle;
     $prod->prix=$request->prix;
+    $prod->prixbonetat=$request->prixbon;
+    $prod->prixetatcorrect=$request->prixcorrect;
         // $prod->souscategorie_id=$request->souscategorie;
         $prod->qttestock=$request->qtte;
+        $prod->qttestockbonetat=$request->qttebon;
+        $prod->qttestocketatcorrect=$request->qttecorrect;
         $prod->description=$request->description;
         $prod->Update();
 
@@ -530,7 +534,7 @@ if (isset($produits[$id])){
             // Ajout du produit au panier avec une quantité initiale de 1
            $prods=$produit->images->first();
         //    dd($qtte->qttestock);
-           if($request->etat=="excellent"&&$qtte->qttestock>0){
+           if($request->etat=="excellentetat"&&$qtte->qttestock>0){
 $prixcc=$produit->prix;
            }
            elseif($request->etat=="bon"&&$qtte->qttestockbonetat>0){
@@ -595,7 +599,7 @@ public function cartaff(){
 
     public function Listep2(){
         $produits = Produit::with(['Caracteristique', 'Categorie', 'Images'])->get();
-        // dd($produits);
+        // dd($produits);f
         $categories = Categorie::all();
         // dd($categories);
         return view('Produit.listeP', compact('produits','categories'));
@@ -641,6 +645,8 @@ public function cartaff(){
 
         $auteur->save();
         $maxId = Auteur::max('id');
+        $qtte =  Produit::where('id',1)->get();
+        
         foreach ($cart as $id => $productData) {
             // Exemple d'ajout dans une table `orders` pour chaque produit
             // Vous pouvez également avoir une autre logique en fonction de votre structure de base de données
@@ -658,13 +664,31 @@ public function cartaff(){
             $order->qtte = $productData['qttestock'];
 
             $order->save();
+             // Check if the product is already in the cart
+             if ($maxIdff == 'excellentetat') {
+                $prod = Produit::find($id);
+                
+                      // Reduce the quantity by the ordered amount
+                    //   $d=$qtte->qttestock-= $order->qtte;
+                      $prod->qttestock = 50;
+                      $prod->save(); // Save the updated quantity
+                      dd($part);
+
+                } elseif(isset($cart[$id.'__correct'])&&$qtte->qttestockbonetat >= $order->qtte){}
 
          }
 
-        $id =$parties[0];
-        $qtte =  Produit::where('id',$id)->get();
         foreach($cart as $id => $productData){
-        // dd($cart);
+            $id =$parties;
+            $prod = Produit::find($id);
+            // Reduce the quantity by the ordered amount
+            // $d=$qtte->qttestock-= $order->qtte;
+            // $prod->qtte = $d;
+            // dd($prod);
+            // dd($id);
+            $qtte =  Produit::where('id',$id)->get();
+            $newqtte =  Produit::get();
+        // dd($qtte->qttestock >= $order->qtte);
             try {
                 $produit = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->findOrFail($id);
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
@@ -675,14 +699,17 @@ public function cartaff(){
             // Retrieve the cart from the session
             $cart = session()->get('cart', []);
             // Check if the product is already in the cart
-            if (isset($cart[$id.'__excellentetat'])) {
-            } elseif(isset($cart[$id.'__correct'])){
-            } elseif(isset($cart[$id.'__bon'])){
+            if ($maxIdff == 'excellentetat') {
+            $prod = Produit::find($id);
+                  // Reduce the quantity by the ordered amount
+                  $d=$qtte->qttestock-= $order->qtte;
+                  $prod->qttestock = $d;
+                  dd($prod);
+                  $prod->Update(); // Save the updated quantity
+            } elseif(isset($cart[$id.'__correct'])&&$qtte->qttestockbonetat >= $order->qtte){
+            } elseif(isset($cart[$id.'__bon'])&&$qtte->qttestockcorrectetat >= $order->qtte){
             }else{}
         }
-         if (isset($cart[$id.'__excellentetat'])) {
-
-         }
 
          if(is_array($cart) && !empty($cart)){
              // Load a view for the PDF

@@ -209,7 +209,7 @@
 
                                 <label for="">Quantité :</label>
                                 <input type="number" class="mb-3 mt-2" style="width: 75px" value=1 min=1 name="quantite"><br> 
-                                <input type="text" hidden class="mb-3 " style="width: 75px" value="excellent"  name="etat" id="etatprod"><br> 
+                                <input type="text" hidden class="mb-3 " style="width: 75px" value="excellentetat"  name="etat" id="etatprod"><br> 
 
                                 <input type="text " hidden value="{{$produits->id}}" name="id">
                                 <b style="color: rgb(26, 199, 26)" >Plus de 50 commandes en cours</b><br>
@@ -346,14 +346,14 @@
                 function changeContent2(newContent) {
                     document.getElementById('etat').innerText = "Reconditionné - Bonne Etat";
                     var divContent = document.getElementById('test2').innerHTML;
-                    document.getElementById('etatprod').value="bon";
+                    document.getElementById('etatprod').value="bonetat";
 
                     document.getElementById('prix').innerText = divContent;                }
 
                 function changeContent3() {
                     document.getElementById('etat').innerText = "Reconditionné - Etat Correct";
                     var divContent = document.getElementById('test3').innerHTML;
-                    document.getElementById('etatprod').value="correct";
+                    document.getElementById('etatprod').value="correctetat";
 
                     document.getElementById('prix').innerText = divContent;                }
             </script>
