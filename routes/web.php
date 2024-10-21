@@ -172,11 +172,16 @@ Route::get('/finaliser', function () {
     $villes = Localisation::all();
     $produits=session()->get('cart', []);
     $myArray = session()->get('myArray', []);
+    $souscategories1 = Categorie::orderBy('created_at', 'desc') 
+    ->get();
+    $souscategories = Categorie::orderBy('created_at', 'desc')
+    ->limit(5)
+    ->get(); 
     $categories23 = Categorie::orderBy('created_at', 'desc') 
     ->limit(10)
     ->get();
         // Passer les options à la vue
-        return view('payement', ['villes' => $villes,'produits' => $produits,'categories23'=>$categories23]);
+        return view('payement', ['villes' => $villes,'produits' => $produits,'categories23'=>$categories23,'souscategories1'=>$souscategories1,'souscategories'=>$souscategories]);
 })->name('final');
 
 Route::post('/options', [usercontroller::class, 'getoptions'])->name('options');

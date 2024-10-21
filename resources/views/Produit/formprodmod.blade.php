@@ -57,8 +57,16 @@
 
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="prix" class="form-label">Prix</label>
+                            <label for="prix" class="form-label">Prix Exellent</label>
                             <input type="number" class="form-control" value="{{$produits->prix}}" id="prix" name="prix" placeholder="Entrer le prix du produit">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="prix" class="form-label">Prix Bon</label>
+                            <input type="number" class="form-control" value="{{$produits->prixbonetat}}" id="prix" name="prixbon" placeholder="Entrer le prix du produit">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="prix" class="form-label">Prix Correct</label>
+                            <input type="number" class="form-control" value="{{$produits->prixetatcorrect}}" id="prix" name="prixcorrect" placeholder="Entrer le prix du produit">
                         </div>
                         </div>
                         <div>
@@ -81,8 +89,16 @@
                             </select>
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="qtte" class="form-label">Qtte en stock</label>
+                            <label for="qtte" class="form-label">Qtte Exellent en stock</label>
                             <input type="number" class="form-control" id="qtte" name="qtte" value="{{$produits->qttestock}}" placeholder="Entrer la quantite en stock">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="qtte" class="form-label">Qtte Bon en stock</label>
+                            <input type="number" class="form-control" id="qtte" name="qttebon" value="{{$produits->qttestockbonetat}}" placeholder="Entrer la quantite en stock">
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="qtte" class="form-label">Qtte Correct en stock</label>
+                            <input type="number" class="form-control" id="qtte" name="qttecorrect" value="{{$produits->qttestocketatcorrect}}" placeholder="Entrer la quantite en stock">
                         </div>
                         </div>
 

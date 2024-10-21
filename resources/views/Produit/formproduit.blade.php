@@ -36,13 +36,13 @@
             <div class="container mt-5 col-md-6">
             @if(session('successaddp'))
     <div class="alert alert-success">
-        {{ session('successaddp') }}
+        session('successaddp')
     </div>
          @endif 
 
          @if(session('failaddp'))
     <div class="alert alert-danger">
-        {{ session('failaddp') }}
+        session('failaddp') 
     </div>
          @endif 
     <form action="{{route('AddProduit')}}" method="POST" enctype="multipart/form-data">

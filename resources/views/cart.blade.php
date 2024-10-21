@@ -431,6 +431,28 @@ $totalle=$totalle+$produit['qttestock']*$produit['prix'];
                 .appendTo( '#table_wrapper .col-md-5:eq(0)' );
         } );
     </script> -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript"src=  "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script>
+        $(document).ready(function() {
+            var table = $('#table2').DataTable( {
+               
+                dom: 
+                "<'row'<'col-md-3'l><'col-md-5'B><'col-md-4'f>>" +
+                "<'row'<'col-md-12'tr>>" +
+                "<'row'<'col-md-5'i><'col-md-7'p>>",
+                lengthMenu:[
+                    [5,10,25,50,100,-1],
+                    [5,10,25,50,100,"All"]
+                ]
+            } );
+        
+            table2.buttons().container()
+                .appendTo( '#table_wrapper .col-md-5:eq(0)' );
+        } );
+    </script>
 
     <script>
 

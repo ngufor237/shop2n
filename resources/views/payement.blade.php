@@ -39,12 +39,19 @@
     <div class="card-body p-3">
         <h5>Adresse de Livraison</h5>
 
-<div class="row mt-2 mb-4 ">  
+<div class="row mt-2 mb-4 "> 
     @php
-    $myArray = session()->get('userInfo', []);
-    $Array = $myArray->pluck('id')->all();
-    $id =  implode(', ', $Array);
+    $id = 0;
     @endphp
+@if (session()->has('userInfo')) 
+    @php
+        
+            $myArray = session()->get('userInfo', []);
+            $Array = $myArray->pluck('id')->all();
+            $id =  implode(', ', $Array);
+    @endphp
+    @endif
+
     <div class="mb-3 col-md-6">
         <label for="nom" class="form-label mb-4"> <i class="fas fa-user icon"></i> Nom <span class="required-star " style="color: red;">*</span></label>
         <input type="text" required class="form-control" id="libelle" name="nom" style="background-color: rgba(222, 233, 236, 0.829);"  placeholder="Entrez votre nom">

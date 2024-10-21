@@ -154,7 +154,7 @@ public function modproduit(Request $request){
     $prod = Produit::find($request->id);
     $prod->libelle = $request->libelle;
     $prod->prix=$request->prix;
-        $prod->souscategorie_id=$request->souscategorie;
+        // $prod->souscategorie_id=$request->souscategorie;
         $prod->qttestock=$request->qtte;
         $prod->description=$request->description;
         $prod->Update();
@@ -510,13 +510,15 @@ if (isset($produits[$id])){
         ]);
         $id=$request->id;
         $qttep=$request->quantite;
+        $qtte =  Produit::where('id',$id)->get();
+
         
         try {
             $produit = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->findOrFail($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect()->back()->with('error', 'Produit non trouvé.');
         }
-    
+    foreach($qtte as $qtte){
         // Récupération du panier depuis la session
         $cart = session()->get('cart', []);
     
@@ -527,13 +529,14 @@ if (isset($produits[$id])){
         } else {
             // Ajout du produit au panier avec une quantité initiale de 1
            $prods=$produit->images->first();
-           if($request->etat=="excellent"){
+        //    dd($qtte->qttestock);
+           if($request->etat=="excellent"&&$qtte->qttestock>0){
 $prixcc=$produit->prix;
            }
-           elseif($request->etat=="bon"){
+           elseif($request->etat=="bon"&&$qtte->qttestockbonetat>0){
             $prixcc=$produit->prixbonetat;
                        }
-                       elseif($request->etat=="correct"){
+                       elseif($request->etat=="correct"&&$qtte->qttestocketatcorrect>0){
                         $prixcc=$produit->prixetatcorrect;
                                    }
             $cart[$id.'__'.$request->etat] = [
@@ -548,7 +551,7 @@ $prixcc=$produit->prix;
         // Mise à jour du panier dans la session
         session()->put('cart', $cart);
        // \Log::info('Panier après ajout :', session()->get('cart'));
-
+    }
 
 
  return redirect()->back()->with('success','Ajout au panier reussi');
@@ -584,7 +587,7 @@ public function cartaff(){
     ->get();
     // dd($auteur);
 
-    return view('cart', compact('produits','souscategories23','auteur','souscategories1'));
+    return view('cart', compact('produits','souscategories','auteur','souscategories1'));
     }
 
 
@@ -657,14 +660,41 @@ public function cartaff(){
             $order->save();
 
          }
+
+        $id =$parties[0];
+        $qtte =  Produit::where('id',$id)->get();
+        foreach($cart as $id => $productData){
+        // dd($cart);
+            try {
+                $produit = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->findOrFail($id);
+            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                return redirect()->back()->with('error', 'Produit non trouvé.');
+            }
+          // Check if the session has the 'cart' key and if it contains any values
+    
+            // Retrieve the cart from the session
+            $cart = session()->get('cart', []);
+            // Check if the product is already in the cart
+            if (isset($cart[$id.'__excellentetat'])) {
+            } elseif(isset($cart[$id.'__correct'])){
+            } elseif(isset($cart[$id.'__bon'])){
+            }else{}
+        }
+         if (isset($cart[$id.'__excellentetat'])) {
+
+         }
+
          if(is_array($cart) && !empty($cart)){
              // Load a view for the PDF
-        $pdf = PDF::loadView('recu',compact('cart','user'));
-
+             
+            $cart = session()->get('cart', []);
+        
+        $pdf = PDF::loadView('recu',compact('cart'));
+            // dd($parties[0]);
         $pdf->setPaper('A4', 'landscape');
-        session()->forget('cart');
+        // session()->forget('cart');
 
-        session()->forget('cart');
+        // session()->forget('cart');
         return $pdf->download('bilan_facture.pdf');
 
 

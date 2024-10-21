@@ -119,7 +119,7 @@ if(Auth::attempt($usera)){
 $request->session()->regenerate();
 $user = Auth::user(); // Récupérer l'utilisateur authentifié
 $credentials = User::where('email','' .$request->email.'')->get();
-
+// dd($credentials);
 $request->session()->put('userInfo', $credentials);
 
 // $myArray = $request->session()->get('userInfo', []);
