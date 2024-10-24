@@ -537,10 +537,10 @@ if (isset($produits[$id])){
            if($request->etat=="excellentetat"&&$qtte->qttestock>0){
 $prixcc=$produit->prix;
            }
-           elseif($request->etat=="bon"&&$qtte->qttestockbonetat>0){
+           elseif($request->etat=="bonetat"&&$qtte->qttestockbonetat>0){
             $prixcc=$produit->prixbonetat;
                        }
-                       elseif($request->etat=="correct"&&$qtte->qttestocketatcorrect>0){
+                       elseif($request->etat=="correctetat"&&$qtte->qttestocketatcorrect>0){
                         $prixcc=$produit->prixetatcorrect;
                                    }
             $cart[$id.'__'.$request->etat] = [
@@ -664,52 +664,19 @@ public function cartaff(){
             $order->qtte = $productData['qttestock'];
 
             $order->save();
-             // Check if the product is already in the cart
-             if ($maxIdff == 'excellentetat') {
-                $prod = Produit::find($id);
-                
-                      // Reduce the quantity by the ordered amount
-                    //   $d=$qtte->qttestock-= $order->qtte;
-                      $prod->qttestock = 50;
-                      $prod->save(); // Save the updated quantity
-                      dd($part);
+            $prod = Produit::find($id);
+            if ($maxIdff == 'excellentetat') {
+                $prod->qttestock -= $order->qtte; // Deduct from excellentetat stock
+            } elseif ($maxIdff == 'correctetat') {
+                $prod->qttestockcorrectetat -= $order->qtte; // Deduct from correctetat stock
+            } elseif ($maxIdff == 'bonetat') {
+                $prod->qttestockbonetat -= $order->qtte; // Deduct from bonetat stock
+            }
+            $prod->save(); // Save the updated stock
 
-                } elseif(isset($cart[$id.'__correct'])&&$qtte->qttestockbonetat >= $order->qtte){}
 
          }
 
-        foreach($cart as $id => $productData){
-            $id =$parties;
-            $prod = Produit::find($id);
-            // Reduce the quantity by the ordered amount
-            // $d=$qtte->qttestock-= $order->qtte;
-            // $prod->qtte = $d;
-            // dd($prod);
-            // dd($id);
-            $qtte =  Produit::where('id',$id)->get();
-            $newqtte =  Produit::get();
-        // dd($qtte->qttestock >= $order->qtte);
-            try {
-                $produit = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->findOrFail($id);
-            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-                return redirect()->back()->with('error', 'Produit non trouvé.');
-            }
-          // Check if the session has the 'cart' key and if it contains any values
-    
-            // Retrieve the cart from the session
-            $cart = session()->get('cart', []);
-            // Check if the product is already in the cart
-            if ($maxIdff == 'excellentetat') {
-            $prod = Produit::find($id);
-                  // Reduce the quantity by the ordered amount
-                  $d=$qtte->qttestock-= $order->qtte;
-                  $prod->qttestock = $d;
-                  dd($prod);
-                  $prod->Update(); // Save the updated quantity
-            } elseif(isset($cart[$id.'__correct'])&&$qtte->qttestockbonetat >= $order->qtte){
-            } elseif(isset($cart[$id.'__bon'])&&$qtte->qttestockcorrectetat >= $order->qtte){
-            }else{}
-        }
 
          if(is_array($cart) && !empty($cart)){
              // Load a view for the PDF
