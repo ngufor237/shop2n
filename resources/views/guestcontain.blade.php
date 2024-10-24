@@ -152,16 +152,14 @@
         flex-wrap: wrap;
         justify-content: center;
     }
-
-    .product {
-        flex: 0 0 calc(50% - 1rem); /* Two products per row */
-        margin: 0.5rem; /* Add some space between cards */
-        width: 40%;
-    }
-
+    
 }
-
-@media (min-width: 992px) {
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
     .nav-center {
         display: flex;
         justify-content: center;
@@ -174,7 +172,10 @@
         flex: 0 0 calc(33.33% - 1rem); /* Three products per row for tablet */
         margin: 0.5rem; /* Add some space between cards */
     }
+    
 }
+
+
 @media (min-width: 993px) {
     .product-item {
         flex: 0 0 calc(20% - 1rem); /* Five products per row for larger screens */
@@ -275,95 +276,81 @@
     </div>
 </div>
 
-<div class="container-fluid pt-5">
-    <div class="row px-xl-5 pb-3">
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="d-flex align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px;">
-                <h1 class="fa fa-check text-white m-0 mr-3"></h1>
-                <h5 class="font-weight-semi-bold m-0 text-white">Produits de qualité</h5>
+<div class="text-center"> 
+    <div class="row justify-content-center ms-1 ms-md-5 ps-md-5">
+        <div class="d-none d-md-block col-md-3 ">
+            <div id="carouselExampleSlidesOnly" class="carousel slide  mt-5 pt-5" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{{ asset('photos/first.png') }}" class="img-fluid custom-rounded shadow" alt="...">
+                    </div>
+                    @foreach($produits as $produit)
+                        @foreach($produit->images as $img)
+                            <div class="carousel-item">
+                                <img src="{{ asset('photos/'.$img->nom) }}" class="img-fluid custom-rounded shadow" alt="...">
+                            </div>
+                        @endforeach
+                    @endforeach
+                </div>
+            </div>
+        </div>   
+
+        <div class="d-none d-md-block col-md-3 ">
+            <div id="carouselExampleSlidesOnly" class="carousel slide  mt-5 pt-5" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{{ asset('photos/first.png') }}" class="img-fluid custom-rounded shadow"  alt="...">
+                    </div>
+                    @foreach($produits as $produit)
+                        @foreach($produit->images as $img)
+                            <div class="carousel-item">
+                                <img src="{{ asset('photos/'.$img->nom) }}" class="img-fluid custom-rounded shadow"  alt="...">
+                            </div>
+                        @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="d-flex align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px;">
-                <h1 class="fa fa-shipping-fast text-white m-0 mr-2"></h1>
-                <h5 class="font-weight-semi-bold m-0 text-white">Récupération rapide</h5>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="d-flex align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px;">
-                <h1 class="fas fa-exchange-alt text-white m-0 mr-3"></h1>
-                <h5 class="font-weight-semi-bold m-0 text-white">Service impécable</h5>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="d-flex align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px;">
-                <h1 class="fa fa-phone-volume text-white m-0 mr-3"></h1>
-                <h5 class="font-weight-semi-bold m-0 text-white">Ouvert 6 jours / 7</h5>
+
+        <div class="d-none d-md-block col-md-3 ">
+            <div id="carouselExampleSlidesOnly" class="carousel slide  mt-5 pt-5" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{{ asset('photos/first.png') }}" class="img-fluid custom-rounded shadow"  alt="...">
+                    </div>
+                    @foreach($produits as $produit)
+                        @foreach($produit->images as $img)
+                            <div class="carousel-item">
+                                <img src="{{ asset('photos/'.$img->nom) }}" class="img-fluid custom-rounded shadow" alt="...">
+                            </div>
+                        @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<style>
+    .custom-rounded {
+        border-radius: 15px; /* Ajuste ce nombre pour arrondir davantage */
+        /* height:30vh; */
+        width: 100%; 
+    }
 
-<div class="row ms-1 ms-md-5 ps-md-5">
-    <div class="d-none d-md-block col-md-3 ">
-        <div id="carouselExampleSlidesOnly" class="carousel slide bg-white mt-5 pt-5" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active ps-md-5" >
-                    <img src={{ asset('photos/first.png') }} class="w-50 h-50 ms-md-5" style="width: 50px; height: 50px;"  alt="...">
-                    
-                </div>
-                @foreach($produits as $produit)
-                    @foreach($produit->images as $img)
-                    <div class="carousel-item ps-md-5" >
-                        <img src={{ asset('photos/'.$img->nom) }} class="w-50 h-50 ms-md-5" style="width: 50px; height: 50px;" alt="...">
-                    </div>
-                    @endforeach
-                @endforeach
-                
-            </div>
-        </div>
-    </div>   
-    <div class="d-none d-md-block col-md-3 ">
-        <div id="carouselExampleSlidesOnly" class="carousel slide bg-white mt-5 pt-5" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active ps-md-5" >
-                    <img src={{ asset('photos/first.png') }} class="w-50 h-50 ms-md-5" style="width: 50px; height: 50px;"  alt="...">
-                    
-                </div>
-                @foreach($produits as $produit)
-                    @foreach($produit->images as $img)
-        
-                    <div class="carousel-item ps-md-5" >
-                        <img src={{ asset('photos/'.$img->nom) }} class="w-50 h-50 ms-md-5" style="width: 50px; height: 50px;" alt="...">
-                    
-                    </div>
-                    @endforeach
-                @endforeach
-                
-            </div>
-        </div>
-    </div>
-    <div class="d-none d-md-block col-md-3 ">
-        <div id="carouselExampleSlidesOnly" class="carousel slide bg-white mt-5 pt-5" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active ps-md-5" >
-                    <img src={{ asset('photos/first.png') }} style="height: 4px;" class="w-50 h-50 ms-md-5" style="width: 50px; height: 50px;"  alt="...">
-                    
-                </div>
-                @foreach($produits as $produit)
-                    @foreach($produit->images as $img)
-                    <div class="carousel-item ps-md-5" >
-                        <img src={{ asset('photos/'.$img->nom) }} class="w-50 h-50 ms-md-5" style="width: 50px; height: 50px;" alt="...">
-                    
-                    </div>
-                    @endforeach
-                @endforeach
-                
-            </div>
-        </div>
-    </div>
-</div>
+    .carousel-item img {
+        transition: transform 0.3s, box-shadow 0.3s; /* Effet de transition */
+        width: 100%; 
+        height: 30vh; object-fit: cover; /* Crop the image to fill the box */
+        /* height:30vh; */
+
+    }
+    
+                                                                    
+</style>
+
+<br><br>
+
 
 <div class="row ms-5 ps-5 mt-5 d-none d-md-block">
     <div class="col-md-12 col-sm-12 pb-1 ms-2 ">
@@ -378,6 +365,13 @@
                 <div class="col-md-2  ">
                     <img class="img-fluid " src="{{ asset('img/Tecno.png') }}" alt="fffffffffff" style="flex: 0 0 auto; width: 230px; height: 220px;">
                 </div> 
+                <div class="col-md-2  ">
+                    <img class="img-fluid " src="{{ asset('img/LG.png') }}" alt="fffffffffff" style="flex: 0 0 auto; width: 230px; height: 220px;">
+                </div> 
+                <div class="col-md-2  ">
+                    <img class="img-fluid " src="{{ asset('img/LG.png') }}" alt="fffffffffff" style="flex: 0 0 auto; width: 230px; height: 220px;">
+                </div> 
+                
             </div>
         </div>
     </div>
@@ -386,21 +380,7 @@
 
 
 
-<div class="row mt-5 d-block d-md-none">
-    <div class="col-md-12 col-sm-12 pb-1 ms-2 ">
-        <div class="card product-item border-0 mb-4 shadow-sm col-md-11 p-3" style="overflow-x: auto; white-space: nowrap;">
-            <div class="d-flex">
-                    <div class="col-6 ">
-                        <img class="img-fluid " src="{{ asset('img/LG.png') }}" alt="fffffffffff" style="flex: 0 0 auto; width: 220px; height: 220px;">
-                    </div> 
-                    <div class="col-6  ">
-                        <img class="img-fluid " src="{{ asset('img/Samsung.png') }}" alt="fffffffffff" style="flex: 0 0 auto; width: 220px; height: 220px;">
-                    </div> 
-                    
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <div class="card mb-3 col-md-12 me-2 mt-5" >
     <div class="card-body">
@@ -488,14 +468,19 @@
         </button>
     </div>
 </div>
+<br><br><br>
+
 
 <div class="container-fluid pt-5">
     <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">Catalogue des Produits</span></h2>
-    </div>
+    </div> <br>
+
+    
+
     <div class="row px-xl-5 pb-3 product">
         @foreach($produits as $produit)
-            <div class="col-lg-2 pb-9 text-center">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 pb-4 text-center"> <!-- Classes de colonne responsive -->
                 <div class="card product-item border-0 mb-4 shadow-sm">
                     <div class="product-img position-relative overflow-hidden bg-transparent p-0 text-center h-100">
                         @foreach($produit->images as $img)
@@ -511,27 +496,27 @@
                         <p>
                             Stock: 
                             @if($produit->qttestock > 0)
-                                <span class="text-success" title="Excellent produit en stock"><i class="fas fa-check-circle"></i></span> <!-- Green tick for stock available -->
+                                <span class="text-success" title="Excellent produit en stock"><i class="fas fa-check-circle"></i></span>
                             @else
-                                <span class="text-danger" title="Excellent produit hors stock"><i class="fas fa-times-circle"></i></span> <!-- Red tick for no stock -->
+                                <span class="text-danger" title="Excellent produit hors stock"><i class="fas fa-times-circle"></i></span>
                             @endif
                             {{ $produit->qttestock }}
                             @if($produit->qttestockbonetat > 0)
-                                <span class="text-warning" title="Bonne qualite en stock"><i class="fas fa-check-circle"></i></span> <!-- Green tick for stock available -->
+                                <span class="text-warning" title="Bonne qualité en stock"><i class="fas fa-check-circle"></i></span>
                             @else
-                                <span class="text-danger" title="Bonne qualite hors stock"><i class="fas fa-times-circle"></i></span> <!-- Red tick for no stock -->
+                                <span class="text-danger" title="Bonne qualité hors stock"><i class="fas fa-times-circle"></i></span>
                             @endif
                             {{ $produit->qttestockbonetat }}
                             @if($produit->qttestocketatcorrect > 0)
-                                <span class="text-primary" title="Correct produit en stock"><i class="fas fa-check-circle"></i></span> <!-- Green tick for stock available -->
+                                <span class="text-primary" title="Correct produit en stock"><i class="fas fa-check-circle"></i></span>
                             @else
-                                <span class="text-danger" title="Correct produit hors stock"><i class="fas fa-times-circle"></i></span> <!-- Red tick for no stock -->
+                                <span class="text-danger" title="Correct produit hors stock"><i class="fas fa-times-circle"></i></span>
                             @endif
                             {{ $produit->qttestocketatcorrect }}
                         </p>
                         <div class="d-flex justify-content-center">
                             <h6 class="me-2"><strong>{{$produit->prix}} FCFA</strong></h6>
-                            <h6 class="text-muted ml-2"><del>{{$produit->prix + $produit->prix / 2}} FCFA</del></h6>
+                            <h6 class="text-muted"><del>{{$produit->prix + $produit->prix / 2}} FCFA</del></h6>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border">
@@ -547,6 +532,11 @@
         @endforeach
     </div>
 </div>
+
+
+
+
+
 <div class=" my-5">
     <div class="row ms-md-5 ps-md-5 text-center brand-grid">
         <div class="col-6 col-md-2">

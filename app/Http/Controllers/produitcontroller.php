@@ -664,6 +664,22 @@ public function cartaff(){
             $order->qtte = $productData['qttestock'];
 
             $order->save();
+             // Check if the product is already in the cart
+             if ($maxIdff == 'excellentetat') {
+                $prod = Produit::find($id);
+                
+                      // Reduce the quantity by the ordered amount
+                    //   $d=$qtte->qttestock-= $order->qtte;
+                      $prod->qttestock = 50;
+                      $prod->save(); // Save the updated quantity
+                      dd($part);
+
+                } elseif(isset($cart[$id.'__correct'])&&$qtte->qttestockbonetat >= $order->qtte){}
+
+         }
+
+        foreach($cart as $id => $productData){
+            $id =$parties;
             $prod = Produit::find($id);
             if ($maxIdff == 'excellentetat') {
                 $prod->qttestock -= $order->qtte; // Deduct from excellentetat stock
@@ -682,7 +698,7 @@ public function cartaff(){
              // Load a view for the PDF
              
             $cart = session()->get('cart', []);
-        
+
         $pdf = PDF::loadView('recu',compact('cart'));
             // dd($parties[0]);
         $pdf->setPaper('A4', 'landscape');

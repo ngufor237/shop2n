@@ -14,8 +14,16 @@
     <link rel="stylesheet" href="{{ asset ('bootstrap/assets/DataTables/Buttons-1.5.6/css/buttons.bootstrap4.min.css') }}">
     <title>Liste de clients</title>
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            width: 100%;
+            box-sizing: border-box; /* Ensure consistent box-sizing */
+        }
         .product-row {
           display: none; /* Cacher les lignes de produits par défaut */
+          margin-left: -200px;
         }
         .product-row td {
           padding: 10px 0;
@@ -39,6 +47,74 @@
             border: 1px solid #ddd;
             font-size: 18px;
         }
+        #ess1 {
+            text-decoration: none;
+            color: black;
+        }
+        #ess1:hover {
+            background-color: rgb(8, 8, 8);
+            color: white;
+        }
+        .bg-orange {
+            background-color: rgb(176, 117, 68);
+        }
+        .bg-blue {
+            background-color: #4b0ed9;
+        }
+        .bg-indigo {
+            background-color: #14363b;
+        }
+        .carousel-item img {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+
+        @media (max-width: 768px) {
+            body{
+            margin: 0;
+            padding: 0;
+        }
+        .product-row {
+          display: none; /* Cacher les lignes de produits par défaut */
+          margin-left: -280px;
+        }
+        .totalhead{
+            margin-left: -20px;
+            padding-right: 50px;
+            display: flex;
+        }
+        .cancel{
+            color: #4b0ed9;
+            margin-left: 100%;
+        }
+            .navbar-nav .nav-item {
+                margin-right: 1rem;
+            }
+
+            .total-section {
+                text-align: center;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+                margin: 0; /* Remove default margins */
+                padding: 0; /* Remove default padding */
+            }
+
+            .table {
+                width: 100%;
+                margin: 0; /* Ensure the table is full width */
+            }
+
+            .table thead th, .table tbody td {
+                white-space: nowrap; /* Ensure table content doesn't break */
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 
@@ -51,7 +127,7 @@
     <!-- Flash message content will go here -->
 </div>
 
-<div class="d-flex mb-5 pb-5 " >
+<div class="d-flex" >
 
    
     <div class="col-sm-9 ms-5" id="julio">
@@ -70,12 +146,16 @@ $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
 @endforeach
 
 
-        <div class="card mt-5  ms-5 " style=" border-style: none;">
-            <div class="card-body" >
-                <div class=" text-end me-5  mb-4"  style="color:green "> <h2>TOTAL  <span id="total">{{ $totalle }} </span> FCFA </h2>
-                <button class="btn btn-toggle-products btn-md rounded-pill ms-2" data-id="history">historique<i class="fas fa-eye ms-2" style="color:green"></i></button>
+        <div class="c ">
+            <div class="c" >
+                    <div class="d-flex justify-content-between totalhead align-items-center mb-4">
+                    <h2>TOTAL <span id="total">{{ $totalle }} </span> FCFA</h2>
+                    <button class="btn btn-success btn-toggle-products btn-md rounded-pill ms-2" data-id="history">
+                        Historique <i class="fas fa-eye ms-2" style="color:green"></i>
+                    </button>
                 </div>
                 <br>
+                <div class="table-responsive">
             <table id="table2" class="table table-striped table-bordered">
         <thead>
             <tr>
@@ -139,16 +219,12 @@ $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
   
         </tbody>
     </table>
-    <div class="row"> <div class="col-md-7"></div>
-    <div class="col-md-5">
-        <br>
-        <br>
-        <a href="/finaliser" class="btn btn-success btn-lg rounded-pill me-3" style=" text-decoration: none; color:white"> PASSER LA COMMANDE </a>
-        <button  class="btn btn-danger btn-lg rounded-pill ms-3" > <a href="/suprcart" style=" text-decoration: none; color:white">SUPPRIMER</a> </button>
-
-    </div>
-    
-</div>
+                </div>
+    <!-- Buttons Section -->
+    <div class="d-flex justify-content-end mt-3">
+                    <a href="/finaliser" class="btn ">PASSER LA COMMANDE</a>
+                    <a href="/suprcart" class=" bg-danger cancel btn-md">SUPPRIMER</a>
+                </div>
             </div>
         </div>
     </div>
@@ -229,7 +305,7 @@ $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
 
 
 
-
+<!-- 
 
 
 
@@ -261,7 +337,7 @@ $totalle=$totalle+$produit['qttestock']*$produit['prix'];
             <th> Images</th>
                 <th> Reference</th>
                 <th> Libelle</th>
-                <th> Prix</th>
+                <th> Prieeeeeeeeeeeeeex</th>
                 <th> Etat</th>
 
                 <th>Quantite</th>
@@ -321,7 +397,7 @@ $totalle=$totalle+$produit['qttestock']*$produit['prix'];
 
 
 </div>
-</div>
+</div> -->
 
     
     <!-- Modal -->

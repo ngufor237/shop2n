@@ -169,6 +169,12 @@
         }
         
 
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            box-sizing: border-box; /* Ensure consistent box-sizing */
+        }
     </style>
 </head>
 <body>
