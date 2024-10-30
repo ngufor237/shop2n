@@ -14,6 +14,7 @@ class notificationcontroller extends Controller
        // $produits = Auteur::with(['commandenvs', 'Produit'])->where('etat', 'nonlu')->get();
         $produits = Auteur::where('etat', 'nonlu')
         ->with('commandenvs.produit') // Charger les commandes et les produits associés
+        ->orderBy('created_at', 'desc')
         ->get();
        // dd($produits);
         return view('Notification.listenotif', compact('produits'));

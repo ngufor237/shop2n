@@ -305,8 +305,7 @@ if (isset($produits[$id])){
  ->with('SousCategorie', 'Images')
  ->get();
   $publicites=publicite::all();
-  $souscategories = Categorie::orderBy('created_at', 'desc') 
- ->limit(5)
+  $souscategories = SousCategorie::where('categorie_id',$id)
  ->get(); 
  $souscategories1 = Categorie::orderBy('created_at', 'desc') 
         ->get();

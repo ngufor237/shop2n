@@ -24,10 +24,9 @@
 </head>
 <body>
     @include("admin")
-    <div class="row ms-5 ps-5">
-        <div class="row ms-5 ps-5">
-            <div class="row ms-1 ps-3">
-                <table class="table ms-5 ps-5 mb-5 mt-5">
+    <div class="container">
+        
+                <table class="table table-striped table-bordered">
                     <thead>
                       <tr>
                         <th>Nom</th>
@@ -44,12 +43,12 @@
                           <td>{{ $item['nom'] }}</td>
                           <td>{{ $item['prenom'] }}</td>
                           <td>{{ $item['numero'] }}</td>
-                          <td>{{ $item['email'] }}</td>
                           <td>{{ $item['contact_what'] }}</td>
+                          <td>{{ $item['email'] }}</td>
                           <td><button class="btn btn-toggle-products" data-id="{{ $item['id'] }}">voir<i class="fas fa-eye ms-2" style="color:green"></i></button></td>
                       </tr>
                       <tr class="product-row" data-id="{{ $item['id'] }}">
-                        <td colspan="6">
+                        <td colspan="4">
                           <table class="table table-sm">
                             <thead>
                               <tr>

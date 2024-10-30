@@ -172,6 +172,7 @@
         html, body {
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
             width: 100%;
             box-sizing: border-box; /* Ensure consistent box-sizing */
         }
@@ -383,7 +384,7 @@
         </div>
     </div>
         </div>
-        <div class="d-flex justify-content-center mt-3 secondary-menu">
+        <!-- <div class="d-flex justify-content-center mt-3 secondary-menu">
             <nav class="nav">
                 <button class="openbtn" id="rayonsButton" onclick="toggleSidebar()"><i class="bi bi-list"></i> Tous nos rayons</button>
                 <a href="/maincontain"><input type="button" value="Accueil" class="btn" onclick="activateMenuItem(this)"></a>
@@ -396,7 +397,8 @@
                 @endforeach
                 @endif --}}
             </nav>
-        </div>    </div>
+        </div> -->
+        </div>
 </header>
 
 

@@ -11,30 +11,33 @@
     <link rel="stylesheet" href="{{ asset ('bootstrap/assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset ('bootstrap/assets/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset ('bootstrap/assets/DataTables/Buttons-1.5.6/css/buttons.bootstrap4.min.css') }}">
-    <title>liste de clients</title>
+    <title>liste des produits</title>
 </head>
 
 <body>
 
     @include("admin")
-    </div><div class="row ms-5 ps-5">
-        <div class="col ms-5 ps-5">
-            <button class="btn btn-primary btn-lg rounded-pill d-inline-block ms-5"  type="button">
-                <a href="/formproduct" style="text-decoration: none; color:inherit;">Ajouter Produit</a>
-            </button>
-        </div>
+   
     </div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+               <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary btn-lg rounded-pill d-inline-block" type="button">
+                            <a href="/SousCategorie" style="text-decoration: none; color:inherit;">Ajouter Produit</a>
+                        </button>
+                    </div>
+                </div>
+<br>
 
-    
-<div class="d-flex ms-5 ps-5" >
-
-    
-    <div class="col-sm-9 ms-5 ps-5" id="julio">
-        <div class="card ms-5 ps-5" style=" border-style: none;">
-            <div class="card-body ms-5 ps-5" >
+  
+    <div  id="julio">
+        <div class="card " >
+            <div class="card-body " >
 
                 
-            <table id="table2" class="table table-striped table-bordered">
+            <table id="table2" class="table table-striped table-bordered" style=" border-style:solid;">
         <thead>
             <tr>
                 <th>Reference du produit</th>
@@ -45,12 +48,6 @@
                 <th>Prix par Qualite</th>
                 <th>Actions</th>
 
-
-
-
-
-                
-                
             </tr>
         </thead>
         <tbody>

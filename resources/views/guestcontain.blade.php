@@ -145,6 +145,10 @@
     font-weight: bold;
 }
 
+
+
+                   
+
 /* Responsive Styles */
 @media (max-width: 768px) {
     .row {
@@ -207,9 +211,14 @@
             <div class="card-body">
                 <div class="row">
                     <span><b>Nos Rayons</b></span>
+                    @foreach($souscategories as $souscateg)
+                        <a href="/produitcate/{{$souscateg->id}}" id="ess1" >{{$souscateg->nomsubCat}}</a>
+                    @endforeach
+                    @if($souscategories1)
                     @foreach($souscategories1 as $souscateg)
                         <a href="/produitcate/{{$souscateg->id}}" id="ess1" >{{$souscateg->nomCat}}</a>
                     @endforeach
+                    @endif
                 </div>
             </div>
         </div> 
@@ -273,6 +282,35 @@
                 <button class="btn btn-primary">Voir plus</button>
             </div>
         </div>        
+    </div>
+</div>
+
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5 pb-3">
+        <div class="col-lg-3 col-md-6 col-6 pb-1">
+            <div class="d-flex flex-column align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px; flex-wrap: wrap; text-align: center; height: 90%;">
+                <h1 class="fa fa-check text-white m-0 mr-3 mb-2"  style="flex: 0 0 auto; font-size: 24px;"></h1>
+                <h5 class="font-weight-semi-bold m-0 text-white" style="flex: 1; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Produits de qualité</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-6 pb-1">
+            <div class="d-flex flex-column align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px; flex-wrap: wrap; text-align: center; height: 90%;">
+                <h1 class="fa fa-shipping-fast text-white m-0 mr-3 mb-2"  style="flex: 0 0 auto; font-size: 24px;"></h1>
+                <h5 class="font-weight-semi-bold m-0 text-white" style="flex: 1; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Récupération rapide</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-6 pb-1">
+            <div class="d-flex flex-column align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px; flex-wrap: wrap; text-align: center; height: 90%;">
+                <h1 class="fas fa-exchange-alt text-white m-0 mr-3 mb-2"  style="flex: 0 0 auto; font-size: 24px;"></h1>
+                <h5 class="font-weight-semi-bold m-0 text-white"  style="flex: 1; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Service impécable</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-6 pb-1">
+            <div class="d-flex flex-column align-items-center border mb-4 rounded-3 bg-indigo" style="padding: 30px; flex-wrap: wrap; text-align: center; height: 90%;">
+                <h1 class="fa fa-phone-volume text-white m-0 mr-3 mb-2" style="flex: 0 0 auto; font-size: 24px;"></h1>
+                <h5 class="font-weight-semi-bold m-0 text-white" style="flex: 1; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Ouvert 6 jours / 7</h5>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -477,6 +515,7 @@
     </div> <br>
 
     
+
 
     <div class="row px-xl-5 pb-3 product">
         @foreach($produits as $produit)
