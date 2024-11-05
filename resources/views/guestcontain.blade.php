@@ -210,15 +210,20 @@
         <div class="card mt-1">
             <div class="card-body">
                 <div class="row">
-                    <span><b>Nos Rayons</b></span>
-                    @foreach($souscategories as $souscateg)
-                        <a href="/produitcate/{{$souscateg->id}}" id="ess1" >{{$souscateg->nomsubCat}}</a>
-                    @endforeach
-                    @if($souscategories1)
-                    @foreach($souscategories1 as $souscateg)
-                        <a href="/produitcate/{{$souscateg->id}}" id="ess1" >{{$souscateg->nomCat}}</a>
-                    @endforeach
-                    @endif
+                <span><b>Nos Rayons</b></span>
+
+            @if(isset($souscategoriescat) && count($souscategoriescat) > 0)
+                <!-- Display souscategoriescat if it's available (for produitcate function) -->
+                @foreach($souscategoriescat as $souscateg)
+                    <a href="/produitcate/{{$souscateg->id}}" id="ess1">{{$souscateg->nomsubCat}}</a>
+                @endforeach
+            @elseif(isset($souscategories1) && count($souscategories1) > 0)
+                <!-- Display souscategories1 if souscategoriescat is not available (for main function) -->
+                @foreach($souscategories1 as $souscateg)
+                    <a href="/produitcate/{{$souscateg->id}}" id="ess1">{{$souscateg->nomCat}}</a>
+                @endforeach
+            @endif
+
                 </div>
             </div>
         </div> 

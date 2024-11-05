@@ -189,9 +189,17 @@ $totalle=$totalle + ($produit['qttestock'] * $produit['prix']);
         @php
         $c=$id[0];
         @endphp
-        <a  class="decrease" data-id="{{$c}}"  ><button id="decreaseBtn">-</button></a>
-          <input type="text" id="quantity{{$c}}" readonly data-product-id="{{$id}}" min="1" value="{{$produit['qttestock']}}" class="quantity" style="width: 80px;"> 
-        <a  class="increase" data-id="{{$c}}"  ><button  >+</button></a>
+        <div class="product-quantity">
+            <a class="decrease" data-id="{{ $c }}" data-etat="{{ $produit['etat'] }}">
+                <button id="decreaseBtn">-</button>
+            </a>
+            <input type="text" id="quantity{{ $c }}{{ $produit['etat'] }}" readonly data-product-id="{{ $c }}" min="1" 
+                value="{{ $produit['qttestock'] }}" class="quantity" style="width: 80px;"> 
+            <a class="increase" data-id="{{ $c }}" data-etat="{{ $produit['etat'] }}">
+                <button>+</button>
+            </a>
+        </div>
+
 
         </td>
         
@@ -606,12 +614,14 @@ console.log(typeof $);       // This should also output "function"
             e.preventDefault(); // Prevent the page from refreshing
             
             var productId = $(this).data('id'); // Get product ID from the data attribute
+            var etat = $(this).data('etat'); // Get product state from data attribute
+
             
             $.ajax({
-                url: '/minusfromcard/' + productId,
+                url: '/minusfromcard/' + productId + '/' + etat,
                 type: 'GET', // Use 'POST' if you're submitting form data
                 success: function(response) { 
-                    var id = 'quantity'+productId;
+                    var id = 'quantity'+productId+etat;
                     document.getElementById(id).value  = response.cartQuantity;;
                     const titleElement1 = document.getElementById('total');
                     // Update cart info (you can modify this based on your app's structure)
@@ -628,31 +638,32 @@ console.log(typeof $);       // This should also output "function"
 </script>
 <script>
     $(document).ready(function() {
+        // Handler for the "increase" button
         $('.increase').click(function(e) {
-            console.log('ffff');
-            console.log(typeof jQuery); // This should output "function" if jQuery is loaded correctly
-            console.log(typeof $);       // This should also output "function"
+            e.preventDefault(); // Prevent page refresh
+            
+            var productId = $(this).data('id'); // Get product ID from data attribute
+            var etat = $(this).data('etat'); // Get product state from data attribute
+            var pid = productId+etat; // Get product
 
-            e.preventDefault(); // Prevent the page from refreshing
-            
-            var productId = $(this).data('id'); // Get product ID from the data attribute
-            
+            // Make AJAX request to increment the quantity of the specific product and state
             $.ajax({
-                url: '/addtocard1/' + productId,
-                type: 'GET', // Use 'POST' if you're submitting form data
+                url: '/addtocard1/' + productId + '/' + etat,
+                type: 'GET', // Use 'POST' if needed, adjust server route accordingly
                 success: function(response) { 
-                    var id = 'quantity'+productId;
+                    // Update the quantity field for the specific product
+                    var id = 'quantity' + productId+etat;
                     document.getElementById(id).value = response.Quantity;
-                    const titleElement1 = document.getElementById('total');
-                    // Update cart info (you can modify this based on your app's structure)
-                    // alert(); // or update cart count, etc.
-                        // titleElement.textContent = response.Quantity;
-                        titleElement1.textContent = response.total;
-                        // Display the flash message
+
+                    // Update total cart amount displayed on page
+                    const totalElement = document.getElementById('total');
+                    totalElement.textContent = response.total + " FCFA";
+
+                    // Display a temporary flash message
                     var flashMessage = $('#flash-message');
                     flashMessage.removeClass('d-none').text('Product quantity updated successfully!');
                     
-                    // Hide the message after 3 seconds
+                    // Hide the flash message after 3 seconds
                     setTimeout(function() {
                         flashMessage.addClass('d-none');
                     }, 3000);
@@ -664,4 +675,5 @@ console.log(typeof $);       // This should also output "function"
         });
     });
 </script>
+
 </body>
