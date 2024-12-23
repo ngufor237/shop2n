@@ -10,21 +10,43 @@ class notificationcontroller extends Controller
 {
     //
 
-    public function liste(){
-       // $produits = Auteur::with(['commandenvs', 'Produit'])->where('etat', 'nonlu')->get();
+    public function liste()
+    {
         $produits = Auteur::where('etat', 'nonlu')
-        ->with('commandenvs.produit') // Charger les commandes et les produits associés
-        ->orderBy('created_at', 'desc')
-        ->get();
-       // dd($produits);
+            ->with('commandenvs.produit') // Load related commandes and products
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($produit) {
+                // Add a flag to indicate if the product is expired (older than 48 hours)
+                $produit->isExpired = \Carbon\Carbon::parse($produit->created_at)->addHours(48)->isPast();
+                return $produit;
+
+
+            });
         return view('Notification.listenotif', compact('produits'));
     }
-
 
     public function listecom(){
         // $produits = Auteur::with(['commandenvs', 'Produit'])->where('etat', 'nonlu')->get();
          $produits = Auteur::where('etat', 'lu')
+         ->with('commandenvs.produit') // Load related commandes and products
+         ->orderBy('created_at', 'desc')
+         ->get()
+         ->map(function ($produit) {
+             // Add a flag to indicate if the product is expired (older than 48 hours)
+             $produit->isExpired = \Carbon\Carbon::parse($produit->created_at)->addHours(48)->isPast();
+             return $produit;
+
+
+         });
+        // dd($produits);
+         return view('Notification.listenotif', compact('produits'));
+     }
+     public function listetraiter(){
+        // $produits = Auteur::with(['commandenvs', 'Produit'])->where('etat', 'nonlu')->get();
+         $produits = Auteur::where('etat', 'traiter')
          ->with('commandenvs.produit') // Charger les commandes et les produits associés
+        ->orderBy('created_at', 'desc')
          ->get();
         // dd($produits);
          return view('Notification.listenotif', compact('produits'));

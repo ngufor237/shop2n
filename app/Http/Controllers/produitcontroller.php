@@ -28,9 +28,10 @@ class produitcontroller extends Controller
         // Passer les options à la vue
 
         $categories = Categorie::all();
+        $souscategories = SousCategorie::all();
         $options = Caracteristique::all();
 
-        return view('produit/formproduit', ['categorie' => $categories,'caracteristique' => $options]);
+        return view('produit/formproduit', ['categorie' => $categories,'caracteristique' => $options,'souscategories' => $souscategories]);
     }
 
     public function createinfo(){
@@ -63,10 +64,13 @@ class produitcontroller extends Controller
            
 
         ]);
-       
+        $catid = $catid = SousCategorie::where('id', $request->souscategorie)->value('categorie_id');
+        ;
+// dd($catid);
         $prod=new Produit();
         $prod->libelle=$request->libelle;
-        $prod->categorie_id=$request->souscategorie;
+        $prod->categorie_id=$catid;
+        $prod->souscategorie_id=$request->souscategorie;
         $prod->description=$request->description;
         $prod->qttestock=$request->excellantqtte;
         $prod->qttestockbonetat=$request->bonqtte;
@@ -79,7 +83,7 @@ class produitcontroller extends Controller
 
 
         
-        
+        $productName = str_replace(' ', '_', strtolower($prod->libelle));
         if($request->hasFile('image'))
         {
             $images=$request->file('image');
@@ -89,7 +93,8 @@ class produitcontroller extends Controller
 
                 $imges=new Image();
             $IT++;
-                $imagenew=time()+$IT;
+            $extension = $ims->getClientOriginalExtension();
+                $imagenew=$productName . '_' . time() . '_' . $IT . '.' . $extension; 
                 $destination=public_path('photos');
                 if(!file_exists($destination)){
                 $p= mkdir($destination,0775,true);
@@ -119,18 +124,18 @@ class produitcontroller extends Controller
         }
 
 
-        
+
     
 
        
-    //    if($res && $res4 && $res5){
-    //     return redirect()->route('formproduct')->with('successaddp', ' Produit Ajoutée avec Succès');
+       if($res && $res4 && $res5){
+        return redirect()->route('formproduct')->with('successaddp', ' Produit Ajoutée avec Succès');
 
-    //    }
-    //    else{
-    //     return redirect()->route('formproduct')->with('failaddp', ' Produit n a pas été Ajoutée verifiez les informations');
+       }
+       else{
+        return redirect()->route('formproduct')->with('failaddp', ' Produit n a pas été Ajoutée verifiez les informations');
 
-    //    }
+       }
     }
 
     
@@ -156,7 +161,10 @@ public function modproduit(Request $request){
     $prod->prix=$request->prix;
     $prod->prixbonetat=$request->prixbon;
     $prod->prixetatcorrect=$request->prixcorrect;
-        // $prod->souscategorie_id=$request->souscategorie;
+    $catid = $catid = SousCategorie::where('id', $request->souscategorie)->value('categorie_id');
+    $prod->categorie_id=$catid;
+
+        $prod->souscategorie_id=$request->souscategorie;
         $prod->qttestock=$request->qtte;
         $prod->qttestockbonetat=$request->qttebon;
         $prod->qttestocketatcorrect=$request->qttecorrect;
@@ -169,11 +177,14 @@ public function modproduit(Request $request){
             $images=$request->file('image');
 
 $IT=0;
+$productName = str_replace(' ', '_', strtolower($prod->libelle));
+
             foreach($images as $ims){
                 $IT++;
                 $imges=new Image();
+        $extension = $ims->getClientOriginalExtension();
             
-                $imagenew=time()+$IT;
+                $imagenew=$productName . '_' . time() . '_' . $IT . '.' . $extension; 
                 $destination=public_path('photos');
                 if(!file_exists($destination)){
                    $p= mkdir($destination,0775,true);
@@ -184,6 +195,9 @@ $IT=0;
                     $res4=$imges->save();
             }
         }
+
+
+
 
         if($request->filled('caracteristique')){
             Produitcara::where('produit_id',$request->id)->delete(); 
@@ -236,10 +250,11 @@ $IT=0;
     }
 
 
-    public function suprprodcard($id){
+    public function suprprodcard($id,$etat){
         $produits=session()->get('cart', []);
-if (isset($produits[$id])){
-    unset($produits[$id]);
+        $productKey = $id . '__' . strtolower($etat);
+if (isset($produits[$productKey])){
+    unset($produits[$productKey]);
     session()->put('cart', $produits);
     return redirect()->back()->with('success','Produit Supprimé du panier avec succès');
 
@@ -287,7 +302,7 @@ if (isset($produits[$id])){
  ->get();
  
 
-  $souscategories = SousCategorie::orderBy('created_at', 'desc') 
+  $souscategories = Categorie::orderBy('created_at', 'desc') 
  ->limit(5)
  ->get(); 
  $souscategories1 = Categorie::orderBy('created_at', 'desc') 
@@ -318,7 +333,26 @@ if (isset($produits[$id])){
  return view('guestcontain',compact('produits','souscategories','souscategoriescat','publicites','souscategories1'));
     }
   
+    public function produitsubcate($id)
+    {
+        $category = SousCategorie::where('id', $id)->first(); 
+        $produits = Produit::where('souscategorie_id', $id)
+        ->where('categorie_id', $category->categorie_id)
+        ->with('SousCategorie', 'Images')
+        ->get();
+        $publicites=publicite::all();
+        $souscategoriescat = SousCategorie::where('categorie_id',$id)
+        ->get(); 
+        $souscategories1 = Categorie::orderBy('created_at', 'desc') 
+        ->get();
+        $souscategories = Categorie::orderBy('created_at', 'desc') 
+        ->limit(5)
+        ->get();
 
+
+ 
+ return view('guestcontain',compact('produits','souscategories','souscategoriescat','publicites','souscategories1'));
+    }
 
 
 
@@ -398,43 +432,125 @@ if (isset($produits[$id])){
     
         // Construct a unique key for the product based on its ID and state
         $productKey = $id . '__' . strtolower($etat);
+        $requestquanity = $cart[$productKey]['qttestock'];
     
         // Retrieve the product image
         $prods = $produit->images->first();
+        $prodQuantity = Produit::where('id',$id)->get();
+        foreach($prodQuantity as $prodQuantity){
+
+            if(isset($cart[$productKey])&&$etat=='excellentetat'&&$prodQuantity->qttestock>$requestquanity){
+                if (isset($cart[$productKey])) {
+                    // Increment the quantity for this specific state
+                    $cart[$productKey]['qttestock']++;
+                    $Quantity = $cart[$productKey]['qttestock'];
+                } else {
+                    // Add the product with this specific state to the cart with an initial quantity of 1
+                    $cart[$productKey] = [
+                        "libelle" => $produit->libelle,
+                        "prix" => $produit->prix,
+                        "qttestock" => 1,
+                        "etat" => ucfirst($etat), // Convert state to readable format
+                        "images" => $prods->nom ?? 'default.png' // Default image if none exists
+                    ];
+                    $Quantity = 1;
+                }
+                session()->put('cart', $cart);
     
-        // Check if the product with the specific state is already in the cart
-        if (isset($cart[$productKey])) {
-            // Increment the quantity for this specific state
-            $cart[$productKey]['qttestock']++;
-            $Quantity = $cart[$productKey]['qttestock'];
-        } else {
-            // Add the product with this specific state to the cart with an initial quantity of 1
-            $cart[$productKey] = [
-                "libelle" => $produit->libelle,
-                "prix" => $produit->prix,
-                "qttestock" => 1,
-                "etat" => ucfirst($etat), // Convert state to readable format
-                "images" => $prods->nom ?? 'default.png' // Default image if none exists
-            ];
-            $Quantity = 1;
+                // Calculate the total price and total cart quantity
+                $totalQuantity = count($cart);
+                $totalle = 0;
+                foreach ($cart as $produit) {
+                    $totalle += ($produit['qttestock'] * $produit['prix']);
+                }
+            
+                // Return the updated information
+                return response()->json([
+                    'total' => $totalle,
+                    'cartQuantity' => $totalQuantity,
+                    'Quantity' => $Quantity,
+                ]);
+            } elseif(isset($cart[$productKey])&&$etat=='bonetat'&&$prodQuantity->qttestockbonetat>$requestquanity){
+                if (isset($cart[$productKey])) {
+                    // Increment the quantity for this specific state
+                    $cart[$productKey]['qttestock']++;
+                    $Quantity = $cart[$productKey]['qttestock'];
+                } else {
+                    // Add the product with this specific state to the cart with an initial quantity of 1
+                    $cart[$productKey] = [
+                        "libelle" => $produit->libelle,
+                        "prix" => $produit->prix,
+                        "qttestock" => 1,
+                        "etat" => ucfirst($etat), // Convert state to readable format
+                        "images" => $prods->nom ?? 'default.png' // Default image if none exists
+                    ];
+                    $Quantity = 1;
+                }
+                session()->put('cart', $cart);
+    
+                // Calculate the total price and total cart quantity
+                $totalQuantity = count($cart);
+                $totalle = 0;
+                foreach ($cart as $produit) {
+                    $totalle += ($produit['qttestock'] * $produit['prix']);
+                }
+            
+                // Return the updated information
+                return response()->json([
+                    'total' => $totalle,
+                    'cartQuantity' => $totalQuantity,
+                    'Quantity' => $Quantity,
+                ]);
+            } elseif(isset($cart[$productKey])&&$etat=='correctetat'&&$prodQuantity->qttestocketatcorrect>$requestquanity){
+                if (isset($cart[$productKey])) {
+                    // Increment the quantity for this specific state
+                    $cart[$productKey]['qttestock']++;
+                    $Quantity = $cart[$productKey]['qttestock'];
+                } else {
+                    // Add the product with this specific state to the cart with an initial quantity of 1
+                    $cart[$productKey] = [
+                        "libelle" => $produit->libelle,
+                        "prix" => $produit->prix,
+                        "qttestock" => 1,
+                        "etat" => ucfirst($etat), // Convert state to readable format
+                        "images" => $prods->nom ?? 'default.png' // Default image if none exists
+                    ];
+                    $Quantity = 1;
+                }
+                session()->put('cart', $cart);
+            
+                // Calculate the total price and total cart quantity
+                $totalQuantity = count($cart);
+                $totalle = 0;
+                foreach ($cart as $produit) {
+                    $totalle += ($produit['qttestock'] * $produit['prix']);
+                }
+            
+                // Return the updated information
+                return response()->json([
+                    'total' => $totalle,
+                    'cartQuantity' => $totalQuantity,
+                    'Quantity' => $Quantity,
+                ]);
+            }else{
+                $totalQuantity = count($cart);
+                $totalle = 0;
+                $Quantity = $cart[$productKey]['qttestock'];
+                foreach ($cart as $produit) {
+                    $totalle += ($produit['qttestock'] * $produit['prix']);
+                }
+                return response()->json([
+                    'total' => $totalle,
+                    'cartQuantity' => $totalQuantity,
+                    'Quantity' => $Quantity,
+                ]);
+            }
         }
+        // Check if the product with the specific state is already in the cart
+        
     
         // Update the cart in the session
-        session()->put('cart', $cart);
-    
-        // Calculate the total price and total cart quantity
-        $totalQuantity = count($cart);
-        $totalle = 0;
-        foreach ($cart as $produit) {
-            $totalle += ($produit['qttestock'] * $produit['prix']);
-        }
-    
-        // Return the updated information
-        return response()->json([
-            'total' => $totalle,
-            'cartQuantity' => $totalQuantity,
-            'Quantity' => $Quantity,
-        ]);
+        
     }
     
     public function minusfromcard($id, $etat) {
@@ -449,14 +565,13 @@ if (isset($produits[$id])){
         // Determine the cart key using product ID and state (etat)
         $cartKey = $id . '__' . strtolower($etat); // e.g., "P006__excellentetat"
     
-        if (isset($cart[$cartKey]) && $cart[$cartKey]['qttestock'] > 1) {
+        if (isset($cart[$cartKey]) && $cart[$cartKey]['qttestock'] != 1) {
             // Decrement quantity for the specified product state
             $cart[$cartKey]['qttestock']--;
             $Quantity = $cart[$cartKey]['qttestock'];
         } else {
             // If the product quantity is 1, you might want to remove it from the cart or leave it at 1
-            unset($cart[$cartKey]);  // Uncomment this line if you want to remove the product when quantity reaches 1
-            $Quantity = 0; // Set to 0 if product is removed
+            
         }
     
         // Update the cart in the session
@@ -475,44 +590,59 @@ if (isset($produits[$id])){
     }
     
         
-
     public function addtocart2(Request $request){
         $request->validate([
-            'id' => 'required',
-            'quantite' => 'required',
-
-        ]);
-        $id=$request->id;
-        $qttep=$request->quantite;
-        $qtte =  Produit::where('id',$id)->get();
-
-        
-        try {
-            $produit = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->findOrFail($id);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->back()->with('error', 'Produit non trouvé.');
-        }
-    foreach($qtte as $qtte){
-        // Récupération du panier depuis la session
-        $cart = session()->get('cart', []);
+        'id' => 'required',
+        'quantite' => 'required|integer|min:1', // Ensure valid quantity
+    ]);
     
-        // Vérification si le produit est déjà dans le panier
-        if (isset($cart[$id.'__'.$request->etat])) {
-            // Incrémentation de la quantité
-            $cart[$id.'__'.$request->etat]['qttestock']=$cart[$id.'__'.$request->etat]['qttestock']+$qttep;
+    $id = $request->id;
+    $qttep = $request->quantite; // Quantity the user wants to add
+    $produit = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])->findOrFail($id); // Get the product details
+    
+    // Fetch the product based on its ID
+    try {
+        $produit = Produit::findOrFail($id);
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return redirect()->back()->with('error', 'Produit non trouvé.');
+    }
+    
+    // Check the stock based on the selected condition (etat)
+    $stockAvailable = 0;
+    $prixcc = 0;
+    $prods = $produit->images->first(); // Get the first image for the product
+    
+    // Based on the selected 'etat', check if there is enough stock
+    if ($request->etat == "excellentetat") {
+        $stockAvailable = $produit->qttestock;
+        $prixcc = $produit->prix;
+    } elseif ($request->etat == "bonetat") {
+        $stockAvailable = $produit->qttestockbonetat;
+        $prixcc = $produit->prixbonetat;
+    } elseif ($request->etat == "correctetat") {
+        $stockAvailable = $produit->qttestocketatcorrect;
+        $prixcc = $produit->prixetatcorrect;
+    }
+    
+    // Ensure the quantity to add does not exceed the available stock
+    if ($qttep > $stockAvailable) {
+        return redirect()->back()->with('error', 'Quantité demandée supérieure au stock disponible.');
+    }
+    
+    // Récupération du panier depuis la session
+    $cart = session()->get('cart', []);
+    
+    // Check if the product with the selected 'etat' is already in the cart
+    if (isset($cart[$id.'__'.$request->etat])) {
+        // Update the existing product's quantity in the cart
+        if ($cart[$id.'__'.$request->etat]['qttestock'] + $qttep <= $stockAvailable) {
+            $cart[$id.'__'.$request->etat]['qttestock'] += $qttep; // Increment the quantity
         } else {
-            // Ajout du produit au panier avec une quantité initiale de 1
-           $prods=$produit->images->first();
-        //    dd($qtte->qttestock);
-           if($request->etat=="excellentetat"&&$qtte->qttestock>0){
-$prixcc=$produit->prix;
-           }
-           elseif($request->etat=="bonetat"&&$qtte->qttestockbonetat>0){
-            $prixcc=$produit->prixbonetat;
-                       }
-                       elseif($request->etat=="correctetat"&&$qtte->qttestocketatcorrect>0){
-                        $prixcc=$produit->prixetatcorrect;
-                                   }
+            return redirect()->back()->with('error', 'Quantité demandée dépasse le stock disponible.');
+        }
+    } else {
+        // Add the product to the cart if it is not already there
+        if ($qttep <= $stockAvailable) {
             $cart[$id.'__'.$request->etat] = [
                 "libelle" => $produit->libelle,
                 "prix" => $prixcc,
@@ -520,19 +650,23 @@ $prixcc=$produit->prix;
                 "images" => $prods->nom,
                 "etat" => $request->etat
             ];
+        } else {
+            return redirect()->back()->with('error', 'Quantité demandée dépasse le stock disponible.');
         }
+    }
     
-        // Mise à jour du panier dans la session
-        session()->put('cart', $cart);
-       // \Log::info('Panier après ajout :', session()->get('cart'));
+    // Mise à jour du panier dans la session
+    session()->put('cart', $cart);
+    
+    // Log the updated cart (optional)
+    // \Log::info('Panier après ajout :', session()->get('cart'));
+    
+    // Redirect back with a success message
+    return redirect()->back()->with('success', 'Ajout au panier réussi.');
+    
     }
-
-
- return redirect()->back()->with('success','Ajout au panier reussi');
-        // Redirection avec un message de succès
-    }
-
-
+    
+    
 
 public function cartaff(){
     $produits=session()->get('cart', []);
@@ -632,29 +766,15 @@ public function cartaff(){
             $order->etat = $productData['etat'];
             $order->prix = $productData['prix'];
             $order->qtte = $productData['qttestock'];
-
+            $total=0;
+            $total+=($productData['prix']*$productData['qttestock']);
             $order->save();
-             // Check if the product is already in the cart
-             if ($maxIdff == 'excellentetat') {
-                $prod = Produit::find($id);
-                
-                      // Reduce the quantity by the ordered amount
-                    //   $d=$qtte->qttestock-= $order->qtte;
-                      $prod->qttestock = 50;
-                      $prod->save(); // Save the updated quantity
-                      dd($part);
-
-                } elseif(isset($cart[$id.'__correct'])&&$qtte->qttestockbonetat >= $order->qtte){}
-
-         }
-
-        foreach($cart as $id => $productData){
-            $id =$parties;
             $prod = Produit::find($id);
             if ($maxIdff == 'excellentetat') {
                 $prod->qttestock -= $order->qtte; // Deduct from excellentetat stock
             } elseif ($maxIdff == 'correctetat') {
-                $prod->qttestockcorrectetat -= $order->qtte; // Deduct from correctetat stock
+                $prod->qttestocketatcorrect -=$order->qtte; // Deduct from correctetat stock
+                // dd($prod->qttestocketatcorrect );
             } elseif ($maxIdff == 'bonetat') {
                 $prod->qttestockbonetat -= $order->qtte; // Deduct from bonetat stock
             }
@@ -668,8 +788,11 @@ public function cartaff(){
              // Load a view for the PDF
              
             $cart = session()->get('cart', []);
-
-        $pdf = PDF::loadView('recu',compact('cart'));
+            $nom = $request->nom;
+            $prenom = $request->prenom;
+            // $numero = $request->phone;
+            // dd($total);
+        $pdf = PDF::loadView('recu',compact('cart','total','nom','prenom'));
             // dd($parties[0]);
         $pdf->setPaper('A4', 'landscape');
         // session()->forget('cart');
@@ -738,7 +861,7 @@ public function cartaff(){
 
     public function ListePublicite(){
 
-        $publicites = Publicite::with(['Produit'])->get();
+        $publicites = Publicite::all();
         
         return view('Publicite.listePublicite', compact('publicites'));
 
@@ -759,16 +882,17 @@ public function addpub(Request $request){
         
         foreach($images as $ims){
             $imges=new Publicite();
-        $IT++;
-            $imagenew=time()+$IT;
+        $IT++;    
+        $extension = $ims->getClientOriginalExtension();
+            $imagenew= time() . '_' . $IT . '.' . $extension;
             $destination=public_path('photos');
             if(!file_exists($destination)){
                $p= mkdir($destination,0775,true);
             }
             $ims->move($destination,$imagenew);
             $imges->nom=$imagenew;
-            $maxId = $request->libelle;
-                $imges->produit_id=$maxId;
+            // $maxId = $request->libelle;
+                // $imges->produit_id=$maxId;
                 $res4=$imges->save();
         }
         return redirect()->back()->with('success','ajout au panier reussi');
@@ -787,4 +911,18 @@ public function Supprimerpub($id){
     return redirect('/listepublicite')->with('status','publicite Supprimée avec succès');
     
 }
+public function search(Request $request)
+    {
+        // Get the search query from the request
+        $query = $request->input('query');
+
+        // Search for products in the database
+        $products = Produit::where('libelle', 'like', '%' . $query . '%')
+            ->orWhere('description', 'like', '%' . $query . '%')
+            ->with('SousCategorie', 'Images')
+            ->get(); // Adjust columns as per your database
+
+        // Return the matching products as a JSON response
+        return response()->json($products);
+    }
 }

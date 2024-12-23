@@ -136,7 +136,7 @@
         <a href="/tableInfoProduit"><i class="fas fa-box-open"></i>&ensp;Infos Produits</a>
         {{-- <a href="/ListLocalisation"><i class="fas fa-map-marker-alt"></i>&ensp;Localisation</a> --}}
         <a href="/listecom"><i class="fas fa-shopping-cart"></i>&ensp;Commandes</a>
-        <a href="/listeachat"><i class="fas fa-cog"></i>&ensp;Achat</a>
+        <a href="/listetraiter"><i class="fas fa-cog"></i>&ensp;Commandes Traiter</a>
         <a href="/listepublicite"><i class="fas fa-bullhorn"></i>&ensp;Publicité</a>
 
 

@@ -77,8 +77,8 @@
                                 <select class="form-select" name="souscategorie" id="souscategorie" required>
 
                                     <option value="" disabled selected></option>
-                                    @foreach($categorie as $optionas)
-                                        <option value="{{ $optionas->id }}">{{ $optionas->nomCat }}</option>
+                                    @foreach($souscategories as $optionas)
+                                        <option value="{{ $optionas->id }}">{{ $optionas->categorie->nomCat ." " }}||{{" ".  $optionas->nomsubCat }}</option>
                                     @endforeach
                                 </select>
                             </div> <br>

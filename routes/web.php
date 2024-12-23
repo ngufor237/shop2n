@@ -33,7 +33,7 @@ Route::get('/supprimeruser/{id}',[usercontroller::class, 'supprimeruser'])->name
 Route::get('/admin', function () {
     return view('admin');
 })->name('admin');    // Autres routes admin
-
+Route::get('/search-products', [produitcontroller::class, 'search']);
 
 Route::group(['middleware' => 'admin'], function() {
 //routes pour la categorie   
@@ -147,11 +147,14 @@ Route::get('/minusfromcard/{id}/{etat}', [produitcontroller::class, 'minusfromca
 
 Route::get('/produitcate/{id}', [produitcontroller::class, 'produitcate'])->name('produitcate');
 
+Route::get('/produitsubcate/{id}', [produitcontroller::class, 'produitsubcate'])->name('produitsubcate');
+
+
 Route::post('/addtocart2', [produitcontroller::class, 'addtocart2'])->name('addtocart2');
 
 Route::post('/ajoutcommandenv', [produitcontroller::class, 'ajoutcommandenv'])->name('ajoutcommandenv');
 
-Route::get('/suprimerprodcard/{id}', [produitcontroller::class, 'suprprodcard'])->name('suprprodcard');
+Route::get('/suprimerprodcard/{id}/{etat}', [produitcontroller::class, 'suprprodcard'])->name('suprprodcard');
 
 
 Route::get('/listep', [produitcontroller::class, 'Listep2'])->name('listep2');
@@ -197,7 +200,7 @@ Route::get('/achat', function () {
 
 Route::get('/formachat', [achatcontroller::class, 'formachat'])->name('formachat');
 Route::get('/ajoutlivraison', [achatcontroller::class, 'ajoutlivraison'])->name('ajoutlivraison');
-Route::get('/listeachat', [achatcontroller::class, 'listeachat'])->name('listeachat');
+Route::get('/listetraiter', [notificationcontroller::class, 'listetraiter'])->name('listetraiter');
 Route::get('/listenotif', [notificationcontroller::class, 'liste'])->name('listenotif');
 Route::post('/lirenotif', [notificationcontroller::class, 'lirenotif'])->name('lirenotif');
 Route::post('/traiternotif', [notificationcontroller::class, 'traiternotif'])->name('traiternotif');

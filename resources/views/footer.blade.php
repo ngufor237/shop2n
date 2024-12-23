@@ -12,7 +12,7 @@
     <title>Document</title>
 </head>
 <body>
-<div class="container-fluid bg-secondary text-dark mt-0 pt-1">
+<div class="container-fluid bg-secondary text-dark mt-0 pt-1" >
             <div class="row px-xl-5 pt-1">
                 <div class="col-lg-4 col-md-12 mb-0 pr-3 pr-xl-5">
                     <a href="" class="text-decoration-none">
@@ -34,7 +34,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4 mb-1">
+                        {{-- <div class="col-md-4 mb-1">
                     <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Bonaberie, Face ancien cinéma Fohato</p>
                     
                         </div>
@@ -67,6 +67,6 @@
 
             </div>
         </div>
-        
+         --}}
 </body>
 </html>
