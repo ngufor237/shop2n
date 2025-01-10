@@ -311,7 +311,7 @@
     </style>
 
 
-    <title>Site e-commerce</title>
+    <title>2N SHOP</title>
 </head>
 
 <body style="background-color:rgba(227, 220, 220, 0.236);">

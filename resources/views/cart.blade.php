@@ -16,7 +16,7 @@
         href="{{ asset('bootstrap/assets/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet"
         href="{{ asset('bootstrap/assets/DataTables/Buttons-1.5.6/css/buttons.bootstrap4.min.css') }}">
-    <title>Liste de clients</title>
+    <title>Cart</title>
     <style>
         #total {
             font-size: 3rem;
