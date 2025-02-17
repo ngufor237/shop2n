@@ -337,12 +337,12 @@
                             @if(isset($souscategoriescat) && count($souscategoriescat) > 0)
                                 <!-- Display souscategoriescat if it's available (for produitcate function) -->
                                 @foreach($souscategoriescat as $souscateg)
-                                    <a href="/produitsubcate/{{$souscateg->id}}" id="ess1">{{$souscateg->nomsubCat}}</a>
+                                    <a href="/produitsubcate/{{$souscateg->id}}/{{$souscateg->nomsubCat}}" id="ess1">{{$souscateg->nomsubCat}}</a>
                                 @endforeach
                             @elseif(isset($souscategories1) && count($souscategories1) > 0)
                                 <!-- Display souscategories1 if souscategoriescat is not available (for main function) -->
                                 @foreach($souscategories1 as $souscateg)
-                                    <a href="/produitcate/{{$souscateg->id}}" id="ess1">{{$souscateg->nomCat}}</a>
+                                    <a href="/produitcate/{{$souscateg->id}}/{{$souscateg->nomCat}}" id="ess1">{{$souscateg->nomCat}}</a>
                                 @endforeach
                             @endif
                         </div>

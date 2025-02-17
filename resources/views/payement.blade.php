@@ -84,8 +84,7 @@
                         <div class="mb-3 col-md-6">
                             <label for="phone" class="form-label mb-2"><i class="fas fa-phone icon"></i> Numero de
                                 telephone <span class="required-star " style="color: red;">*</span></label>
-                            <input type="Number" required class="form-control" id="libelle" name="phone"
-                                style="background-color: rgba(222, 233, 236, 0.829);" placeholder="Entrez votre Numero">
+                            <input type="tel" required class="form-control" id="libelle" name="phone"  required  style="background-color: rgba(222, 233, 236, 0.829);" placeholder="Entrez votre Numero">
                         </div>
 
                         <div class="mb-3 col-md-6">
@@ -114,7 +113,7 @@
                         <div class="mb-3 col-md-12">
                             <label for="contact" class="form-label mb-2"><i class="fas fa-phone icon"></i> Contact
                                 Whatsapp</label>
-                            <input type="numbre" class="form-control"
+                            <input type="tel" class="form-control"
                                 style="background-color: rgba(222, 233, 236, 0.829);" id="prix" name="contact"
                                 placeholder="Entrer votre numero whatsapp">
                         </div>

@@ -84,7 +84,7 @@
                             <select class="form-select" name="souscategorie" id="souscategorie">
 
                                 @foreach($souscategories as $optionas)
-                                    <option value="{{ $optionas->id }}" {{ $optionas->id == $produits->souscategorie_id ? 'selected' : '' }}>{{ $optionas->nomsubCat }}</option>
+                                    <option value="{{ $optionas->id }}" {{ $optionas->id == $produits->souscategorie_id ? 'selected' : '' }}>{{ $optionas->categorie->nomCat ." " }}||{{" ".  $optionas->nomsubCat }}</option>
                                 @endforeach
                             </select>
                         </div>

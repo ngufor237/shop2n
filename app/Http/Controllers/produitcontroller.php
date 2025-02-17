@@ -15,7 +15,7 @@ use App\Models\SousCategorie;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Illuminate\Cache\RateLimiting\Limit;
 
 class produitcontroller extends Controller
 {
@@ -232,6 +232,8 @@ $productName = str_replace(' ', '_', strtolower($prod->libelle));
     public function ListeP(){
         $produits = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])
         ->where('qttestock', '>', 0)
+        ->orderBy('qttestock', 'desc') 
+        ->limit(30)
         ->get();
         $souscategories = Categorie::orderBy('created_at', 'desc') 
             ->limit(5)
@@ -351,7 +353,7 @@ if (isset($produits[$productKey])){
 
 
  
- return view('guestcontain',compact('produits','souscategories','souscategoriescat','publicites','souscategories1'));
+ return view('guestcontain',compact('produits','souscategories','publicites','souscategories1'));
     }
 
 

@@ -224,6 +224,7 @@
     overflow-y: auto;
     border-radius: 8px;
     z-index: 1000;
+    
 }
 
 .result-item {
@@ -293,54 +294,30 @@
 
 
 @media (max-width: 768px) {
+    #searchResultsContainer {
+        position: fixed; /* Ensures it's visible */
+        top: 50px; /* Adjust position below search bar */
+        left: 10px;
+        right: 10px;
+        width: calc(100% - 20px);
+        max-height: 300px; /* Adjust height for mobile */
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1000;
+        overflow-y: auto;
+    }
+
     .little-screens {
-        display: block;
-        /*
-        background-color:red;
-        */
+        display: block !important; /* Ensure it's shown */
     }
     .midium-above {
         display: none;
     }
-
 }
+
 @media (max-width: 1210px) {
-    .lvl3{
-    position: relative;
-    }
-    .lvl3 .divshop{
-        position: absolute;
-        top: 0;
-        left: 20px;
-    }
-    .lvl3 .divshop h1{
-        font-size: 1.5rem;
-    }
-    .lvl3 .rlogos{
-        position: absolute;
-        top: 0;
-        right: 30px;
-    }
-    .lvl3 .rlogos .right-menu {
-        max-width: 100px;
-    }
-    .lvl3 .rlogos .right-menu {
-    font-size: 0.6rem; /* Reduced font size */
-    padding: 0; /* Reduced padding */
-    }
-
-    .lvl3 .rlogos .right-menu .icon-link {
-        padding: 0.5rem 0; /* Reduced padding */
-        margin-right: -2rem; /* Reduced margin between links */
-    }
-
-    .lvl3 .rlogos .right-menu .icon-link i {
-        font-size: 1rem; /* Adjusted icon size */
-    }
-
-    .lvl3 .rlogos .right-menu .btn i {
-        font-size: 0.8rem; /* Adjusted shopping cart icon size */
-    }
+    
 
 }
 
@@ -468,7 +445,7 @@
 
 
                         @foreach ($souscategories as $souscat)
-                            <button class="openbtn"><a href="/produitcate/{{ $souscat->id }}"><input type="button"
+                            <button class="openbtn"><a href="/produitcate/{{ $souscat->id }}/{{ $souscat->nomCat }}"><input type="button"
                                         value="{{ $souscat->nomCat }}" class="btn" onclick="activateMenuItem(this)"
                                         style="size: 30px;"></a></button>
                         @endforeach
@@ -489,21 +466,22 @@
 
         <!-- Header des petits écrans -->
         <div class="container little-screens">
+            
             <div class="d-flex justify-content-between align-items-center" style="height: 100px">
                 {{-- <a class="navbar-brand" href="#"> --}}
                 <div class="row">
                     <div class="col-12 mt-2">
-                        <div class="search-container">
-                            <form class="d-flex search-bar mx-auto" onsubmit="return false;">
-                                <input class="form-control" type="search" id="searchInput" placeholder="Qu'est-ce qui vous ferait plaisir ?" aria-label="Search" onkeyup="searchProducts()">
-                                <button class="btn btn-danger" type="button" onclick="searchProducts()">
-                                    <i class="bi bi-search"></i>
-                                </button>
-                            </form>
-                            <div id="searchResultsContainer" style="display: none;">
-                                <div id="searchResults"></div>
-                            </div>
+                    <div class="search-container">
+                        <form class="d-flex search-bar mx-auto" onsubmit="return false;">
+                            <input class="form-control" type="search" id="searchInput1" placeholder="Qu'est-ce qui vous ferait plaisir ?" aria-label="Search" onkeyup="searchProducts()">
+                            <button class="btn btn-danger" type="button" onclick="searchProducts()">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </form>
+                        <div id="searchResultsContainer" style="display: none;">
+                            <div id="searchResults"></div>
                         </div>
+                    </div>
                     </div>
                     <div class="col-2 mt-3">
                         <a href="/maincontain" style="text-decoration: none;">
@@ -618,11 +596,11 @@
         <a href="#" style="background-color: #14363b;color:white" class="w-100 ">&ensp;Nos Categories</a>
         <a href="javascript:void(0)" class="closebtn  " onclick="closeNav()">×</a>
         @foreach ($souscategories1 as $category)
-            <a href="/produitcate/{{ $category->id }}" class="menu-item" data-target="submenu{{ $category->id }}">
+            <a href="/produitcate/{{ $category->id }}/{{ $category->nomCat }}" class="menu-item" data-target="submenu{{ $category->id }}">
                 <i class="bi bi-camera-video"></i>&ensp;{{ $category->nomCat }}
             </a>
         @endforeach
-        <a href="#"><i class="bi bi-camera-video"></i>&ensp;Promo</a>
+        <!-- <a href="#"><i class="bi bi-camera-video"></i>&ensp;Promo</a>
         <a href="#"><i class="bi bi-camera-video"></i>&ensp;Câble et conducteur</a>
         <a href="#"><i class="bi bi-lightbulb"></i> &ensp;Luminaire</a>
         {{-- <a href="#"><i class="bi bi-tools"></i>&ensp;Outillage</a>
@@ -632,7 +610,7 @@
     <a href="#"><i class="bi bi-camera-video"></i>&ensp;Carrelage</a> --}}
         <a href="#"><i class="bi bi-camera-video"></i>&ensp;Appareil électroménager</a>
         <a href="#"><i class="bi bi-laptop"></i>&ensp;Matériels informatique</a>
-        <a href="#"><i class="bi bi-phone"></i>&ensp;Téléphonie</a>
+        <a href="#"><i class="bi bi-phone"></i>&ensp;Téléphonie</a> -->
 
     </div>
     <!-- <div class="submenus">
@@ -717,41 +695,45 @@ function searchProducts() {
 
     // Send AJAX request to the server
     fetch(`/search-products?query=${encodeURIComponent(query)}`)
-        .then(response => response.json())
-        .then(data => {
-            let resultsHtml = '';
+    .then(response => response.json())
+    .then(data => {
+        let resultsHtml = '';
 
-            if (data.length > 0) {
-                data.forEach(product => {
-                    let imageHtml = product.images[0].nom
-                        ? `<img class="result-image" src="/photos/${product.images[0].nom}" alt="${product.libelle}" />`
-                        : `<img class="result-image" src="/default-placeholder.png" alt="No Image" />`; 
+        if (data.length > 0) {
+            data.forEach(product => {
+                let imageHtml = product.images[0]?.nom
+                    ? `<img class="result-image" src="/photos/${product.images[0].nom}" alt="${product.libelle}" />`
+                    : `<img class="result-image" src="/default-placeholder.png" alt="No Image" />`;
 
-                    resultsHtml += `<a href="/detailprod/${product.id }">
-                        <div class="result-item">
-                            <div class="result-left">
-                                ${imageHtml}
-                            </div>
-                            <div class="result-right">
-                                <h3 class="result-title">${product.libelle}</h3>
-                                <p>
-                                    <strong class="result-price">${product.prix} FCFA</strong>
-                                    ${product.prixbonetat ? `<span class="result-price-old">${product.prixbonetat} FCFA</span>` : ''}
-                                </p>
-                            </div>
-                        </div></a>
-                    `;
-                });
-            } else {
-                resultsHtml = '<p>No products found.</p>';
-            }
+                resultsHtml += `<a href="/detailprod/${product.id}">
+                    <div class="result-item">
+                        <div class="result-left">
+                            ${imageHtml}
+                        </div>
+                        <div class="result-right">
+                            <h3 class="result-title">${product.libelle}</h3>
+                            <p>
+                                <strong class="result-price">${product.prix} FCFA</strong>
+                                ${product.prixbonetat ? `<span class="result-price-old">${product.prixbonetat} FCFA</span>` : ''}
+                            </p>
+                        </div>
+                    </div></a>`;
+            });
 
-            // Update the results container
-            document.getElementById('searchResults').innerHTML = resultsHtml;
-        })
-        .catch(error => {
-            console.error('Error fetching search results:', error);
-        });
+            // Show results container
+            document.getElementById('searchResultsContainer').style.display = 'block';
+        } else {
+            resultsHtml = '<p>No products found.</p>';
+            document.getElementById('searchResultsContainer').style.display = 'block';
+        }
+
+        // Update the results container
+        document.getElementById('searchResults').innerHTML = resultsHtml;
+    })
+    .catch(error => {
+        console.error('Error fetching search results:', error);
+    });
+
 }
 
 
@@ -768,6 +750,14 @@ document.addEventListener('DOMContentLoaded', function () {
             searchResultsContainer.style.display = 'none';
         }
     });
+    // Show search results dynamically
+    searchInput.addEventListener('touchstart', function () {
+        if (this.value.trim() !== '') {
+            searchResultsContainer.style.display = 'block';
+        } else {
+            searchResultsContainer.style.display = 'none';
+        }
+    });
 
     // Close search results when clicking outside
     document.addEventListener('click', function (event) {
@@ -778,6 +768,101 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 </script>
+
+
+<script>
+function searchProducts() {
+    console.log("kkk");
+    const query = document.getElementById('searchInput1').value;
+
+    // Avoid making a request for empty input
+    if (query.length < 1) {
+        document.getElementById('searchResults').innerHTML = ''; // Clear results
+        document.getElementById('searchResultsContainer').style.display = 'none'; // Hide results container
+        return;
+    }
+
+    // Show search results container
+    document.getElementById('searchResultsContainer').style.display = 'block';
+
+    // Send AJAX request to the server
+    fetch(`/search-products?query=${encodeURIComponent(query)}`)
+    .then(response => response.json())
+    .then(data => {
+        let resultsHtml = '';
+
+        if (data.length > 0) {
+            data.forEach(product => {
+                let imageHtml = product.images[0]?.nom
+                    ? `<img class="result-image" src="/photos/${product.images[0].nom}" alt="${product.libelle}" />`
+                    : `<img class="result-image" src="/default-placeholder.png" alt="No Image" />`;
+
+                resultsHtml += `<a href="/detailprod/${product.id}">
+                    <div class="result-item">
+                        <div class="result-left">
+                            ${imageHtml}
+                        </div>
+                        <div class="result-right">
+                            <h3 class="result-title">${product.libelle}</h3>
+                            <p>
+                                <strong class="result-price">${product.prix} FCFA</strong>
+                                ${product.prixbonetat ? `<span class="result-price-old">${product.prixbonetat} FCFA</span>` : ''}
+                            </p>
+                        </div>
+                    </div></a>`;
+            });
+
+            // Show results container
+            document.getElementById('searchResultsContainer').style.display = 'block';
+        } else {
+            resultsHtml = '<p>No products found.</p>';
+            document.getElementById('searchResultsContainer').style.display = 'block';
+        }
+
+        // Update the results container
+        document.getElementById('searchResults').innerHTML = resultsHtml;
+    })
+    .catch(error => {
+        console.error('Error fetching search results:', error);
+    });
+
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('searchInput');
+    const searchResultsContainer = document.getElementById('searchResultsContainer');
+    const searchResults = document.getElementById('searchResults');
+
+    // Show search results dynamically
+    searchInput.addEventListener('input', function () {
+        if (this.value.trim() !== '') {
+            searchResultsContainer.style.display = 'block';
+        } else {
+            searchResultsContainer.style.display = 'none';
+        }
+    });
+    // Show search results dynamically
+    searchInput.addEventListener('touchstart', function () {
+        if (this.value.trim() !== '') {
+            searchResultsContainer.style.display = 'block';
+        } else {
+            searchResultsContainer.style.display = 'none';
+        }
+    });
+
+    // Close search results when clicking outside
+    document.addEventListener('click', function (event) {
+        if (!searchResults.contains(event.target) && !searchInput.contains(event.target)) {
+            searchResultsContainer.style.display = 'none';
+        }
+    });
+});
+
+</script>
+
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('searchInput');

@@ -84,17 +84,17 @@
                     <div class="col-md-4 mt-3">
                         <h3 class="font-weight-bold text-white">USEFUL LINKS</h3>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-white mb-2 text-decoration-none" href="index.html"><i
+                            <a class="text-white mb-2 text-decoration-none" href="/maincontain"><i
                                     class="fa fa-angle-right mr-2"></i>Home</a>
-                            <a class="text-white mb-2 text-decoration-none" href="shop.html"><i
+                            <a class="text-white mb-2 text-decoration-none" href="/maincontain"><i
                                     class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <a class="text-white mb-2 text-decoration-none" href="detail.html"><i
-                                    class="fa fa-angle-right mr-2"></i>Shop Detail</a>
+                            <!-- <a class="text-white mb-2 text-decoration-none" href="detail.html"><i
+                                    class="fa fa-angle-right mr-2"></i>Shop Detail</a> -->
                             <a class="text-white mb-2 text-decoration-none" href="/cardshopping"><i
                                     class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                            <a class="text-white mb-2 text-decoration-none" href="checkout.html"><i
+                            <a class="text-white mb-2 text-decoration-none" href="/finaliser"><i
                                     class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-white text-decoration-none" href="contact.html"><i
+                            <a class="text-white text-decoration-none" href="#"><i
                                     class="fa fa-angle-right mr-2"></i>Contact Us</a>
                         </div>
                     </div>
