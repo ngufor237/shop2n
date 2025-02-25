@@ -394,10 +394,14 @@
                 <h2>{{ $produits->categorie->nomCat }} - {{ $produits->libelle }} </h2> <br>
 
                 <p>
-                    <b style="color: rgb(13, 94, 67);">Caracteristiques:</u></b>
+                    <b style="color: rgb(13, 94, 67);">Caracteristiques</u></b>
                 <ul>
                     @foreach ($produits->caracteristique as $cate)
-                    <li>{{ $cate->nomCaract }}</li>
+                        @if ($cate->nomCaract == "NULL")
+                        <P style="color: rgb(218, 9, 9);font-size:30px; text-align:center;"><b>NULL</b></P>
+                        @else
+                        <li style="color: rgb(28, 34, 32);">{{ $cate->nomCaract }}</li>
+                        @endif
                     @endforeach
                 </ul>
                 </p>
@@ -470,7 +474,10 @@
                             <?php echo number_format($ancienp, 0, ',', '.'); ?>
                             FCFA
                         </span> &nbsp; &nbsp;&nbsp;&nbsp;
+                        
                         <span id="prix" class="text-danger fw-bold" style="font-size: 35px;">
+                        <sup><small style="font-size: 20px;">Prix Unitaire</small></sup>
+
                             <?php echo number_format($nombreEntier, 0, ',', ','); ?>
                             FCFA
                         </span>

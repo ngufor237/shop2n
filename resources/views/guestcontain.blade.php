@@ -352,16 +352,13 @@
 
             <!-- Bloc "Carousel" -->
             <div class="col-md-8">
-                <div id="carouselExampleControls1b1" class="carousel slide" data-bs-ride="carousel"
-                    data-bs-interval="3000">
+                <div id="carouselExampleControls1b1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                     <div class="carousel-inner">
                         @foreach ($publicites as $index => $pub)
                         <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                            <div>
-                                <a href="/detailprod/{{ $pub->produit_id }}">
-                                    <img class="img-fluid" src="{{ asset('photos/' . $pub->nom) }}" alt=""
-                                        style="width: 100%; object-fit: contain; height:50vh;">
-                                </a>
+                            <div class="">
+                                    <img class="" src="{{ asset('photos/' . $pub->nom) }}" alt=""
+                                        style="object-fit: contain;display:block;margin:auto;">
                             </div>
                         </div>
                         @endforeach
@@ -378,6 +375,7 @@
                     </button>
                 </div>
             </div>
+
 
             <!-- Bloc Image et Heures d'Ouverture -->
             <div class="col-md-2">
@@ -665,11 +663,11 @@
                             style="flex: 0 0 auto; width: 230px; height: 220px;">
                     </div>
                     <div class="col-md-2  ">
-                        <img class="img-fluid " src="{{ asset('img/Samsung.png') }}" alt="fffffffffff"
+                        <img class="img-fluid " src="{{ asset('img/LG.png') }}" alt="fffffffffff"
                             style="flex: 0 0 auto; width: 230px; height: 220px;">
                     </div>
                     <div class="col-md-2  ">
-                        <img class="img-fluid " src="{{ asset('img/Tecno.png') }}" alt="fffffffffff"
+                        <img class="img-fluid " src="{{ asset('img/LG.png') }}" alt="fffffffffff"
                             style="flex: 0 0 auto; width: 230px; height: 220px;">
                     </div>
                     <div class="col-md-2  ">

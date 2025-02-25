@@ -233,7 +233,6 @@ $productName = str_replace(' ', '_', strtolower($prod->libelle));
         $produits = Produit::with(['Caracteristique', 'SousCategorie', 'Images'])
         ->where('qttestock', '>', 0)
         ->orderBy('qttestock', 'desc') 
-        ->limit(30)
         ->get();
         $souscategories = Categorie::orderBy('created_at', 'desc') 
             ->limit(5)
@@ -913,6 +912,16 @@ public function Supprimerpub($id){
     return redirect('/listepublicite')->with('status','publicite Supprimée avec succès');
     
 }
+
+    public function SupprimerProduit($id){
+        // $request->validate([
+        //     'categorie' => 'required',
+        // ]);
+        $prodiut = Produit::find($id);
+        $prodiut->delete();
+        return redirect()->back()->with('status','Produit Supprimée avec succès');
+        
+    }
 public function search(Request $request)
     {
         // Get the search query from the request

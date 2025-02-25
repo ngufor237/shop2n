@@ -473,7 +473,7 @@
                     <div class="col-12 mt-2">
                     <div class="search-container">
                         <form class="d-flex search-bar mx-auto" onsubmit="return false;">
-                            <input class="form-control" type="search" id="searchInput1" placeholder="Qu'est-ce qui vous ferait plaisir ?" aria-label="Search" onkeyup="searchProducts()">
+                            <input class="form-control" type="search" id="searchInput" placeholder="Qu'est-ce qui vous ferait plaisir ?" aria-label="Search"  oninput="searchProducts()">
                             <button class="btn btn-danger" type="button" onclick="searchProducts()">
                                 <i class="bi bi-search"></i>
                             </button>
@@ -581,7 +581,7 @@
                     
                
                 @foreach ($categories as $cat)
-                <a href="/produitcate/{{$cat->id}}"><input type="button" value="{{$cat->nomCat}}" class="btn" onclick="activateMenuItem(this)"></a>
+                <a href="/produitcate/{{ $cat->id }}/{{ $cat->nomCat }}"><input type="button" value="{{$cat->nomCat}}" class="btn" onclick="activateMenuItem(this)"></a>
                 @endforeach
                 @endif --}}
                 </nav>
@@ -681,6 +681,7 @@
 
     <script>
 function searchProducts() {
+    console.log('Searching products...');
     const query = document.getElementById('searchInput').value;
 
     // Avoid making a request for empty input
@@ -770,96 +771,6 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 
-<script>
-function searchProducts() {
-    console.log("kkk");
-    const query = document.getElementById('searchInput1').value;
-
-    // Avoid making a request for empty input
-    if (query.length < 1) {
-        document.getElementById('searchResults').innerHTML = ''; // Clear results
-        document.getElementById('searchResultsContainer').style.display = 'none'; // Hide results container
-        return;
-    }
-
-    // Show search results container
-    document.getElementById('searchResultsContainer').style.display = 'block';
-
-    // Send AJAX request to the server
-    fetch(`/search-products?query=${encodeURIComponent(query)}`)
-    .then(response => response.json())
-    .then(data => {
-        let resultsHtml = '';
-
-        if (data.length > 0) {
-            data.forEach(product => {
-                let imageHtml = product.images[0]?.nom
-                    ? `<img class="result-image" src="/photos/${product.images[0].nom}" alt="${product.libelle}" />`
-                    : `<img class="result-image" src="/default-placeholder.png" alt="No Image" />`;
-
-                resultsHtml += `<a href="/detailprod/${product.id}">
-                    <div class="result-item">
-                        <div class="result-left">
-                            ${imageHtml}
-                        </div>
-                        <div class="result-right">
-                            <h3 class="result-title">${product.libelle}</h3>
-                            <p>
-                                <strong class="result-price">${product.prix} FCFA</strong>
-                                ${product.prixbonetat ? `<span class="result-price-old">${product.prixbonetat} FCFA</span>` : ''}
-                            </p>
-                        </div>
-                    </div></a>`;
-            });
-
-            // Show results container
-            document.getElementById('searchResultsContainer').style.display = 'block';
-        } else {
-            resultsHtml = '<p>No products found.</p>';
-            document.getElementById('searchResultsContainer').style.display = 'block';
-        }
-
-        // Update the results container
-        document.getElementById('searchResults').innerHTML = resultsHtml;
-    })
-    .catch(error => {
-        console.error('Error fetching search results:', error);
-    });
-
-}
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.getElementById('searchInput');
-    const searchResultsContainer = document.getElementById('searchResultsContainer');
-    const searchResults = document.getElementById('searchResults');
-
-    // Show search results dynamically
-    searchInput.addEventListener('input', function () {
-        if (this.value.trim() !== '') {
-            searchResultsContainer.style.display = 'block';
-        } else {
-            searchResultsContainer.style.display = 'none';
-        }
-    });
-    // Show search results dynamically
-    searchInput.addEventListener('touchstart', function () {
-        if (this.value.trim() !== '') {
-            searchResultsContainer.style.display = 'block';
-        } else {
-            searchResultsContainer.style.display = 'none';
-        }
-    });
-
-    // Close search results when clicking outside
-    document.addEventListener('click', function (event) {
-        if (!searchResults.contains(event.target) && !searchInput.contains(event.target)) {
-            searchResultsContainer.style.display = 'none';
-        }
-    });
-});
-
-</script>
 
 
 

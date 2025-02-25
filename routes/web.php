@@ -80,6 +80,10 @@ Route::post('/AddProduit',[produitController::class, 'AddProduit'])->name('AddPr
 Route::get('/searchprodupd/{id}', [produitcontroller::class, 'searchprodupd'])->name('searchprodupd');
 Route::post('/modproduit',[produitController::class, 'modproduit'])->name('modproduit');
 
+// ROUTE POUR Supprimer Produit
+Route::get('/SupprimerProduit/{id}', [produitcontroller::class, 'SupprimerProduit'])->name('SupprimerProduit');
+
+
 });
 
 
